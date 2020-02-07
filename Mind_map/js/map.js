@@ -41,6 +41,7 @@ function animate(){
     mesh.rotation.x += 0.01;
     mesh.rotation.y += 0.02;
     // on effectue le rendu de la scène
-    renderer.render( scene, camera );
+    
+    renderer.render( scene, camera ) ;
 }
 

@@ -1,39 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Mon premier rendu 3D avec Three.js</title>
+    <head>
+        <title>Three.js Boilerplate</title>
 
-    <meta charset="utf-8">
-    <link  href="css/main.css" rel="stylesheet"/>
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-    <script type="text/javascript" src="./js/map.js" defer></script>
-  </head>
-<body>
-     <!-- Page de visualisation de la carte conceptuelle en 3D -->
-     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-     <header class="masthead mb-auto">
-       <h1>
-         3D Mind Map
-       </h1>
-     </header>
-     <section id="map" >
-        <!-- Boutons -->
-          
-        <div class="container">
-          <div class="row">
-            <div class="col text-center">
-              <button type="button" class="btn btn-light" id="load-map">Load Mind Map</button>
-              <button type="button" class="btn btn-light" id="download-map">Download Mind Map</button>
-          </div>
-          </div>
-        </div>
-      </div>
-      
-      </section>
-      <br/>
-  <div id="container"></div>
+        <!--This is important to get a correct canvas size on mobile-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="Présentation du projet" content="">
+        <meta name="Coline VIALA & Yohann ROLLAND" content="">
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
+        <script type="text/javascript" src="./js/map.js" defer></script>
+        <style>
+            body{
+                margin:0;
+                overflow:hidden;
+                background-color: black;
+            }
 
-  
-</body>
+            #tool-bar{
+                background: url("./css/pictures/space3.png");
+                height: 5rem;
+                border-bottom-style: solid;
+                border-width: 2px;
+                border-color: silver;
+            } 
+
+            /*
+              Next 2 paragraphs are a good practice. 
+              In IE/Edge you have to provide the cursor images.
+            */
+            /*canvas{
+                cursor:grab;
+                cursor:-webkit-grab;
+                cursor:-moz-grab;
+            }
+            canvas:active{
+                cursor:grabbing;
+                cursor:-webkit-grabbing;
+                cursor:-moz-grabbing;
+            }*/
+        </style>
+    </head>
+
+    <body>
+        <!-- Header : Tool bar at the top of the page -->
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" id="tool-bar">             <!-- Dark tool bar on the top of the page -->                                         
+            <a class="navbar-brand" href="file:///C:/xampp/htdocs/PROJETM1/Carte_conceptuelle/Carte_conceptuelle/Presentation_du_projet/projet.html">3D Mind Map Editor</a>   <!-- Title of the page => button whith allow the user to refresh the page-->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">                                               <!-- Boutons on tool bar -->
+                <li class="nav-item active">                                                <!-- First bouton "active" to highlight it (in white) -->
+                <a class="nav-link" href="file:///C:/xampp/htdocs/PROJETM1/Carte_conceptuelle/Carte_conceptuelle/Home_page/Home.html">Home<span class="sr-only">(current)</span></a>  <!-- First button to return to the home page -->
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="file:///C:/xampp/htdocs/PROJETM1/Carte_conceptuelle/Carte_conceptuelle/Mind_map/Mind_map.html">Create your own 3D Mind Map</a>              <!-- Second button to go to the 3D Mind Map Editor page -->
+                </li>
+            </ul>
+            </div>
+        </nav>
+        </header>
+
+        <div id="container"></div>
+            <!--
+                <script src='./js/three.js'></script>
+                <script src='./js/OrbitControls.js'></script>
+                <script>
+                    var scene, renderer, camera, controls, cube;
+                
+                    init();
+
+                    function init () {
+                        renderer = new THREE.WebGLRenderer();
+                        
+                        //this is to get the correct pixel detail on portable devices
+                        renderer.setPixelRatio( window.devicePixelRatio );
+
+                        //and this sets the canvas' size.
+                        renderer.setSize((window.innerWidth)*(10/12), (window.innerHeight)/1.3);
+                        document.body.appendChild( renderer.domElement );
+
+                        scene = new THREE.Scene();
+
+                        camera = new THREE.PerspectiveCamera( 
+                            70,                                         //FOV
+                            window.innerWidth / window.innerHeight,     //aspect
+                            1,                                          //near clipping plane
+                            100                                         //far clipping plane
+                        );
+                        camera.position.set( 1, 3, 5 );
+
+                        controls = new THREE.OrbitControls( camera, renderer.domElement );
+                        controls.rotateSpeed = .07;
+                        controls.enableDamping = true;
+                        controls.dampingFactor = .05;
+
+                        window.addEventListener( 'resize', function () {
+                            camera.aspect = window.innerWidth / window.innerHeight;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize( window.innerWidth, window.innerHeight );
+                        }, false );
+
+                        cube = new THREE.Mesh(
+                            new THREE.BoxGeometry( 1, 1, 1 ),
+                            new THREE.MeshBasicMaterial()
+                        );
+                        scene.add( cube );
+
+                        animate();
+                    }
+
+                    function animate () {
+                        requestAnimationFrame( animate );
+                        controls.update();
+                        renderer.render( scene, camera );
+                        
+                        cube.rotation.x += 0.01;
+                    }
+                </script>
+
+            -->
+            
+           
+    </body>
 </html>
