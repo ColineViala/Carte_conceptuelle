@@ -34,10 +34,15 @@ function init(){
     // on ajoute une lumière blanche
     lumiere = new THREE.DirectionalLight( 0xffffff, 1.0 );
     lumiere.position.set( 0, 0, 400 );
-    scene.add( lumiere );
-
-
+	scene.add( lumiere );
+	
+	/*
+	var raycaster = new THREE.Raycaster();
+	raycaster.set(sphere.position, new THREE.Vector3(0, -1, 0));
+	sphere.position.y = intersects[0].point.y + 0.1;//radius of sphere
+	*/
 }
+
 
 function animate(){
     // on appel la fonction animate() récursivement à chaque frame
@@ -49,6 +54,7 @@ function animate(){
     
     renderer.render( scene, camera ) ;
 }
+/*
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -84,3 +90,4 @@ function render() {
 window.addEventListener( 'mousemove', onMouseMove, false );
 
 window.requestAnimationFrame(render);
+*/
