@@ -11,8 +11,9 @@
         <meta name="Coline VIALA & Yohann ROLLAND" content="">
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-        <script src="./js/OrbitControls.js" ></script>
-        <script type="text/javascript" src="./js/map.js" defer></script>
+        <link href="test.css" rel="stylesheet">
+        <script type="text/javascript" src="test.js" defer></script>
+        <!--<script type="text/javascript" src="./js/move.js" defer></script>-->
         <style>
             body{
                 margin:0;
@@ -28,44 +29,50 @@
                 border-color: silver;
             } 
 
-            /*
-              Next 2 paragraphs are a good practice. 
-              In IE/Edge you have to provide the cursor images.
-            */
-            /*canvas{
-                cursor:grab;
-                cursor:-webkit-grab;
-                cursor:-moz-grab;
+            .color-label{
+                color:blanchedalmond;
             }
-            canvas:active{
-                cursor:grabbing;
-                cursor:-webkit-grabbing;
-                cursor:-moz-grabbing;
-            }*/
+
         </style>
     </head>
 
-    <body>
+    <body onload="init()">
         <!-- Header : Tool bar at the top of the page -->
         <header>
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" id="tool-bar">             <!-- Dark tool bar on the top of the page -->                                         
+            <nav class="navbar navbar-inverse navbar-expand-md navbar-dark fixed-top bg-dark" id="tool-bar">             <!-- Dark tool bar on the top of the page -->                                         
             <a class="navbar-brand" href="file:///C:/xampp/htdocs/PROJETM1/Carte_conceptuelle/Carte_conceptuelle/Presentation_du_projet/projet.html">3D Mind Map Editor</a>   <!-- Title of the page => button whith allow the user to refresh the page-->
             <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">                                               <!-- Boutons on tool bar -->
+            <ul class="nav navbar-nav mr-auto">                                               <!-- Boutons on tool bar -->
                 <li class="nav-item active">                                                <!-- First bouton "active" to highlight it (in white) -->
                 <a class="nav-link" href="file:///C:/xampp/htdocs/PROJETM1/Carte_conceptuelle/Carte_conceptuelle/Home_page/Home.html">Home<span class="sr-only">(current)</span></a>  <!-- First button to return to the home page -->
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="file:///C:/xampp/htdocs/PROJETM1/Carte_conceptuelle/Carte_conceptuelle/Mind_map/Mind_map.html">Create your own 3D Mind Map</a>              <!-- Second button to go to the 3D Mind Map Editor page -->
                 </li>
+                <li class="nav-item">
+                    <label class="color-label"><input type="radio" name="action" id="mouseRotate">Rotate</label>
+                    <label class="color-label"><input type="radio" name="action" id="mouseDrag">Drag</label>
+                    <label class="color-label"><input type="radio" name="action" id="mouseAdd">Add</label>
+                    <label class="color-label"><input type="radio" name="action" id="mouseDelete">Delete</label>
+                </li>
+                
+                
             </ul>
             </div>
         </nav>
         </header>
-
-        <div id="container"></div>
-           
-            
-           
+        <!--<div id="container"></div>-->
+        <div id="content">
+            <p><b>Mouse Action:</b>
+                <label><input type="radio" name="action" id="mouseRotate">Rotate</label>
+                <label><input type="radio" name="action" id="mouseDrag">Drag</label>
+                <label><input type="radio" name="action" id="mouseAdd">Add</label>
+                <label><input type="radio" name="action" id="mouseDelete">Delete</label>
+            </p>
+            <div id="canvas-holder">
+                <canvas id="maincanvas" width="1200" height="600"></canvas>
+            </div>
+        </div>
+        <div id='grand'></div>
     </body>
 </html>
