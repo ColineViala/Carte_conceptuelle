@@ -6,7 +6,7 @@
 
 	var ground; // A square base on which the cylinders stand.
 	var sphere;  // A sphere that will be cloned to make the visible sphere.
-
+	var link;
 	var world;  // An Object3D that contains all the mesh objects in the scene.
 	// Rotation of the scene is done by rotating the world about its
 	// y-axis.  (I couldn't rotate the camera about the scene since
@@ -66,11 +66,21 @@
 		sphere.position.y = 3;  // places base at y = 0;
 
 		addSphere(0,0);
-		addSphere(0,15);
 		addSphere(-15,-7);
 		addSphere(-8,5);
 		addSphere(5,-12);
+		
+		var cylinder = new THREE.CylinderBufferGeometry( 0.2, 0.2, 2);
+		var material3 = new THREE.MeshBasicMaterial( {color: "white"} );
+		link = new THREE.Mesh( cylinder, material3 );
+		link.position.y = 3;  // places base at y = 0;
 
+		addLink(0,0);
+		addLink(-11,5);
+		
+		
+		//link.position.set(-250, 0, 0);
+		
 	}
 
 	function addSphere(x,z) {
@@ -79,6 +89,15 @@
 		obj.position.z = z;
 		world.add(obj);
 	}
+
+	
+	function addLink(x,z){
+		var obj = link.clone();
+		obj.position.x = x;
+		obj.position.z = z;
+		world.add(obj);
+	}
+	
 
 	function doMouseDown(x,y) {
 		if (mouseAction == ROTATE) {
