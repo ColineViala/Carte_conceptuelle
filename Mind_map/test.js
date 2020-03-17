@@ -1,5 +1,6 @@
 
 
+	var numSphere = 0;
 	var canvas, scene, renderer, camera;
 
 	var raycaster;  // A THREE.Raycaster for user mouse input.
@@ -12,7 +13,8 @@
 	// y-axis.  (I couldn't rotate the camera about the scene since
 	// the Raycaster wouldn't work with a camera that was a child
 	// of a rotated object.)
-
+	
+	var listSpheres = [];
 	var ROTATE = 1, DRAG = 2, ADD = 3, DELETE = 4;  // Possible mouse actions
 	var mouseAction;  // currently selected mouse action
 	var dragItem;  // the cylinder that is being dragged, during a drag operation
@@ -26,6 +28,7 @@
 
 	function render() {  
 		renderer.render(scene,camera);
+		console.log(listSpheres);
 	}
 
 	function createWorld() {
@@ -70,31 +73,25 @@
 		//targetForDragging.material.transparent = true;  // This was used for debugging
 		//targetForDragging.material.opacity = 0.1;
 		//world.add(targetForDragging);
-
-		sphere = new THREE.Mesh(
-			new THREE.SphereGeometry(1,32,32,32,32),
-			new THREE.MeshLambertMaterial( {color:"pink"} )
-		);
+		
+		//sphere = new THREE.Mesh(
+		//	new THREE.SphereGeometry(1,32,32),
+		//	new THREE.MeshLambertMaterial( {color:"pink"} )
+		//);
 		//sphere.position.y = 3;  // places base at y = 0;
-
+		
 		addSphere(0,0,0);
 		addSphere(-15,-7,5);
 		addSphere(-8,5,5);
 		addSphere(5,-12,-6);
-		
-		var cylinder = new THREE.CylinderBufferGeometry( 0.2, 0.2, 2);
-		var material3 = new THREE.MeshBasicMaterial( {color: "white"} );
-		link = new THREE.Mesh( cylinder, material3 );
-		link.position.y = 3;  // places base at y = 0;
 
-		addLink(0,0);
-		addLink(-11,5);
-		
-		
-		//link.position.set(-250, 0, 0);
-		
+		addLink(0,1);
+		addLink(0,2);
+		addLink(0,3);
+
+		//console.log(listSpheres[0][0]);
 	}
-
+	/*
 	function addSphere(x,y,z) {
 		var obj = sphere.clone();
 		obj.position.x = x;
@@ -102,13 +99,42 @@
 		obj.position.y = y;
 		world.add(obj);
 	}
+	*/
+
+	function addSphere(x,y,z){
+		sphere = new THREE.Mesh(
+			new THREE.SphereGeometry(1,32,32),
+			new THREE.MeshLambertMaterial( {color:"pink"} )
+		);
+		sphere.position.x = x;
+		sphere.position.y = y;
+		sphere.position.z = z;
+		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);
+		sphere.name = numSphere;
+		numSphere+=1;
+		//alert(sphere.name);
+		var object = scene.getObjectByName( sphere.name, true );
+		//alert(listSpheres);
+		world.add(sphere);
+		
+	}
 
 	
-	function addLink(x,z){
-		var obj = link.clone();
-		obj.position.x = x;
-		obj.position.z = z;
-		world.add(obj);
+	function addLink(sphere1,sphere2){
+
+		var material = new THREE.LineBasicMaterial({
+			color: 0x5e6574
+		});
+		
+		var points = [];
+		points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );
+		points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
+		var geometry = new THREE.BufferGeometry().setFromPoints( points );
+		var line = new THREE.Line( geometry, material );
+		//line.position.x = sphere1;
+		//line.position.y = sphere2;
+		//line.position.z = z;
+		world.add(line);
 	}
 	
 	
@@ -146,6 +172,10 @@
 					dragItem = objectHit;
 					world.add(targetForDragging);
 					targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
+					var num = dragItem.name;
+					listSpheres[num][0] = item.point.x;
+					listSpheres[num][1] = item.point.y;
+					listSpheres[num][2] = item.point.z;
 					render();
 					return true;
 				}
