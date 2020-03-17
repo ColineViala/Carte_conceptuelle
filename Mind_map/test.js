@@ -45,17 +45,21 @@
 
 		ground = new THREE.Mesh(
 			new THREE.BoxGeometry(40,0.1,40),
-			new THREE.MeshLambertMaterial( {color:"purple"})
+			new THREE.MeshLambertMaterial( {color:"purple", transparent: true, opacity: 0.25 })
 		);
 		
-		ground2 = new THREE.Mesh(
-			new THREE.BoxGeometry(0.1,40,40),
-			new THREE.MeshLambertMaterial( {color:"green"})
-		);
+
 
 		ground.position.y = 0;  // top of base lies in the plane y = -5;
 		
 		world.add(ground);
+
+		var size = 40;
+		var divisions = 40;
+
+		var gridHelper =new THREE.GridHelper( size, divisions,0xb66bb0,0xa6a6a6 );
+		gridHelper.position.y=0;
+		scene.add( gridHelper );
 
 		targetForDragging = new THREE.Mesh(
 			new THREE.BoxGeometry(100,0.01,100),
