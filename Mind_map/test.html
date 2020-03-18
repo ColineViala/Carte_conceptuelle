@@ -161,7 +161,9 @@
 	function doJoyStickMove(x,y,evt,prevX,prevY) {
 		if (mouseAction == ROTATE) {
 			var dx = x - prevX;
+			var dy = y - prevY;
 			world.rotateY( dx/200 );
+			world.rotateX( dy/200 );
 			render();
 		}
 		else {  // drag

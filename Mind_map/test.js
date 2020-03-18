@@ -6,8 +6,8 @@
 	var raycaster;  // A THREE.Raycaster for user mouse input.
 
 	var ground; // A square base on which the cylinders stand.
-	var sphere;  // A sphere that will be cloned to make the visible sphere.
-	var link;
+	var sphere;  // A sphere = 3D representation of a concept
+	var link;//A line = a link (entity) between two concepts 
 	var world;  // An Object3D that contains all the mesh objects in the scene.
 	// Rotation of the scene is done by rotating the world about its
 	// y-axis.  (I couldn't rotate the camera about the scene since
@@ -15,16 +15,17 @@
 	// of a rotated object.)
 	
 	var listSpheres = [];
-	var ROTATE = 1, DRAG = 2, ADD = 3, DELETE = 4;  // Possible mouse actions
+	//var listLinks = [];
+	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
 	var mouseAction;  // currently selected mouse action
-	var dragItem;  // the cylinder that is being dragged, during a drag operation
-	var intersects; //the objects intersected
-	
+	var dragItem;  // the sphere that is being dragged, during a drag operation
+	var intersects; //the objects intersected	
 	var targetForDragging;  // An invisible object that is used as the target for raycasting while
-	// dragging a cylinder.  I use it to find the new location of the
-	// cylinder.  I tried using the ground for this purpose, but to get
+	// dragging a sphere.  I use it to find the new location of the
+	// sphere.  I tried using the ground for this purpose, but to get
 	// the motion right, I needed a target that is at the same height
-	// above the ground as the point where the user clicked the cylinder.
+	// above the ground as the point where the user clicked the sphere.
+	
 
 	function render() {  
 		renderer.render(scene,camera);
@@ -109,13 +110,11 @@
 		sphere.position.x = x;
 		sphere.position.y = y;
 		sphere.position.z = z;
-		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);
+		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);//coords spheres's list
 		sphere.name = numSphere;
-		numSphere+=1;
-		//alert(sphere.name);
+		numSphere+=1;//incr compteur
 		var object = scene.getObjectByName( sphere.name, true );
-		//alert(listSpheres);
-		world.add(sphere);
+		world.add(sphere);//add the new sphere to the world
 		
 	}
 
@@ -131,9 +130,6 @@
 		points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
 		var geometry = new THREE.BufferGeometry().setFromPoints( points );
 		var line = new THREE.Line( geometry, material );
-		//line.position.x = sphere1;
-		//line.position.y = sphere2;
-		//line.position.z = z;
 		world.add(line);
 	}
 	
@@ -169,17 +165,18 @@
 					return false;
 				}
 				else {
-					dragItem = objectHit;
-					world.add(targetForDragging);
+					dragItem = objectHit;//object move
+					world.add(targetForDragging);//add the target to the world
 					targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
 					var num = dragItem.name;
-					listSpheres[num][0] = item.point.x;
+					listSpheres[num][0] = item.point.x;//1st list element = new x coords after dragging
 					listSpheres[num][1] = item.point.y;
 					listSpheres[num][2] = item.point.z;
 					render();
+					//alert(targetForDragging.position);
 					return true;
 				}
-			case ADD:
+			case ADD_SPHERE:
 				if (objectHit == ground) {
 					var locationX = item.point.x;  // Gives the point of intersection in world coords
 					var locationZ = item.point.z;
@@ -193,9 +190,30 @@
 					console.log(locationY)
 					
 					var coords = new THREE.Vector3(locationX, locationY,locationZ);
-					world.worldToLocal(coords);  // to add cylider in correct position, neew local coords for the world object
-					addSphere(coords.x,coords.y,coords.z);
+					world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
+					addSphere(coords.x,coords.y,coords.z);//in 3D
 					render();
+					return false;
+				}
+				
+			case ADD_LINK:
+				if (objectHit == ground) {
+					var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
+					var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
+				
+					if(numSphere1 < numSphere && numSphere2 < numSphere){//spheres existing = numbers of spheres OK
+						//working too with an add sphere = test OK
+						addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
+						render();
+					}
+					else{//numbers of spheres not OK
+						alert("/!\Careful, you tried to links inexistants spheres, please try again");
+						numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
+						numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
+						addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
+						render();
+				
+					}
 				}
 				return false;
 			default: // DELETE
@@ -272,8 +290,11 @@
 		else if (document.getElementById("mouseDrag").checked) {
 			mouseAction = DRAG;
 		}
-		else if (document.getElementById("mouseAdd").checked) {
-			mouseAction = ADD;
+		else if (document.getElementById("mouseAddSphere").checked) {
+			mouseAction = ADD_SPHERE;
+		}
+		else if (document.getElementById("mouseAddLink").checked) {
+			mouseAction = ADD_LINK;
 		}
 		else {
 			mouseAction = DELETE;
@@ -297,7 +318,8 @@
 		mouseAction = DRAG;
 		document.getElementById("mouseRotate").onchange = doChangeMouseAction;
 		document.getElementById("mouseDrag").onchange = doChangeMouseAction;
-		document.getElementById("mouseAdd").onchange = doChangeMouseAction;
+		document.getElementById("mouseAddSphere").onchange = doChangeMouseAction;
+		document.getElementById("mouseAddLink").onchange = doChangeMouseAction;
 		document.getElementById("mouseDelete").onchange = doChangeMouseAction;
 		createWorld();
 		setUpMouseHander(canvas,doMouseDown,doMouseMove);
