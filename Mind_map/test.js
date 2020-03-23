@@ -15,6 +15,8 @@
 	// of a rotated object.)
 	
 	var listSpheres = [];
+	//var listLink = []; 
+	var treeOfLinks=[]; //list which contain all information about all the link of the mind map
 	//var listLinks = [];
 	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
 	var mouseAction;  // currently selected mouse action
@@ -27,9 +29,9 @@
 	// above the ground as the point where the user clicked the sphere.
 	
 
-	function render() {  
+	function render() { 
 		renderer.render(scene,camera);
-		console.log(listSpheres);
+		//console.log(listSpheres);
 	}
 
 	function createWorld() {
@@ -87,8 +89,14 @@
 		addSphere(5,-12,-6);
 
 		addLink(0,1);
+		treeOfLinks.push([0,1]);
+		treeOfLinks.push([1,0]);
 		addLink(0,2);
+		treeOfLinks.push([0,2]);
+		treeOfLinks.push([2,0]);
 		addLink(0,3);
+		treeOfLinks.push([0,3]);
+		treeOfLinks.push([3,0]);
 
 		//console.log(listSpheres[0][0]);
 	}
@@ -120,17 +128,20 @@
 
 	
 	function addLink(sphere1,sphere2){
-
-		var material = new THREE.LineBasicMaterial({
-			color: 0x5e6574
-		});
-		
+		var material = new THREE.LineBasicMaterial({color: 0x5e6574});
 		var points = [];
 		points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );
 		points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
 		var geometry = new THREE.BufferGeometry().setFromPoints( points );
 		var line = new THREE.Line( geometry, material );
+		//listLink.push([line.position.x, line.position.y, line.position.z]);//coords link's list
+		
+		
+		//line.name = numLink;
+		//numLink+=1;//incr compteur
+		//var object = scene.getObjectByName( line.name, true );
 		world.add(line);
+		
 	}
 	
 	
@@ -168,20 +179,24 @@
 					dragItem = objectHit;//object move
 					world.add(targetForDragging);//add the target to the world
 					targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
-					var num = dragItem.name;
+					var num= dragItem.name;
+					console.log(num);
 					listSpheres[num][0] = item.point.x;//1st list element = new x coords after dragging
 					listSpheres[num][1] = item.point.y;
 					listSpheres[num][2] = item.point.z;
-					render();
+					
 					//alert(targetForDragging.position);
+					render();
 					return true;
 				}
+				
+
 			case ADD_SPHERE:
 				if (objectHit == ground) {
 					var locationX = item.point.x;  // Gives the point of intersection in world coords
 					var locationZ = item.point.z;
 					var locationY;
-					var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the purple axis) that you are moving:",40);
+					var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
 					if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
 					  locationY=10; //default value if the value entered is not correct
 					} else {
@@ -204,6 +219,10 @@
 					if(numSphere1 < numSphere && numSphere2 < numSphere){//spheres existing = numbers of spheres OK
 						//working too with an add sphere = test OK
 						addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
+						treeOfLinks.push([numSphere1,numSphere2]);
+						treeOfLinks.push([numSphere2,numSphere1]);
+						console.log("Longeur de la liste ",treeOfLinks.length);
+						console.log("liste des liens",treeOfLinks);
 						render();
 					}
 					else{//numbers of spheres not OK
@@ -222,7 +241,7 @@
 					render();
 				}
 				return false;
-											 }
+		}
 	}
 
 	function doMouseMove(x,y,evt,prevX,prevY) {
@@ -246,17 +265,40 @@
 			var locationZ = intersects[0].point.z;
 			var coords = new THREE.Vector3(locationX, locationY, locationZ);
 			world.worldToLocal(coords);
-			a = Math.min(19,Math.max(-19,coords.x));  // clamp coords to the range -19 to 19, so object stays on ground
-			b = Math.min(19,Math.max(-19,coords.z));
-			c=coords.y;
+			a = coords.x;  // clamp coords to the range -19 to 19, so object stays on ground
+			b = coords.z;
+			c = coords.y;
 			
 			dragItem.position.set(a,c,b);
+
+			/*var item = intersects[0];
+			var objectHit = item.object;
+			dragItem = objectHit;*/
+			var num= dragItem.name;
+
+			let n = 0;
+			let i =0;
+			var list1=[];
+			while (n< treeOfLinks.length) {       //we go through the list which contains informations on the links between each sphere
+				if(treeOfLinks[n][0]==num){		  //if the sphere that we want to drag is connected with an others spheres, it will add links 
+					list1.push(treeOfLinks[n][1]);              //list1 contain the name of all spheres conneceted with the dragItem
+				}
+				n++;
+			}
+			//console.log("num ... ",num);
+			//console.log("list1 ... ",num);
+			console.log("treeoflinks ... ",treeOfLinks);
+			while(i<list1.length){
+				addLink(num,list1[i]);
+				console.log("num1 : ",list1, " num2 : ", num);
+				i++;
+			}
 			render();
 		}
 	}
 	
 	
-	function doJoyStickMove(x,y,evt,prevX,prevY) {
+/*	function doJoyStickMove(x,y,evt,prevX,prevY) {
 		if (mouseAction == ROTATE) {
 			var dx = x - prevX;
 			world.rotateY( dx/100 );
@@ -280,7 +322,7 @@
 			render();
 		}
 	}
-	
+	*/
 	
 
 	function doChangeMouseAction() {
