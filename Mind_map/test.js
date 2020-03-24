@@ -1,6 +1,5 @@
-
-
-	var numSphere = 0;
+    var numSphere = 0
+    var numLink=0;
 	var canvas, scene, renderer, camera;
 
 	var raycaster;  // A THREE.Raycaster for user mouse input.
@@ -15,7 +14,7 @@
 	// of a rotated object.)
 	
 	var listSpheres = [];
-	//var listLink = []; 
+	var listLink = []; 
 	var treeOfLinks=[]; //list which contain all information about all the link of the mind map
 	//var listLinks = [];
 	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
@@ -93,34 +92,31 @@
 		treeOfLinks.push([1,0]);
 		addLink(0,2);
 		treeOfLinks.push([0,2]);
-		treeOfLinks.push([2,0]);
-		addLink(0,3);
+        treeOfLinks.push([2,0]);
+        addLink(0,3);
 		treeOfLinks.push([0,3]);
-		treeOfLinks.push([3,0]);
+        treeOfLinks.push([3,0]);
+        
+        updateLink(0);
+        //updateLink(1);
 
+   
 		//console.log(listSpheres[0][0]);
 	}
-	/*
-	function addSphere(x,y,z) {
-		var obj = sphere.clone();
-		obj.position.x = x;
-		obj.position.z = z;
-		obj.position.y = y;
-		world.add(obj);
-	}
-	*/
+	
 
 	function addSphere(x,y,z){
 		sphere = new THREE.Mesh(
 			new THREE.SphereGeometry(1,32,32),
 			new THREE.MeshLambertMaterial( {color:"pink"} )
 		);
+		//the sphere has coords in 3D : x,y and z
 		sphere.position.x = x;
 		sphere.position.y = y;
 		sphere.position.z = z;
 		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);//coords spheres's list
 		sphere.name = numSphere;
-		numSphere+=1;//incr compteur
+		numSphere+=1;//incr the sphere's number each time we make one
 		var object = scene.getObjectByName( sphere.name, true );
 		world.add(sphere);//add the new sphere to the world
 		
@@ -128,20 +124,67 @@
 
 	
 	function addLink(sphere1,sphere2){
-		var material = new THREE.LineBasicMaterial({color: 0x5e6574});
-		var points = [];
-		points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );
-		points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
-		var geometry = new THREE.BufferGeometry().setFromPoints( points );
-		var line = new THREE.Line( geometry, material );
-		//listLink.push([line.position.x, line.position.y, line.position.z]);//coords link's list
 		
+		//3D creation of the link in the world
+        var material = new THREE.LineBasicMaterial({color: 0x5e6574});
+        var points = [];//list of points making the link/line (3D space coordinates)
+        points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );//first point
+        points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );//second point
+        var geometry = new THREE.BufferGeometry().setFromPoints( points );
+        var line = new THREE.Line( geometry, material );//line is made from the material and the points coords
+        world.add(line);//add the line to our world
+        line.name = numLink;//give a name=number to the link we just have made
+        numLink+=1;//incr link's number each time we make one
+		listLink.push(line);//add the links in the list after creation
+		listSpheres[sphere1].push(line.name);//add the link number/name to each sphere is connected with 
+		listSpheres[sphere2].push(line.name);//after the sphere coordinates
+		console.log("listLink before remove:",listLink);//test 1
+		console.log("listSpheres after add links:",listSpheres);//test 2
+        
+       
+    }
+    
+    
+    function updateLink(num){
+		var numinlist;
+		var indexSphereInTab, indexlinkinSphereList;
+		var SphereList = [];
+        for(let i=0;i<listLink.length;i++){//i varies in listLink array
+            if(listLink[i].name == num){//if the number in the list equals the function parameter (the num of the link we want to remove)
+                numinlist=i;//link number is the list = counter
+            }
+		}
+	
 		
-		//line.name = numLink;
-		//numLink+=1;//incr compteur
-		//var object = scene.getObjectByName( line.name, true );
-		world.add(line);
+        world.remove( listLink[numinlist] );//remove the link by his number
+        listLink[numinlist].geometry.dispose();//-----------------------
+        listLink[numinlist].material.dispose();//-----------------------
+      	listLink[numinlist] = undefined;//-----------------------
+        listLink.splice(numinlist,1);//remove the number of the link of the links list
+        //console.log("listLink after remove:",listLink);//test
 		
+
+		
+		//alert(listSpheres[0]);
+		for(let j=0;j<listSpheres.length;j++){
+			if(listSpheres[j].length>3){//that's mean there is a line or more
+				indexSphereInTab=j;//num index in array is stocked in this variable
+				//console.log("listSpheres (update link BEFORE remove link)",listSpheres[j]);
+				for(let k=3;k<listSpheres[j].length;k++){
+					//console.log("k:",k);
+					//console.log("listSpheres[j][k]",listSpheres[j][k]);
+					if(listSpheres[j][k] == num){
+						SphereList.push(j);
+						indexlinkinSphereList = k;
+						listSpheres[indexSphereInTab].splice(indexlinkinSphereList,1);
+						//console.log("listSpheres (update link AFTER remove link)",listSpheres[j]);
+					}
+				}
+				
+			}
+		}
+		addLink(SphereList[0], SphereList[1]);
+		//alert(listSpheres[SphereList[0]]);
 	}
 	
 	
@@ -215,10 +258,11 @@
 				if (objectHit == ground) {
 					var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
 					var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
-				
+                    //removeLink(numSphere1,numSphere2);
 					if(numSphere1 < numSphere && numSphere2 < numSphere){//spheres existing = numbers of spheres OK
-						//working too with an add sphere = test OK
-						addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
+                        //working too with an add sphere = test OK
+                        
+                        addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
 						treeOfLinks.push([numSphere1,numSphere2]);
 						treeOfLinks.push([numSphere2,numSphere1]);
 						console.log("Longeur de la liste ",treeOfLinks.length);
@@ -245,6 +289,7 @@
 	}
 
 	function doMouseMove(x,y,evt,prevX,prevY) {
+		var listLinks=[];
 		if (mouseAction == ROTATE) {
 			var dx = x - prevX;
 			var dy = y - prevY;
@@ -274,8 +319,9 @@
 			/*var item = intersects[0];
 			var objectHit = item.object;
 			dragItem = objectHit;*/
-			var num= dragItem.name;
+			var num= dragItem.name;//number of the sphere dragged
 
+			/*
 			let n = 0;
 			let i =0;
 			var list1=[];
@@ -289,10 +335,28 @@
 			//console.log("list1 ... ",num);
 			console.log("treeoflinks ... ",treeOfLinks);
 			while(i<list1.length){
-				addLink(num,list1[i]);
+                //updateLink(0);
+                addLink(num,list1[i]);
 				console.log("num1 : ",list1, " num2 : ", num);
 				i++;
 			}
+			*/
+
+
+			for(let j=0;j<listSpheres.length;j++){
+				if(listSpheres[j].length>3){//that's mean there is a line or more
+					//alert("cc");
+					for(let k=3;k<listSpheres[j].length;k++){
+						listLinks.push(listSpheres[num][k]);
+						updateLink(listLinks);
+					}
+					
+				}
+			}
+	
+			
+			
+			
 			render();
 		}
 	}
@@ -540,7 +604,6 @@ var joy = document.createElement("div");
 joy.classList.add("joy");
 document.querySelector('body').appendChild(stick);
 stick.appendChild(joy);
-
 var stk = document.querySelector('.stick'),
   joy = document.querySelector('.joy'),
   stw = stk.offsetWidth,
@@ -548,16 +611,13 @@ var stk = document.querySelector('.stick'),
   begin = (stw - jow) / 2,
 	mo = false, radi = stw / 2,
   ela = { hx:0, vx:0 };
-
 stk.style.height = stw + "px";
 joy.style.height = jow + "px";
 joy.style.left = begin + "px";
 joy.style.top = begin + "px";
-
 var field = document.querySelector('#grand');
 field.style.left = "1300px";
 field.style.top = "1000px";
-
 var x0 = 0, y0 = 0,
     pan = function(dx, dy){
       posX = parseInt(field.style.left);
@@ -569,9 +629,7 @@ var x0 = 0, y0 = 0,
         
       field.style.left = (posX + (dx/10)) + "px";
       field.style.top = (posY + (dy/10)) + "px";
-
     }
-
 var elastic = function( ex , ey ){
     var stkl = stk.offsetLeft, 
         stkt = stk.offsetTop,	
@@ -596,27 +654,22 @@ var elastic = function( ex , ey ){
       //joy.style.top = begin + "px";      
     }
 }	// calc and return joystick movement
-
 stk.addEventListener("touchmove", function(e){
   mo = true;
   elastic( e.pageX , e.pageY );
 });
-
 stk.addEventListener("mousedown", function(e){
   mo = true;
   e.preventDefault();
 });
-
 var pos3Dx = 0,
 		pos3Dy = 0;
-
 stk.addEventListener("mousemove", function(e){
   if (mo == true){
     elastic( e.pageX , e.pageY );
 		doJoyStickMove( e.pageX , e.pageY, null, 0, 0 )
   }
 });
-
 document.addEventListener("mouseup", function(){
   if (mo == true){
     mo = false, ela.hx = 0, ela.vx = 0;
@@ -624,7 +677,6 @@ document.addEventListener("mouseup", function(){
     joy.style.top = begin + "px";
   }
 });
-
 document.addEventListener("keydown", function(eventObject){
   if(eventObject.which==37 && !mo) {  //left arrow
     joy.style.left = "0px";
@@ -639,18 +691,15 @@ document.addEventListener("keydown", function(eventObject){
     joy.style.top =  (stw-jow) + "px"; 
     pan( 0 , 50 );
   } else if(eventObject.which==27) { //esc
-
   } else if(eventObject.which==9) {  //tab
   }
 });
-
 document.addEventListener("keyup", function(eventObject){
   if(eventObject.which >= 37 && eventObject.which <= 40 ) {	// arrows
 		joy.style.left = begin + "px";
     joy.style.top = begin + "px";
   }
 });
-
 function moveSelectedObj() {
   if (mo == true){
     pan( ela.hx , ela.vx );
@@ -658,5 +707,4 @@ function moveSelectedObj() {
   requestAnimationFrame(moveSelectedObj);
 }
 requestAnimationFrame(moveSelectedObj);
-
 */
