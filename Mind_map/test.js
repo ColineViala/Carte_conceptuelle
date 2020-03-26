@@ -1,7 +1,9 @@
     var numSphere = 0
     var numLink=0;
 	var canvas, scene, renderer, camera;
-
+	var mouseIsMove;
+	var mouseIsUp;
+	var SphereDraggedNum;
 	var raycaster;  // A THREE.Raycaster for user mouse input.
 
 	var ground; // A square base on which the cylinders stand.
@@ -15,7 +17,8 @@
 	
 	var listSpheres = [];
 	var listLink = []; 
-	var treeOfLinks=[]; //list which contain all information about all the link of the mind map
+	var listLinks=[];
+	//var treeOfLinks=[]; //list which contain all information about all the link of the mind map
 	//var listLinks = [];
 	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
 	var mouseAction;  // currently selected mouse action
@@ -66,21 +69,15 @@
 		gridHelper.position.y=0;
 		scene.add( gridHelper );
 
-		targetForDragging = new THREE.Mesh(
-			new THREE.BoxGeometry(100,0.01,100),
+		targetForDragging = //new THREE.Mesh(
+			//new THREE.BoxGeometry(100,0.01,100),
 			//new THREE.MeshBasicMaterial()
+				new THREE.Mesh(//target for dragging is a sphere
+					new THREE.SphereGeometry(1,32,32),
+					new THREE.MeshBasicMaterial()
 		);
 		targetForDragging.material.visible = false;
 
-		//targetForDragging.material.transparent = true;  // This was used for debugging
-		//targetForDragging.material.opacity = 0.1;
-		//world.add(targetForDragging);
-		
-		//sphere = new THREE.Mesh(
-		//	new THREE.SphereGeometry(1,32,32),
-		//	new THREE.MeshLambertMaterial( {color:"pink"} )
-		//);
-		//sphere.position.y = 3;  // places base at y = 0;
 		
 		addSphere(0,0,0);
 		addSphere(-15,-7,5);
@@ -88,23 +85,19 @@
 		addSphere(5,-12,-6);
 
 		addLink(0,1);
-		treeOfLinks.push([0,1]);
-		treeOfLinks.push([1,0]);
+		//treeOfLinks.push([0,1]);
+		//treeOfLinks.push([1,0]);
 		addLink(0,2);
-		treeOfLinks.push([0,2]);
-        treeOfLinks.push([2,0]);
+		//treeOfLinks.push([0,2]);
+        //treeOfLinks.push([2,0]);
         addLink(0,3);
-		treeOfLinks.push([0,3]);
-        treeOfLinks.push([3,0]);
+		//treeOfLinks.push([0,3]);
+        //treeOfLinks.push([3,0]);
         
-        updateLink(0);
-        //updateLink(1);
-
-   
-		//console.log(listSpheres[0][0]);
+        
 	}
 	
-
+	//---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
 	function addSphere(x,y,z){
 		sphere = new THREE.Mesh(
 			new THREE.SphereGeometry(1,32,32),
@@ -121,8 +114,9 @@
 		world.add(sphere);//add the new sphere to the world
 		
 	}
+	//-------------------------------------------------------------------------------------------------------------------------
 
-	
+	//---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 	function addLink(sphere1,sphere2){
 		
 		//3D creation of the link in the world
@@ -138,13 +132,14 @@
 		listLink.push(line);//add the links in the list after creation
 		listSpheres[sphere1].push(line.name);//add the link number/name to each sphere is connected with 
 		listSpheres[sphere2].push(line.name);//after the sphere coordinates
-		console.log("listLink before remove:",listLink);//test 1
-		console.log("listSpheres after add links:",listSpheres);//test 2
+		//console.log("listLink before remove:",listLink);//test 1
+		//console.log("listSpheres after add links:",listSpheres);//test 2
         
        
-    }
+	}
+	//-------------------------------------------------------------------------------------------------------------------------
     
-    
+    //----------------------------LINK MODIFICATION : REMOVE AND ADD A NEW ONE WHEN AND WHERE THE SPHERE MOVE------------------
     function updateLink(num){
 		var numinlist;
 		var indexSphereInTab, indexlinkinSphereList;
@@ -156,48 +151,52 @@
 		}
 	
 		
+        //listLink[numinlist].geometry.dispose();//-----------------------
+        //listLink[numinlist].material.dispose();//-----------------------
         world.remove( listLink[numinlist] );//remove the link by his number
-        listLink[numinlist].geometry.dispose();//-----------------------
-        listLink[numinlist].material.dispose();//-----------------------
       	listLink[numinlist] = undefined;//-----------------------
         listLink.splice(numinlist,1);//remove the number of the link of the links list
-        //console.log("listLink after remove:",listLink);//test
-		
-
-		
-		//alert(listSpheres[0]);
 		for(let j=0;j<listSpheres.length;j++){
 			if(listSpheres[j].length>3){//that's mean there is a line or more
 				indexSphereInTab=j;//num index in array is stocked in this variable
-				//console.log("listSpheres (update link BEFORE remove link)",listSpheres[j]);
 				for(let k=3;k<listSpheres[j].length;k++){
-					//console.log("k:",k);
-					//console.log("listSpheres[j][k]",listSpheres[j][k]);
 					if(listSpheres[j][k] == num){
 						SphereList.push(j);
 						indexlinkinSphereList = k;
 						listSpheres[indexSphereInTab].splice(indexlinkinSphereList,1);
-						//console.log("listSpheres (update link AFTER remove link)",listSpheres[j]);
 					}
-				}
-				
+				}	
 			}
 		}
 		addLink(SphereList[0], SphereList[1]);
-		//alert(listSpheres[SphereList[0]]);
 	}
+	//-------------------------------------------------------------------------------------------------------------------------
 	
+	function dragLink(num){
+		if(listSpheres[num].length>3 && mouseIsMove==1){//that's mean there is a line or more
+			for(let k=3;k<listSpheres[num].length;k++){
+				listLinks.push(listSpheres[num][k]);
+			}
+						
+		}
+		for(let j=0; j<listLinks.length;j++){
+			updateLink(listLinks[j]);
+		}
+		listLinks = [];
+
+	}
+	//-------------------------------------------------------------------------------------------------------------------------
 	
 	function isFloat(n){  //return true if n is a float. 
 		return n === +n && n !== (n|0);
 	}
 
-	function isInteger(n){
+	function isInteger(n){//return true if n is an integer. 
 		return n === +n && n === (n|0);
 	   }
 
-
 	function doMouseDown(x,y) {
+		
 		if (mouseAction == ROTATE) {
 			return true;
 		}
@@ -218,19 +217,42 @@
 				if (objectHit == ground) {
 					return false;
 				}
-				else {
-					dragItem = objectHit;//object move
-					world.add(targetForDragging);//add the target to the world
-					targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
-					var num= dragItem.name;
-					console.log(num);
-					listSpheres[num][0] = item.point.x;//1st list element = new x coords after dragging
-					listSpheres[num][1] = item.point.y;
-					listSpheres[num][2] = item.point.z;
+				else  {
 					
-					//alert(targetForDragging.position);
-					render();
-					return true;
+					dragItem = objectHit;//object move
+					console.log("dragItem",dragItem.type);
+					if(dragItem.type == "Mesh"){	
+						world.add(targetForDragging);//add the target to the world
+						targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
+						var num= dragItem.name;
+						listSpheres[num][0] = item.point.x;//1st list element = new x coords after dragging
+						listSpheres[num][1] = item.point.y;
+						listSpheres[num][2] = item.point.z;
+						SphereDraggedNum=num;
+						dragLink(SphereDraggedNum);
+						//dragLink(SphereDraggedNum);
+						/*
+						if(listSpheres[num].length>3 && mouseIsMove==1){//that's mean there is a line or more
+							for(let k=3;k<listSpheres[num].length;k++){
+							listLinks.push(listSpheres[num][k]);
+							}
+						
+						}
+						for(let j=0; j<listLinks.length;j++){
+						updateLink(listLinks[j]);
+						}
+						listLinks = [];
+						*/
+						render();
+						return true;
+					}
+					else if(dragItem.type=="Line"){//faire bouger les liens liens puis les sphères?
+						alert('Please drag a sphere (not a link)');
+					}
+					else{
+
+					}
+					
 				}
 				
 
@@ -263,10 +285,10 @@
                         //working too with an add sphere = test OK
                         
                         addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
-						treeOfLinks.push([numSphere1,numSphere2]);
-						treeOfLinks.push([numSphere2,numSphere1]);
-						console.log("Longeur de la liste ",treeOfLinks.length);
-						console.log("liste des liens",treeOfLinks);
+						//treeOfLinks.push([numSphere1,numSphere2]);
+						//treeOfLinks.push([numSphere2,numSphere1]);
+						//console.log("Longeur de la liste ",treeOfLinks.length);
+						//console.log("liste des liens",treeOfLinks);
 						render();
 					}
 					else{//numbers of spheres not OK
@@ -289,7 +311,7 @@
 	}
 
 	function doMouseMove(x,y,evt,prevX,prevY) {
-		var listLinks=[];
+		
 		if (mouseAction == ROTATE) {
 			var dx = x - prevX;
 			var dy = y - prevY;
@@ -298,6 +320,8 @@
 			render();
 		}
 		else {  // dragy
+			//var a = 2*x/canvas.width - 1;
+			//var b = 1 - 2*y/canvas.height;
 			var a = 2*x/canvas.width - 1;
 			var b = 1 - 2*y/canvas.height;
 			raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
@@ -319,7 +343,7 @@
 			/*var item = intersects[0];
 			var objectHit = item.object;
 			dragItem = objectHit;*/
-			var num= dragItem.name;//number of the sphere dragged
+			//var num= dragItem.name;//number of the sphere dragged
 
 			/*
 			let n = 0;
@@ -341,24 +365,10 @@
 				i++;
 			}
 			*/
-
-
-			for(let j=0;j<listSpheres.length;j++){
-				if(listSpheres[j].length>3){//that's mean there is a line or more
-					//alert("cc");
-					for(let k=3;k<listSpheres[j].length;k++){
-						listLinks.push(listSpheres[num][k]);
-						updateLink(listLinks);
-					}
-					
-				}
-			}
-	
-			
-			
 			
 			render();
 		}
+		//mouseIsMove=0;
 	}
 	
 	
@@ -483,19 +493,26 @@ function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
 		if (dragging) {
 			document.addEventListener("mousemove", doMouseMove);
 			document.addEventListener("mouseup", doMouseUp);
+			//dragLink(SphereDraggedNum);
 		}
 	}
+	//element.addEventListener("mousedown", doMouseDown);
 
 	function doMouseMove(evt) {
 		if (dragging) {
+			//alert("mouse move");
+			mouseIsMove=1;
+			
 			if (mouseDragFunc) {
 				var r = element.getBoundingClientRect();
 				var x = evt.clientX - r.left;
 				var y = evt.clientY - r.top;
 				mouseDragFunc(x, y, evt, prevX, prevY, startX, startY);
+				
 			}
 			prevX = x;
 			prevY = y;
+			//mouseIsMove=0;
 		}
 	}
 
@@ -503,6 +520,9 @@ function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
 		if (dragging) {
 			document.removeEventListener("mousemove", doMouseMove);
 			document.removeEventListener("mouseup", doMouseUp);
+			
+			//alert("mouse up");
+			
 			if (mouseUpFunc) {
 				var r = element.getBoundingClientRect();
 				var x = evt.clientX - r.left;
@@ -590,6 +610,7 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
 			element.removeEventListener("touchcancel", doTouchCancel);
 			if (touchEndFunc) {
 				touchEndFunc(evt, prevX, prevY, startX, startY);
+				//mouseIsMove=0;
 			}
 		}
 	}
