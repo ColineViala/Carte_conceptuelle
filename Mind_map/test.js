@@ -17,7 +17,6 @@
 	
 	var listSpheres = [];
 	var listLink = []; 
-	var listLinks=[];
 	//var treeOfLinks=[]; //list which contain all information about all the link of the mind map
 	//var listLinks = [];
 	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
@@ -69,12 +68,12 @@
 		gridHelper.position.y=0;
 		scene.add( gridHelper );
 
-		targetForDragging = //new THREE.Mesh(
-			//new THREE.BoxGeometry(100,0.01,100),
-			//new THREE.MeshBasicMaterial()
-				new THREE.Mesh(//target for dragging is a sphere
+		targetForDragging = new THREE.Mesh(
+			new THREE.BoxGeometry(100,0.01,100),
+			new THREE.MeshBasicMaterial()
+				/*new THREE.Mesh(//target for dragging is a sphere
 					new THREE.SphereGeometry(1,32,32),
-					new THREE.MeshBasicMaterial()
+					new THREE.MeshBasicMaterial()*/
 		);
 		targetForDragging.material.visible = false;
 
@@ -173,16 +172,20 @@
 	//-------------------------------------------------------------------------------------------------------------------------
 	
 	function dragLink(num){
-		if(listSpheres[num].length>3 && mouseIsMove==1){//that's mean there is a line or more
+		
+		var listLinks=[];
+		if(listSpheres[num].length>3){//that's mean there is a line or more
+			
 			for(let k=3;k<listSpheres[num].length;k++){
 				listLinks.push(listSpheres[num][k]);
 			}
 						
 		}
+		console.log(listLinks);
 		for(let j=0; j<listLinks.length;j++){
+			
 			updateLink(listLinks[j]);
 		}
-		listLinks = [];
 
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
@@ -224,13 +227,8 @@
 					if(dragItem.type == "Mesh"){	
 						world.add(targetForDragging);//add the target to the world
 						targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
-						var num= dragItem.name;
-						listSpheres[num][0] = item.point.x;//1st list element = new x coords after dragging
-						listSpheres[num][1] = item.point.y;
-						listSpheres[num][2] = item.point.z;
-						SphereDraggedNum=num;
-						dragLink(SphereDraggedNum);
-						//dragLink(SphereDraggedNum);
+						SphereDraggedNum =  dragItem.name;
+						
 						/*
 						if(listSpheres[num].length>3 && mouseIsMove==1){//that's mean there is a line or more
 							for(let k=3;k<listSpheres[num].length;k++){
@@ -247,7 +245,7 @@
 						return true;
 					}
 					else if(dragItem.type=="Line"){//faire bouger les liens liens puis les sphères?
-						alert('Please drag a sphere (not a link)');
+						//alert('Please drag a sphere (not a link)');
 					}
 					else{
 
@@ -320,8 +318,6 @@
 			render();
 		}
 		else {  // dragy
-			//var a = 2*x/canvas.width - 1;
-			//var b = 1 - 2*y/canvas.height;
 			var a = 2*x/canvas.width - 1;
 			var b = 1 - 2*y/canvas.height;
 			raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
@@ -339,6 +335,11 @@
 			c = coords.y;
 			
 			dragItem.position.set(a,c,b);
+			listSpheres[SphereDraggedNum][0] = a;//1st list element = new x coords after dragging
+			listSpheres[SphereDraggedNum][1] = c;
+			listSpheres[SphereDraggedNum][2] = b;
+			dragLink(SphereDraggedNum);
+
 
 			/*var item = intersects[0];
 			var objectHit = item.object;
@@ -490,6 +491,7 @@ function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
 		prevX = startX = x;
 		prevY = startY = y;
 		dragging = mouseDownFunc(x, y, evt);
+		
 		if (dragging) {
 			document.addEventListener("mousemove", doMouseMove);
 			document.addEventListener("mouseup", doMouseUp);
@@ -501,7 +503,6 @@ function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
 	function doMouseMove(evt) {
 		if (dragging) {
 			//alert("mouse move");
-			mouseIsMove=1;
 			
 			if (mouseDragFunc) {
 				var r = element.getBoundingClientRect();
@@ -522,7 +523,6 @@ function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
 			document.removeEventListener("mouseup", doMouseUp);
 			
 			//alert("mouse up");
-			
 			if (mouseUpFunc) {
 				var r = element.getBoundingClientRect();
 				var x = evt.clientX - r.left;
