@@ -5,15 +5,31 @@
 	var raycaster;  // A THREE.Raycaster for user mouse input.
 
 	var ground; // A square base on which the cylinders stand.
+<<<<<<< Updated upstream
 	var sphere;  // A sphere that will be cloned to make the visible sphere.
 	var link;
+=======
+	var sphere;  // A sphere = 3D representation of a concept
+	var num; //name of the sphere 
+	var link;//A line = a link (entity) between two concepts 
+>>>>>>> Stashed changes
 	var world;  // An Object3D that contains all the mesh objects in the scene.
 	// Rotation of the scene is done by rotating the world about its
 	// y-axis.  (I couldn't rotate the camera about the scene since
 	// the Raycaster wouldn't work with a camera that was a child
 	// of a rotated object.)
+<<<<<<< Updated upstream
 
 	var ROTATE = 1, DRAG = 2, ADD = 3, DELETE = 4;  // Possible mouse actions
+=======
+	var dragging; //bollean value to know if the user is dragging a sphere
+	var listSpheres = [];
+	//var listLink = []; 
+	var treeOfLinks=[]; //list which contain all information about all the link of the mind map
+	//var listLinks = [];
+	var list1=[];  //list1 contain the name of all spheres conneceted with the dragItem
+	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
+>>>>>>> Stashed changes
 	var mouseAction;  // currently selected mouse action
 	var dragItem;  // the cylinder that is being dragged, during a drag operation
 	var intersects; //the objects intersected
@@ -83,12 +99,26 @@
 		link = new THREE.Mesh( cylinder, material3 );
 		link.position.y = 3;  // places base at y = 0;
 
+<<<<<<< Updated upstream
 		addLink(0,0);
 		addLink(-11,5);
 		
 		
 		//link.position.set(-250, 0, 0);
 		
+=======
+		addLink(0,1,1);
+		treeOfLinks.push([0,1]);
+		treeOfLinks.push([1,0]);
+		addLink(0,2,1);
+		treeOfLinks.push([0,2]);
+		treeOfLinks.push([2,0]);
+		addLink(0,3,1);
+		treeOfLinks.push([0,3]);
+		treeOfLinks.push([3,0]);
+
+		//console.log(listSpheres[0][0]);
+>>>>>>> Stashed changes
 	}
 
 	function addSphere(x,y,z) {
@@ -98,6 +128,7 @@
 		obj.position.y = y;
 		world.add(obj);
 	}
+<<<<<<< Updated upstream
 
 	
 	function addLink(x,z){
@@ -105,9 +136,111 @@
 		obj.position.x = x;
 		obj.position.z = z;
 		world.add(obj);
+=======
+	*/
+
+	function addSphere(x,y,z){
+		sphere = new THREE.Mesh(
+			new THREE.SphereGeometry(1,32,32),
+			new THREE.MeshLambertMaterial( {color:"pink"} )
+		);
+		sphere.position.x = x;
+		sphere.position.y = y;
+		sphere.position.z = z;
+		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);//coords spheres's list
+		sphere.name = numSphere;
+		numSphere+=1;//incr compteur
+		var object = scene.getObjectByName( sphere.name, true );
+		world.add(sphere);//add the new sphere to the world
+		
+	}
+/*
+	function addLink(sphere1,sphere2,add){//if add=1 -> addlink, if add!=1 ->delete link after its created
+        
+        var material = new THREE.LineBasicMaterial({color: 0x5e6574});
+        var points = [];
+        points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );
+        points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
+        var geometry = new THREE.BufferGeometry().setFromPoints( points );
+        var line = new THREE.Line( geometry, material );
+        world.add(line);
+        
+        //DELETE LINK
+        if(add!=1){
+            world.remove( line );
+            line.geometry.dispose();
+            line.material.dispose();
+            line = undefined;
+        }
+	}
+
+
+	
+	/*
+
+	function addLink(sphere1,sphere2){//if add=1 -> addlink, if add!=1 ->delete link after its created
+        
+        var material = new THREE.LineBasicMaterial({color: 0x5e6574});
+        var points = [];
+        points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );
+        points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
+        var geometry = new THREE.BufferGeometry().setFromPoints( points );
+        var line = new THREE.Line( geometry, material );
+        world.add(line);
+        line.name = numLink;
+        numLink+=1;
+        listLink.push(line);
+        console.log("listLink before:",listLink);
+        
+       
+    }
+    
+    
+    function updateLink(num){
+        var numinlist;
+        for(let i=0;i<listLink.length;i++){
+            if(listLink[i].name == num){
+                numinlist=i;
+            }
+        }
+        world.remove( listLink[numinlist] );
+        listLink[numinlist].geometry.dispose();
+        listLink[numinlist].material.dispose();
+        listLink[numinlist] = undefined;
+        listLink.splice(numinlist,1);
+        console.log("listLink after:",listLink);
+	}
+*/
+
+	function addLink(sphere1,sphere2){
+		var material = new THREE.LineBasicMaterial({color: 0xFFFF00});
+		var points = [];
+		points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );
+		points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );
+		var geometry = new THREE.BufferGeometry().setFromPoints( points );
+		var line = new THREE.Line( geometry, material );
+		//listLink.push([line.position.x, line.position.y, line.position.z]);//coords link's list		
+		//line.name = numLink;
+		//numLink+=1;//incr compteur
+		//var object = scene.getObjectByName( line.name, true );
+		world.add(line);
+	}
+/*
+	function removeLink(sphere1,sphere2){
+        for(let i=0;i<treeOfLinks.length;i++){
+            if(treeOfLinks[i][0] == num){
+                world.remove( listLink[numinlist] );
+				treeOfLinks[numinlist].geometry.dispose();
+				treeOfLinks[numinlist].material.dispose();
+				treeOfLinks[numinlist] = undefined;
+				treeOfLinks.splice(numinlist,1);
+				console.log("listLink after:",listLink);
+            }
+        }  
+>>>>>>> Stashed changes
 	}
 	
-	
+	*/
 	function isFloat(n){  //return true if n is a float. 
 		return n === +n && n !== (n|0);
 	}
@@ -142,6 +275,16 @@
 					dragItem = objectHit;
 					world.add(targetForDragging);
 					targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
+<<<<<<< Updated upstream
+=======
+					var num= dragItem.name;
+					console.log("Sphère selectionnée : ",num);
+					listSpheres[num][0] = item.point.x;//1st list element = new x coords after dragging
+					listSpheres[num][1] = item.point.y;
+					listSpheres[num][2] = item.point.z;
+					
+					//alert(targetForDragging.position);
+>>>>>>> Stashed changes
 					render();
 					return true;
 				}
@@ -162,6 +305,34 @@
 					world.worldToLocal(coords);  // to add cylider in correct position, neew local coords for the world object
 					addSphere(coords.x,coords.y,coords.z);
 					render();
+<<<<<<< Updated upstream
+=======
+					return false;
+				}
+				
+			case ADD_LINK:
+				if (objectHit == ground) {
+					var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
+					var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
+				
+					if(numSphere1 < numSphere && numSphere2 < numSphere){//spheres existing = numbers of spheres OK
+						//working too with an add sphere = test OK
+						addLink(numSphere1,numSphere2,1);//add the link between the two wanted spheres in 3D
+						treeOfLinks.push([numSphere1,numSphere2]);
+						treeOfLinks.push([numSphere2,numSphere1]);
+						console.log("Longeur de la liste ",treeOfLinks.length);
+						console.log("liste des liens",treeOfLinks);
+						render();
+					}
+					else{//numbers of spheres not OK
+						alert("/!\Careful, you tried to links inexistants spheres, please try again");
+						numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
+						numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
+						addLink(numSphere1,numSphere2,1);//add the link between the two wanted spheres in 3D
+						render();
+				
+					}
+>>>>>>> Stashed changes
 				}
 				return false;
 			default: // DELETE
@@ -199,6 +370,29 @@
 			c=coords.y;
 			
 			dragItem.position.set(a,c,b);
+<<<<<<< Updated upstream
+=======
+
+			/*var item = intersects[0];
+			var objectHit = item.object;
+			dragItem = objectHit;*/
+			num= dragItem.name;
+			let n = 0;
+			
+			while (n< treeOfLinks.length) {       //we go through the list which contains informations on the links between each sphere
+				if(n==0){
+					list1=[];
+				}
+				if(treeOfLinks[n][0]==num){		  //if the sphere that we want to drag is connected with an others spheres, it will add links 
+					list1.push(treeOfLinks[n][1]);              //list1 contain the name of all spheres conneceted with the dragItem
+				}
+				n++;
+			}
+			//console.log("num ... ",num);
+			//console.log("list1 ... ",num);
+			//console.log("treeoflinks ... ",treeOfLinks);
+			
+>>>>>>> Stashed changes
 			render();
 		}
 	}
@@ -348,6 +542,17 @@ function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
 				mouseUpFunc(x, y, evt, prevX, prevY, startX, startY);
 			}
 			dragging = false;
+			console.log("CC");
+			let i=0;
+			
+			console.log("treeoflinks ... ",treeOfLinks);
+			console.log("list1 :",list1);
+			console.log("num :",num);
+			while(i<list1.length){
+				addLink(num,list1[i],1);
+				//console.log("num1 : ",list1, " num2 : ", num);
+				i++;
+			}
 		}
 	}
 	element.addEventListener("mousedown", doMouseDown);
@@ -370,17 +575,19 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
 	if (!element || !element.addEventListener) {
 		throw "first argument in setUpTouchHander is not a valid element";
 	}
-	var dragging = false;
+	dragging = false;
 	var startX, startY;
 	var prevX, prevY;
 
 	function doTouchStart(evt) {
 		if (evt.touches.length != 1) {
 			doTouchEnd(evt);
+			console.log("CC");
 			return;
 		}
 		evt.preventDefault();
 		if (dragging) {
+			
 			doTouchEnd();
 		}
 		var r = element.getBoundingClientRect();
@@ -400,6 +607,7 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
 		if (dragging) {
 			if (evt.touches.length != 1) {
 				doTouchEnd(evt);
+				console.log("CC");
 				return;
 			}
 			evt.preventDefault();
@@ -417,12 +625,15 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
 	function doTouchCancel() {
 		if (touchCancelFunc) {
 			touchCancelFunc();
+			
+
 		}
 	}
 
 	function doTouchEnd(evt) {
 		if (dragging) {
 			dragging = false;
+			
 			element.removeEventListener("touchmove", doTouchMove);
 			element.removeEventListener("touchend", doTouchEnd);
 			element.removeEventListener("touchcancel", doTouchCancel);
