@@ -1,12 +1,13 @@
     var numSphere = 0
-    var numLink=0;
+    var numLink=100;
 	var canvas, scene, renderer, camera;
 	var mouseIsMove;
 	var mouseIsUp;
 	var SphereDraggedNum;
 	var raycaster;  // A THREE.Raycaster for user mouse input.
 
-	var ground; // A square base on which the cylinders stand.
+	var ground; // A square base
+	var gridHelper; 
 	var sphere;  // A sphere = 3D representation of a concept
 	var link;//A line = a link (entity) between two concepts 
 	var world;  // An Object3D that contains all the mesh objects in the scene.
@@ -14,7 +15,7 @@
 	// y-axis.  (I couldn't rotate the camera about the scene since
 	// the Raycaster wouldn't work with a camera that was a child
 	// of a rotated object.)
-	
+	var treeOfLinks= [];
 	var listSpheres = [];
 	var listLink = []; 
 	//var treeOfLinks=[]; //list which contain all information about all the link of the mind map
@@ -51,22 +52,21 @@
 		scene.add(world);
 
 		ground = new THREE.Mesh(
-			new THREE.BoxGeometry(40,0.1,40),
+			new THREE.BoxGeometry(100,0.1,100),
 			new THREE.MeshLambertMaterial( {color:"purple", transparent: true, opacity: 0.25 })
 		);
-		
-
-
-		ground.position.y = 0;  // top of base lies in the plane y = -5;
-		
+		ground.position.y = -13;  // top of base lies in the plane y = 0;
+		//ground.material.visible = false; //the ground is invisible 
 		world.add(ground);
 
 		var size = 40;
 		var divisions = 40;
-
-		var gridHelper =new THREE.GridHelper( size, divisions,0xb66bb0,0xa6a6a6 );
-		gridHelper.position.y=0;
-		scene.add( gridHelper );
+		gridHelper =new THREE.GridHelper( size, divisions,0xb66bb0,0xa6a6a6 );
+		gridHelper.position.y=0; 
+		scene.add(gridHelper);
+		document.getElementById("myCheck").checked = false; //checkbox not checked in the beginning, the user will be able to check it if he want the show the gridHelper
+		gridHelper.visible = false; //gridHelper not visible in the beginning 
+		
 
 		targetForDragging = new THREE.Mesh(
 			new THREE.BoxGeometry(100,0.01,100),
@@ -79,20 +79,21 @@
 
 		
 		addSphere(0,0,0);
-		addSphere(-15,-7,5);
-		addSphere(-8,5,5);
-		addSphere(5,-12,-6);
+		addSphere(-7,4,5);
+		addSphere(8,5,5);
+		addSphere(4,6,-6);
 
 		addLink(0,1);
-		//treeOfLinks.push([0,1]);
-		//treeOfLinks.push([1,0]);
+		treeOfLinks.push([0,1]);
+		treeOfLinks.push([1,0]);
 		addLink(0,2);
-		//treeOfLinks.push([0,2]);
-        //treeOfLinks.push([2,0]);
+		treeOfLinks.push([0,2]);
+        treeOfLinks.push([2,0]);
         addLink(0,3);
-		//treeOfLinks.push([0,3]);
-        //treeOfLinks.push([3,0]);
-        
+		treeOfLinks.push([0,3]);
+        treeOfLinks.push([3,0]);
+		
+		
         
 	}
 	
@@ -106,35 +107,38 @@
 		sphere.position.x = x;
 		sphere.position.y = y;
 		sphere.position.z = z;
-		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);//coords spheres's list
+		
 		sphere.name = numSphere;
+		
+		listSpheres.push([sphere.position.x, sphere.position.y, sphere.position.z]);//coords spheres's list
 		numSphere+=1;//incr the sphere's number each time we make one
 		var object = scene.getObjectByName( sphere.name, true );
 		world.add(sphere);//add the new sphere to the world
-		
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
+
 
 	//---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 	function addLink(sphere1,sphere2){
 		
 		//3D creation of the link in the world
-        var material = new THREE.LineBasicMaterial({color: 0x5e6574});
+
+        var material = new THREE.LineBasicMaterial({color: 0xf1f2f6});
         var points = [];//list of points making the link/line (3D space coordinates)
         points.push( new THREE.Vector3( listSpheres[sphere1][0], listSpheres[sphere1][1], listSpheres[sphere1][2] ) );//first point
         points.push( new THREE.Vector3( listSpheres[sphere2][0], listSpheres[sphere2][1], listSpheres[sphere2][2] ) );//second point
         var geometry = new THREE.BufferGeometry().setFromPoints( points );
         var line = new THREE.Line( geometry, material );//line is made from the material and the points coords
         world.add(line);//add the line to our world
-        line.name = numLink;//give a name=number to the link we just have made
-        numLink+=1;//incr link's number each time we make one
+		line.name = numLink;//give a name=number to the link we just have made
+		numLink+=1;//incr link's number each time we make one
+		
+		console.log("treeoflinks",treeOfLinks);
 		listLink.push(line);//add the links in the list after creation
 		listSpheres[sphere1].push(line.name);//add the link number/name to each sphere is connected with 
 		listSpheres[sphere2].push(line.name);//after the sphere coordinates
-		//console.log("listLink before remove:",listLink);//test 1
-		//console.log("listSpheres after add links:",listSpheres);//test 2
-        
-       
+		console.log("listLink before remove:",listLink);//test 1
+		console.log("listSpheres after add links:",listSpheres);//test 2      
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
     
@@ -148,11 +152,10 @@
                 numinlist=i;//link number is the list = counter
             }
 		}
-	
-		
         //listLink[numinlist].geometry.dispose();//-----------------------
         //listLink[numinlist].material.dispose();//-----------------------
-        world.remove( listLink[numinlist] );//remove the link by his number
+		world.remove( listLink[numinlist] );//remove the link by his number
+		//numLink--;
       	listLink[numinlist] = undefined;//-----------------------
         listLink.splice(numinlist,1);//remove the number of the link of the links list
 		for(let j=0;j<listSpheres.length;j++){
@@ -168,9 +171,80 @@
 			}
 		}
 		addLink(SphereList[0], SphereList[1]);
+		
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
 	
+	//-----------------------------SHOW INFORMATIONS ABOUT THE SPHERE WHEN THE USER TOUCH IT------------------------------------------
+
+	function showInfoSphereOnClick(name_sphere, listSphere) {
+		let counter1=0;
+		let nb_link=0;
+		var link_Name="";
+		var nameLinkedSphere = "";  //string with contain the name of all the sphere connected to the selected sphere
+		nb_link=listSphere[name_sphere].length-3;	
+		while(counter1<nb_link){
+			if(nb_link==1){
+				link_Name=listSphere[name_sphere][counter1+3]+ ".";
+			}
+			else if(counter1<nb_link-1){
+				link_Name+= listSphere[name_sphere][counter1+3]+", ";
+			}else{
+				link_Name+= "and "+ listSphere[name_sphere][counter1+3]+".";
+			}
+			counter1++;
+		}
+		let counter2=0;
+		let counter3=0;
+		while(counter2<treeOfLinks.length){
+			if(treeOfLinks[counter2][0]==name_sphere){
+				if(nb_link==1){
+					nameLinkedSphere= treeOfLinks[counter2][1]+ ".";
+				}
+				else if(counter3<nb_link-1){
+					nameLinkedSphere+= treeOfLinks[counter2][1]+ ", ";
+				}else{
+					nameLinkedSphere+="and "+ treeOfLinks[counter2][1]+ ".";
+				}
+				counter3++;
+			}
+			counter2++;
+		}
+		console.log("nb_link",nb_link);
+		console.log("link-name", link_Name);
+		console.log("namelinkedsphere ", nameLinkedSphere);
+		console.log("namelinkedspherelength ", treeOfLinks[4][1]);
+		if (name_sphere != null) {
+			document.getElementById("name-sphere").innerHTML = "The name of the sphere is : " + name_sphere + ".";
+			if(nb_link>1){document.getElementById("nb-link").innerHTML = "The sphere '" + name_sphere + "' is linked to "+ nb_link + " links which are : "+ link_Name+" Sphere '" + name_sphere + "' is connected to the spheres : "+ nameLinkedSphere;}
+			else if(nb_link==1){document.getElementById("nb-link").innerHTML = "The sphere '" + name_sphere + "' is linked to "+ nb_link + " link which is : "+ link_Name+" Sphere '" + name_sphere + "' is connected to the sphere "+ nameLinkedSphere;}
+			else{document.getElementById("nb-link").innerHTML = "The sphere '" + name_sphere + "' is not linked to any other sphere.";}
+			//document.getElementById("info-link").innerHTML = "The sphere is linked to the sphere '+ name_linked_sphere + ' by the link '"+ link_Name;
+		}
+	}
+
+	/*$(document).ready(function(){                  //open a popover to show more information about the sphere selected
+		$('[data-toggle="popover"]').popover();   
+	});
+	//--------------------------SHOW A GRID IF THE USER CHECK THE CHECKBOX "GRID"--------------------------------------------
+	
+	$('#myModal').on('shown.bs.modal', function () {
+	$('#myInput').trigger('focus')
+	})*/
+       
+	function showGridHelper() { 
+		var x = document.getElementById("myCheck");		
+		if(x.checked==true){
+			gridHelper.visible = true;
+			console.log("1");
+		}else{
+			gridHelper.visible = false ;
+			console.log("2");
+		}
+		render();
+	  }
+	//------------------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------------------
 	function dragLink(num){
 		
 		var listLinks=[];
@@ -181,7 +255,7 @@
 			}
 						
 		}
-		console.log(listLinks);
+		//console.log(listLinks);
 		for(let j=0; j<listLinks.length;j++){
 			
 			updateLink(listLinks[j]);
@@ -221,13 +295,14 @@
 					return false;
 				}
 				else  {
-					
+					//world.remove(ground);
 					dragItem = objectHit;//object move
-					console.log("dragItem",dragItem.type);
+					//console.log("dragItem",dragItem.type);
 					if(dragItem.type == "Mesh"){	
 						world.add(targetForDragging);//add the target to the world
 						targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
 						SphereDraggedNum =  dragItem.name;
+						showInfoSphereOnClick(SphereDraggedNum, listSpheres);
 						
 						/*
 						if(listSpheres[num].length>3 && mouseIsMove==1){//that's mean there is a line or more
@@ -242,15 +317,16 @@
 						listLinks = [];
 						*/
 						render();
+						//world.add(ground);
 						return true;
 					}
-					else if(dragItem.type=="Line"){//faire bouger les liens liens puis les sphères?
+					/*else if(dragItem.type=="Line"){//faire bouger les liens liens puis les sphères?
 						//alert('Please drag a sphere (not a link)');
 					}
 					else{
 
-					}
-					
+					}*/
+					//world.add(ground)
 				}
 				
 
@@ -265,17 +341,19 @@
 					} else {
 					  locationY = parseFloat(Zaxis/10);
 					}
-					console.log(locationY)
+					//console.log(locationY)
 					
 					var coords = new THREE.Vector3(locationX, locationY,locationZ);
 					world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
 					addSphere(coords.x,coords.y,coords.z);//in 3D
 					render();
-					return false;
+					
 				}
-				
+				return false;
 			case ADD_LINK:
+				//world.add(ground);
 				if (objectHit == ground) {
+					//world.remove(ground);
 					var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
 					var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
                     //removeLink(numSphere1,numSphere2);
@@ -283,10 +361,10 @@
                         //working too with an add sphere = test OK
                         
                         addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
-						//treeOfLinks.push([numSphere1,numSphere2]);
-						//treeOfLinks.push([numSphere2,numSphere1]);
-						//console.log("Longeur de la liste ",treeOfLinks.length);
-						//console.log("liste des liens",treeOfLinks);
+						treeOfLinks.push([numSphere1,numSphere2]);
+						treeOfLinks.push([numSphere2,numSphere1]);
+						console.log("Nombre de lien ",(treeOfLinks.length)/2);
+						console.log("liste des liens",treeOfLinks);
 						render();
 					}
 					else{//numbers of spheres not OK
@@ -298,6 +376,7 @@
 				
 					}
 				}
+				
 				return false;
 			default: // DELETE
 				if (objectHit != ground) {
@@ -330,7 +409,7 @@
 			var locationZ = intersects[0].point.z;
 			var coords = new THREE.Vector3(locationX, locationY, locationZ);
 			world.worldToLocal(coords);
-			a = coords.x;  // clamp coords to the range -19 to 19, so object stays on ground
+			a = coords.x;  
 			b = coords.z;
 			c = coords.y;
 			
@@ -343,9 +422,9 @@
 
 			/*var item = intersects[0];
 			var objectHit = item.object;
-			dragItem = objectHit;*/
-			//var num= dragItem.name;//number of the sphere dragged
-
+			dragItem = objectHit;
+			var sphere_name= dragItem.name;//number of the sphere dragged
+			showNameSphereOnClick(sphere_name);*/
 			/*
 			let n = 0;
 			let i =0;
