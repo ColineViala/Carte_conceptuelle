@@ -18,9 +18,10 @@
 	var treeOfLinks= [];
 	var listSpheres = [];
 	var listLink = []; 
+	var fruits = [ ["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere
 	//var treeOfLinks=[]; //list which contain all information about all the link of the mind map
 	//var listLinks = [];
-	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, DELETE = 5;  // Possible mouse actions
+	var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, RENAME=5, DELETE = 6;  // Possible mouse actions
 	var mouseAction;  // currently selected mouse action
 	var dragItem;  // the sphere that is being dragged, during a drag operation
 	var intersects; //the objects intersected	
@@ -50,14 +51,14 @@
 
 		world = new THREE.Object3D();
 		scene.add(world);
-
+/*
 		ground = new THREE.Mesh(
 			new THREE.BoxGeometry(100,0.1,100),
 			new THREE.MeshLambertMaterial( {color:"purple", transparent: true, opacity: 0.25 })
 		);
 		ground.position.y = -13;  // top of base lies in the plane y = 0;
 		//ground.material.visible = false; //the ground is invisible 
-		world.add(ground);
+		world.add(ground);*/
 
 		var size = 40;
 		var divisions = 40;
@@ -91,17 +92,14 @@
         treeOfLinks.push([2,0]);
         addLink(0,3);
 		treeOfLinks.push([0,3]);
-        treeOfLinks.push([3,0]);
-		
-		
-        
+        treeOfLinks.push([3,0]);        
 	}
 	
 	//---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
 	function addSphere(x,y,z){
 		sphere = new THREE.Mesh(
 			new THREE.SphereGeometry(1,32,32),
-			new THREE.MeshLambertMaterial( {color:"pink"} )
+			new THREE.MeshLambertMaterial( {color: fruits[numSphere][1]} )
 		);
 		//the sphere has coords in 3D : x,y and z
 		sphere.position.x = x;
@@ -143,7 +141,7 @@
 	//-------------------------------------------------------------------------------------------------------------------------
     
     //----------------------------LINK MODIFICATION : REMOVE AND ADD A NEW ONE WHEN AND WHERE THE SPHERE MOVE------------------
-    function updateLink(num){
+    function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add after
 		var numinlist;
 		var indexSphereInTab, indexlinkinSphereList;
 		var SphereList = [];
@@ -170,8 +168,9 @@
 				}	
 			}
 		}
-		addLink(SphereList[0], SphereList[1]);
-		
+		if(add==1){
+			addLink(SphereList[0], SphereList[1]);
+		}
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
 	
@@ -199,12 +198,12 @@
 		while(counter2<treeOfLinks.length){
 			if(treeOfLinks[counter2][0]==name_sphere){
 				if(nb_link==1){
-					nameLinkedSphere= treeOfLinks[counter2][1]+ ".";
+					nameLinkedSphere= fruits[treeOfLinks[counter2][1]][0]+ ".";
 				}
 				else if(counter3<nb_link-1){
-					nameLinkedSphere+= treeOfLinks[counter2][1]+ ", ";
+					nameLinkedSphere+= fruits[treeOfLinks[counter2][1]][0]+ ", ";
 				}else{
-					nameLinkedSphere+="and "+ treeOfLinks[counter2][1]+ ".";
+					nameLinkedSphere+="and "+ fruits[ treeOfLinks[counter2][1]][0]+ ".";
 				}
 				counter3++;
 			}
@@ -215,10 +214,10 @@
 		console.log("namelinkedsphere ", nameLinkedSphere);
 		console.log("namelinkedspherelength ", treeOfLinks[4][1]);
 		if (name_sphere != null) {
-			document.getElementById("name-sphere").innerHTML = "The name of the sphere is : " + name_sphere + ".";
-			if(nb_link>1){document.getElementById("nb-link").innerHTML = "The sphere '" + name_sphere + "' is linked to "+ nb_link + " links which are : "+ link_Name+" Sphere '" + name_sphere + "' is connected to the spheres : "+ nameLinkedSphere;}
-			else if(nb_link==1){document.getElementById("nb-link").innerHTML = "The sphere '" + name_sphere + "' is linked to "+ nb_link + " link which is : "+ link_Name+" Sphere '" + name_sphere + "' is connected to the sphere "+ nameLinkedSphere;}
-			else{document.getElementById("nb-link").innerHTML = "The sphere '" + name_sphere + "' is not linked to any other sphere.";}
+			document.getElementById("name-sphere").innerHTML = "The name of the sphere is : " + fruits[name_sphere][0] + ".";
+			if(nb_link>1){document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is linked to "+ nb_link + " links which are : "+ link_Name+" Sphere '" + fruits[name_sphere][0] + "' is connected to the spheres : "+ nameLinkedSphere;}
+			else if(nb_link==1){document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is linked to "+ nb_link + " link which is : "+ link_Name+" Sphere '" + fruits[name_sphere][0] + "' is connected to the sphere "+ nameLinkedSphere;}
+			else{document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is not linked to any other sphere.";}
 			//document.getElementById("info-link").innerHTML = "The sphere is linked to the sphere '+ name_linked_sphere + ' by the link '"+ link_Name;
 		}
 	}
@@ -245,6 +244,8 @@
 	  }
 	//------------------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------------------------------------
+	//--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
+	//=AT ANY TIME
 	function dragLink(num){
 		
 		var listLinks=[];
@@ -258,7 +259,27 @@
 		//console.log(listLinks);
 		for(let j=0; j<listLinks.length;j++){
 			
-			updateLink(listLinks[j]);
+			updateLink(listLinks[j],1);
+		}
+
+	}
+	//-------------------------------------------------------------------------------------------------------------------------
+		//--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
+	//=AT ANY TIME
+	function removeLink(num){
+		
+		var listLinks=[];
+		if(listSpheres[num].length>3){//that's mean there is a line or more
+			
+			for(let k=3;k<listSpheres[num].length;k++){
+				listLinks.push(listSpheres[num][k]);
+			}
+						
+		}
+		//console.log(listLinks);
+		for(let j=0; j<listLinks.length;j++){
+			
+			updateLink(listLinks[j],0);
 		}
 
 	}
@@ -291,7 +312,7 @@
 		var objectHit = item.object;
 		switch (mouseAction) {
 			case DRAG:
-				if (objectHit == ground) {
+				if (objectHit.type != "Mesh" && objectHit.type != "Line") {
 					return false;
 				}
 				else  {
@@ -331,7 +352,7 @@
 				
 
 			case ADD_SPHERE:
-				if (objectHit == ground) {
+				//if (objectHit == ground) {
 					var locationX = item.point.x;  // Gives the point of intersection in world coords
 					var locationZ = item.point.z;
 					var locationY;
@@ -348,11 +369,11 @@
 					addSphere(coords.x,coords.y,coords.z);//in 3D
 					render();
 					
-				}
+				//}
 				return false;
 			case ADD_LINK:
 				//world.add(ground);
-				if (objectHit == ground) {
+				//if (objectHit == ground) {
 					//world.remove(ground);
 					var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
 					var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
@@ -375,14 +396,37 @@
 						render();
 				
 					}
-				}
+				//}
 				
 				return false;
+			case RENAME :
+				console.log("Rename");
+				if(objectHit.type == "Mesh"){
+					renameItem= objectHit;
+					sphereRenameName =  renameItem.name;
+					new_nameSphere = prompt("Let's change the name of the sphere !!!",fruits[sphereRenameName][0]);
+					fruits[sphereRenameName][0]=new_nameSphere;
+					showInfoSphereOnClick(sphereRenameName, listSpheres);
+				}
+				return false;
+
 			default: // DELETE
-				if (objectHit != ground) {
+				if (objectHit.type == "Mesh") {
+					removeLink(objectHit.name);
 					world.remove(objectHit);
+					listSpheres.splice(objectHit.name,1);
+					console.log("listSpheres :",listSpheres);
 					render();
 				}
+				else if(objectHit.type == "Line"){
+					updateLink(objectHit.name,0);
+					render();
+					
+				}
+				else{
+					alert("Please click on the object you want to remove from the map")
+				}
+				
 				return false;
 		}
 	}
@@ -492,6 +536,9 @@
 		else if (document.getElementById("mouseAddLink").checked) {
 			mouseAction = ADD_LINK;
 		}
+		else if (document.getElementById("mouseRename").checked) {
+			mouseAction = RENAME;
+		}
 		else {
 			mouseAction = DELETE;
 		}
@@ -516,6 +563,7 @@
 		document.getElementById("mouseDrag").onchange = doChangeMouseAction;
 		document.getElementById("mouseAddSphere").onchange = doChangeMouseAction;
 		document.getElementById("mouseAddLink").onchange = doChangeMouseAction;
+		document.getElementById("mouseRename").onchange = doChangeMouseAction;
 		document.getElementById("mouseDelete").onchange = doChangeMouseAction;
 		createWorld();
 		setUpMouseHander(canvas,doMouseDown,doMouseMove);
