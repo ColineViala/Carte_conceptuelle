@@ -112,6 +112,19 @@
 		numSphere+=1;//incr the sphere's number each time we make one
 		var object = scene.getObjectByName( sphere.name, true );
 		world.add(sphere);//add the new sphere to the world
+		
+		var loader = new THREE.FontLoader();
+    	let font = loader.parse(fontJSON);
+    	var geometry = new THREE.TextGeometry(fruits[numSphere-1][0], {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
+		var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    	var label = new THREE.Mesh(geometry, material);
+		label.position.z = sphere.position.z ;
+		label.position.y = sphere.position.y +1.5;
+		label.position.x = sphere.position.x -1;
+		label.name="label_"+fruits[numSphere-1][0];
+    	world.add(label);
+
+		//});   
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
 
@@ -131,12 +144,12 @@
 		line.name = numLink;//give a name=number to the link we just have made
 		numLink+=1;//incr link's number each time we make one
 		
-		console.log("treeoflinks",treeOfLinks);
+		//console.log("treeoflinks",treeOfLinks);
 		listLink.push(line);//add the links in the list after creation
 		listSpheres[sphere1].push(line.name);//add the link number/name to each sphere is connected with 
 		listSpheres[sphere2].push(line.name);//after the sphere coordinates
-		console.log("listLink before remove:",listLink);//test 1
-		console.log("listSpheres after add links:",listSpheres);//test 2      
+		//console.log("listLink before remove:",listLink);//test 1
+		//console.log("listSpheres after add links:",listSpheres);//test 2      
 	}
 	//-------------------------------------------------------------------------------------------------------------------------
     
@@ -323,7 +336,7 @@
 						world.add(targetForDragging);//add the target to the world
 						targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
 						SphereDraggedNum =  dragItem.name;
-						showInfoSphereOnClick(SphereDraggedNum, listSpheres);
+						if(SphereDraggedNum[0] !="l"){showInfoSphereOnClick(SphereDraggedNum, listSpheres);}  //l for "label"
 						
 						/*
 						if(listSpheres[num].length>3 && mouseIsMove==1){//that's mean there is a line or more
@@ -458,10 +471,12 @@
 			c = coords.y;
 			
 			dragItem.position.set(a,c,b);
-			listSpheres[SphereDraggedNum][0] = a;//1st list element = new x coords after dragging
-			listSpheres[SphereDraggedNum][1] = c;
-			listSpheres[SphereDraggedNum][2] = b;
-			dragLink(SphereDraggedNum);
+			if(SphereDraggedNum[0] !="l"){
+				listSpheres[SphereDraggedNum][0] = a;//1st list element = new x coords after dragging
+				listSpheres[SphereDraggedNum][1] = c;
+				listSpheres[SphereDraggedNum][2] = b;
+				dragLink(SphereDraggedNum);
+			}
 
 
 			/*var item = intersects[0];
