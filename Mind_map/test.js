@@ -110,15 +110,23 @@ function addSphere(x,y,z){
     
     sphere.name = numSphere;
 	sphere.link = [];
-	sphere.label;
+	sphere.label=[]; 
     
     listSpheres2.push(sphere);//coords spheres's list
     numSphere+=1;//incr the sphere's number each time we make one
-    var object = scene.getObjectByName( sphere.name, true );
-    
-    var loader = new THREE.FontLoader();
+	var object = scene.getObjectByName( sphere.name, true );
+	world.add(sphere);//add the new sphere to the world
+	addLabel(numSphere,sphere);
+	}
+	
+function addLabel(numSphere,sphere, nameLabel ){ //default argument
+	if (typeof nameLabel == "undefined") {
+        nameLabel = fruits[numSphere-1][0];
+	  }
+	
+	var loader = new THREE.FontLoader();
     let font = loader.parse(fontJSON);
-    var geometry = new THREE.TextGeometry(fruits[numSphere-1][0], {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
+    var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
     var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
     label = new THREE.Mesh(geometry, material);
     label.position.z = sphere.position.z ;
@@ -126,8 +134,16 @@ function addSphere(x,y,z){
     label.position.x = sphere.position.x -1;
     label.name="label_"+fruits[numSphere-1][0];
 	//world.add(label);
-	sphere.label = label;
-	world.add(sphere);//add the new sphere to the world
+	//sphere.label = label;
+	listSpheres2[numSphere-1].label.push(label);//add the label to each sphere is connected with 
+	console.log("hire", listSpheres2[numSphere-1].label);
+	console.log("zou",listSpheres2[numSphere-1].label.length);
+	if(listSpheres2[numSphere-1].label.length == 1 ){ //if the sphere already have a label, we have to delete it
+		//console.log("zou2",listSpheres2[numSphere-1].label[0]);
+		//listSpheres2[numSphere-1].label[0].geometry.dispose();//-----------------------
+		//listSpheres2[numSphere-1].label[0].material.dispose();
+		//world.remove(listSpheres2[numSphere-1].label[0]);
+	}
 	world.add(label);
 }
 //-------------------------------------------------------------------------------------------------------------------------
@@ -136,9 +152,7 @@ function addSphere(x,y,z){
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 function addLink(sphere1,sphere2){
     //3D creation of the link in the world
-
-
-    
+ 
     var indexSphere1 = findIndexSphere(sphere1);
     var indexSphere2 = findIndexSphere(sphere2);
 
@@ -218,7 +232,8 @@ function showInfoSphereOnClick(name_sphere) {
             link_Name+= "and "+ listSpheres2[indexSphere1].link[counter1]+".";
         }
         counter1++;
-    }
+	}
+	console.log("listSphere2", listSpheres2[0].link);
     let counter2=0;
     let counter3=0;
     while(counter2<treeOfLinks.length){
@@ -290,7 +305,12 @@ function dragLink(num){
 
 }
 //-------------------------------------------------------------------------------------------------------------------------
-    //--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
+
+function dragLabel(num){
+
+}
+
+//--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
 //=AT ANY TIME
 function removeLink(num){
     
@@ -323,6 +343,10 @@ function findIndexSphere(nameSphere){
 }
 //-------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
 function isFloat(n){  //return true if n is a float. 
     return n === +n && n !== (n|0);
 }
@@ -330,6 +354,7 @@ function isFloat(n){  //return true if n is a float.
 function isInteger(n){//return true if n is an integer. 
     return n === +n && n === (n|0);
    }
+
 
 function doMouseDown(x,y) {
     
@@ -369,7 +394,7 @@ function doMouseDown(x,y) {
                     }*/
                     
                     SphereDraggedNum =  dragItem.name;
-                    
+                    //if(SphereDraggedNum[0] !="l"){
                     
                     
                     if(SphereDraggedNum[0] !="l"){showInfoSphereOnClick(SphereDraggedNum);}//"l"for label
@@ -442,7 +467,11 @@ function doMouseDown(x,y) {
                 sphereRenameName =  renameItem.name;
                 new_nameSphere = prompt("Let's change the name of the sphere !!!",fruits[sphereRenameName][0]);
                 fruits[sphereRenameName][0]=new_nameSphere;
-                showInfoSphereOnClick(sphereRenameName);
+				if(objectHit.name[0] !="l"){
+					showInfoSphereOnClick(sphereRenameName);
+					addLabel(sphereRenameName,objectHit,new_nameSphere); 
+					//listSpheres2[indexSphere].label[0]
+				}
             }
             return false;
 
@@ -515,6 +544,10 @@ function doMouseMove(x,y,evt,prevX,prevY) {
 				}
 			}
 			dragLink(indexSphere);
+			listSpheres2[indexSphere].label[0].position.z = dragItem.position.z ;
+			listSpheres2[indexSphere].label[0].position.y = dragItem.position.y +1.5;
+			listSpheres2[indexSphere].label[0].position.x = dragItem.position.x -1;
+
 		}
 
 
