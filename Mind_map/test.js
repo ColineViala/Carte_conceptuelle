@@ -372,7 +372,7 @@ function doMouseDown(x,y) {
                     
                     
                     
-                    showInfoSphereOnClick(SphereDraggedNum);
+                    if(SphereDraggedNum[0] !="l"){showInfoSphereOnClick(SphereDraggedNum);}//"l"for label
                     render();
                     //world.add(ground);
                     return true;
@@ -508,13 +508,14 @@ function doMouseMove(x,y,evt,prevX,prevY) {
 		console.log(label.position.y);
 		console.log(label.position.z);
 		*/
-		
-        for(let i=0;i<listSpheres2.length;i++){
-            if(SphereDraggedNum == listSpheres2[i].name){
-                indexSphere = i;
-            }
-        }
-        dragLink(indexSphere);
+		if(SphereDraggedNum[0] !="l"){
+			for(let i=0;i<listSpheres2.length;i++){
+				if(SphereDraggedNum == listSpheres2[i].name){
+					indexSphere = i;
+				}
+			}
+			dragLink(indexSphere);
+		}
 
 
         /*var item = intersects[0];
