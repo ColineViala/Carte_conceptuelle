@@ -71,18 +71,20 @@ function createWorld() {
     addSphere(4,6,-6);
 
     addLink(0,1);
-    treeOfLinks.push([0,1]);
-    treeOfLinks.push([1,0]);
+    listSpheres2[0].conectedSphere.push(1);
+    listSpheres2[1].conectedSphere.push(0);
+    console.log("ere",listSpheres2[0].conectedSphere);
     addLink(0,2);
-    treeOfLinks.push([0,2]);
-    treeOfLinks.push([2,0]);
+    listSpheres2[0].conectedSphere.push(2);
+    listSpheres2[2].conectedSphere.push(0);
     addLink(0,3);
-    treeOfLinks.push([0,3]);
-    treeOfLinks.push([3,0]);        
+    listSpheres2[0].conectedSphere.push(3);
+    listSpheres2[3].conectedSphere.push(0);   
+    //console.log(listSpheres2[0].conectedSphere);   
 }
 
 //---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
-function addSphere(x,y,z){
+function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the addSphere is called in addNewSphere for example), noLabel=false and we doesn't need to call addLabel in this function .
     sphere = new THREE.Mesh(
         new THREE.SphereGeometry(1,32,32),
         new THREE.MeshLambertMaterial( {color: fruits[numSphere][1]} )
@@ -95,17 +97,31 @@ function addSphere(x,y,z){
     
     sphere.name = numSphere;
 	sphere.link = [];
-	sphere.label = [];
+    sphere.label = [];
+    sphere.conectedSphere =[];
     
     listSpheres2.push(sphere);//coords spheres's list
     numSphere+=1;//incr the sphere's number each time we make one
     var object = scene.getObjectByName( sphere.name, true );
     world.add(sphere);//add the new sphere to the world
-	addLabel(numSphere,sphere);
+    if(noLabel==true){ //the label of the sphere already exist
+        addLabel(numSphere,sphere);
+    }
 }
 //-------------------------------------------------------------------------------------------------------------------------
 
-
+function addLinkedSphere(sphere1,sphere2){
+    if (sphere1 !== parseInt(sphere1, 10)){
+        sphere1 = parseInt(sphere1);
+        
+    }
+    if (sphere2 !== parseInt(sphere2, 10)){
+        sphere2 = parseInt(sphere2);
+    }
+    listSpheres2[sphere1].conectedSphere.push(sphere2);
+    listSpheres2[sphere2].conectedSphere.push(sphere1);
+    addLink(sphere1,sphere2);
+}
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 function addLink(sphere1,sphere2){
     //3D creation of the link in the world
@@ -189,9 +205,10 @@ function showInfoSphereOnClick(name_sphere) {
         }
         counter1++;
 	}
-	console.log("listSphere2", listSpheres2[0].link);
+	//console.log("listSphere2", listSpheres2[0].link);
     let counter2=0;
     let counter3=0;
+    console.log("treeOfLink of sphere 0",listSpheres2[0].conectedSphere);
     while(counter2<treeOfLinks.length){
         if(treeOfLinks[counter2][0]==name_sphere){
             if(nb_link==1){
@@ -255,7 +272,7 @@ function removeLink(num){
     //!\ pb avec num = undefined (disparait de listSpheres après suppression)
     var listLinks=[];
     var indexSphere = findIndexSphere(num);
-    
+    treeOfLinks.splice
     if(listSpheres2[indexSphere].link.length>0){//that's mean there is a line or more
             
         for(let k=0;k<listSpheres2[indexSphere].link.length;k++){
@@ -287,17 +304,13 @@ function findIndexSphere(nameSphere){
 //--------------------------------------ADD LABEL-----------------------------------
 
 function addLabel(numSphere,sphere, nameLabel ){ 
-    
     if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
         //console.log("cc");
         nameLabel = fruits[numSphere-1][0];
-	}else{
-		//world.remove(sphere.label[0]);
-		
-	}
+    }
     listSpheres2[numSphere-1].label=[];
-    console.log("namelabel",nameLabel);
-    console.log("listSpheres2[numSphere-1].label",listSpheres2[numSphere-1].label);
+    //console.log("namelabel",nameLabel);
+    //console.log("listSpheres2[numSphere-1].label",listSpheres2[numSphere-1].label);
 
 	var loader = new THREE.FontLoader();
     let font = loader.parse(fontJSON);
@@ -307,31 +320,31 @@ function addLabel(numSphere,sphere, nameLabel ){
     label1.position.z = sphere.position.z ;
     label1.position.y = sphere.position.y +1.5;
     label1.position.x = sphere.position.x -1;
-    label1.name="label_"+fruits[numSphere-1][0];
+    label1.name="label_"+nameLabel;
 	listSpheres2[numSphere-1].label.push(label1);//add the label to each sphere is connected with 
 	world.add(label1);
 }
 //-------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------UPDATE SPHERE------------------------------------------------------
 function addNewSphere(Zaxis){
-                var cc = name_sphere.value;
-                alert(cc);
-                //alert("inside func");
-                // /!\ SI TEMPS FAIRE UN RANDOM ICI /!\
-                var locationX = 8;  // Gives the point of intersection in world coords
-                var locationZ = 7;
-                var locationY;
-                //var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
-                if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
-                  locationY=10; //default value if the value entered is not correct
-                } else {
-                  locationY = parseFloat(Zaxis/10);
-                }
-                var coords = new THREE.Vector3(locationX, locationY,locationZ);
-                world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
-                addSphere(coords.x,coords.y,coords.z);//in 3D
-                addLabel(numSphere,sphere,cc);
-                render(); 
+    //var cc = ;
+    //alert(cc);
+    //alert("inside func");
+    // /!\ SI TEMPS FAIRE UN RANDOM ICI /!\
+    var locationX = 8;  // Gives the point of intersection in world coords
+    var locationZ = 7;
+    var locationY;
+    //var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
+    if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
+        locationY=10; //default value if the value entered is not correct
+    } else {
+        locationY = parseFloat(Zaxis/10);
+    }
+    var coords = new THREE.Vector3(locationX, locationY,locationZ);
+    world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
+    addSphere(coords.x,coords.y,coords.z, false);//in 3D
+    addLabel(numSphere,sphere,name_sphere.value);
+    render(); 
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -435,14 +448,16 @@ function doMouseDown(x,y) {
                     var indexSphere1 = findIndexSphere(objectHit.name);
                     removeLink(objectHit.name);
                     listSpheres2.splice(indexSphere1, 1);
-                    console.log(listSpheres2);
+                    //console.log(listSpheres2);
                     world.remove(objectHit);
                     if(objectHit.name[0] !="l"){
                         world.remove(objectHit.label[0]);
                     }
+
                 }
                 else if(objectHit.type == "Line"){
                     updateLink(objectHit.name,0);
+                    console.log("line",objectHit);
                 }
                 else{
                     alert("Please click on the object you want to remove from the map")
