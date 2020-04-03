@@ -1,14 +1,11 @@
 var numSphere = 0
 var numLink=100;
 var canvas, scene, renderer, camera;
-var mouseIsMove;
-var mouseIsUp;
 var SphereDraggedNum;
 var raycaster;  // A THREE.Raycaster for user mouse input.
 var indexSphereDeleted;
 var indexSphere;
 var deleteSphere=0;
-//var ground; // A square base
 var gridHelper; 
 var sphere;  // A sphere = 3D representation of a concept
 var label;
@@ -18,13 +15,12 @@ var world;  // An Object3D that contains all the mesh objects in the scene.
 // y-axis.  (I couldn't rotate the camera about the scene since
 // the Raycaster wouldn't work with a camera that was a child
 // of a rotated object.)
-var treeOfLinks= [];
+var treeOfLinks= [];//list which contain all information about all the link of the mind map
 var listSpheres2= [];
 var listLink = []; 
 var fruits = [ ["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere
-//var treeOfLinks=[]; //list which contain all information about all the link of the mind map
 //var listLinks = [];
-var ROTATE = 1, DRAG = 2, ADD_SPHERE = 3, ADD_LINK = 4, RENAME=5, DELETE = 6;  // Possible mouse actions
+var ROTATE = 1, DRAG = 2, RENAME=3, DELETE = 4;  // Possible mouse actions
 var mouseAction;  // currently selected mouse action
 var dragItem;  // the sphere that is being dragged, during a drag operation
 var intersects; //the objects intersected	
@@ -53,15 +49,6 @@ function createWorld() {
 
     world = new THREE.Object3D();
     scene.add(world);
-/*
-    ground = new THREE.Mesh(
-        new THREE.BoxGeometry(100,0.1,100),
-        new THREE.MeshLambertMaterial( {color:"purple", transparent: true, opacity: 0.25 })
-    );
-    ground.position.y = -13;  // top of base lies in the plane y = 0;
-    //ground.material.visible = false; //the ground is invisible 
-    world.add(ground);*/
-
     var size = 40;
     var divisions = 40;
     gridHelper =new THREE.GridHelper( size, divisions,0xb66bb0,0xa6a6a6 );
@@ -74,9 +61,6 @@ function createWorld() {
     targetForDragging = new THREE.Mesh(
         new THREE.BoxGeometry(100,0.01,100),
         new THREE.MeshBasicMaterial()
-            /*new THREE.Mesh(//target for dragging is a sphere
-                new THREE.SphereGeometry(1,32,32),
-                new THREE.MeshBasicMaterial()*/
     );
     targetForDragging.material.visible = false;
 
@@ -108,27 +92,16 @@ function addSphere(x,y,z){
     sphere.position.y = y;
     sphere.position.z = z;
     
+    
     sphere.name = numSphere;
 	sphere.link = [];
-	sphere.label;
+	sphere.label = [];
     
     listSpheres2.push(sphere);//coords spheres's list
     numSphere+=1;//incr the sphere's number each time we make one
     var object = scene.getObjectByName( sphere.name, true );
-    
-    var loader = new THREE.FontLoader();
-    let font = loader.parse(fontJSON);
-    var geometry = new THREE.TextGeometry(fruits[numSphere-1][0], {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
-    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
-    label = new THREE.Mesh(geometry, material);
-    label.position.z = sphere.position.z ;
-    label.position.y = sphere.position.y +1.5;
-    label.position.x = sphere.position.x -1;
-    label.name="label_"+fruits[numSphere-1][0];
-	//world.add(label);
-	sphere.label = label;
-	world.add(sphere);//add the new sphere to the world
-	world.add(label);
+    world.add(sphere);//add the new sphere to the world
+	addLabel(numSphere,sphere);
 }
 //-------------------------------------------------------------------------------------------------------------------------
 
@@ -136,9 +109,12 @@ function addSphere(x,y,z){
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 function addLink(sphere1,sphere2){
     //3D creation of the link in the world
-
-
-    
+    if (sphere1 !== parseInt(sphere1, 10)){
+        sphere1 = parseInt(sphere1);
+    }
+    if (sphere2 !== parseInt(sphere2, 10)){
+        sphere2 = parseInt(sphere2);
+    }
     var indexSphere1 = findIndexSphere(sphere1);
     var indexSphere2 = findIndexSphere(sphere2);
 
@@ -151,20 +127,16 @@ function addLink(sphere1,sphere2){
     world.add(line);//add the line to our world
     line.name = numLink;//give a name=number to the link we just have made
     numLink+=1;//incr link's number each time we make one
-    
-    //console.log("treeoflinks",treeOfLinks);
     listLink.push(line);//add the links in the list after creation
-
     listSpheres2[indexSphere1].link.push(line.name);//add the link number/name to each sphere is connected with 
     listSpheres2[indexSphere2].link.push(line.name);//after the sphere coordinates
-    //console.log("listLink before remove:",listLink);//test 1
+    render();
 }
 //-------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------LINK MODIFICATION : REMOVE AND ADD A NEW ONE WHEN AND WHERE THE SPHERE MOVE------------------
 function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add after
     var numinlist;
-    var indexSphereInTab, indexlinkinSphereList;
     var SphereList = [];
     for(let i=0;i<listLink.length;i++){//i varies in listLink array
         if(listLink[i].name == num){//if the number in the list equals the function parameter (the num of the link we want to remove)
@@ -174,8 +146,6 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
     listLink[numinlist].geometry.dispose();//-----------------------
     listLink[numinlist].material.dispose();//-----------------------
     world.remove( listLink[numinlist] );//remove the link by his number
-    //numLink--;
-      //listLink[numinlist] = undefined;//-----------------------
     listLink.splice(numinlist,1);//remove the number of the link of the links list
 
     for(let i=0; i<listSpheres2.length; i++){
@@ -218,7 +188,8 @@ function showInfoSphereOnClick(name_sphere) {
             link_Name+= "and "+ listSpheres2[indexSphere1].link[counter1]+".";
         }
         counter1++;
-    }
+	}
+	console.log("listSphere2", listSpheres2[0].link);
     let counter2=0;
     let counter3=0;
     while(counter2<treeOfLinks.length){
@@ -248,33 +219,21 @@ function showInfoSphereOnClick(name_sphere) {
     }
     
 }
-
-/*$(document).ready(function(){                  //open a popover to show more information about the sphere selected
-    $('[data-toggle="popover"]').popover();   
-});
-//--------------------------SHOW A GRID IF THE USER CHECK THE CHECKBOX "GRID"--------------------------------------------
-
-$('#myModal').on('shown.bs.modal', function () {
-$('#myInput').trigger('focus')
-})*/
    
 function showGridHelper() { 
     var x = document.getElementById("myCheck");		
     if(x.checked==true){
         gridHelper.visible = true;
-        //console.log("1");
     }else{
         gridHelper.visible = false ;
-        //console.log("2");
     }
     render();
   }
 //------------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------------
+
 //--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
 //=AT ANY TIME
 function dragLink(num){
-    
     var listLinks=[];
     if(listSpheres2[num].link.length>0){//that's mean there is a line or more
         
@@ -293,16 +252,18 @@ function dragLink(num){
     //--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
 //=AT ANY TIME
 function removeLink(num){
-    
+    //!\ pb avec num = undefined (disparait de listSpheres après suppression)
     var listLinks=[];
-    if(listSpheres2[num].link.length>0){//that's mean there is a line or more
-        
-        for(let k=0;k<listSpheres2[num].link.length;k++){
-            listLinks.push(listSpheres2[num].link[k]);
+    var indexSphere = findIndexSphere(num);
+    
+    if(listSpheres2[indexSphere].link.length>0){//that's mean there is a line or more
+            
+        for(let k=0;k<listSpheres2[indexSphere].link.length;k++){
+                listLinks.push(listSpheres2[indexSphere].link[k]);
         }
-                    
+                        
     }
-    //console.log(listLinks);
+    
     for(let j=0; j<listLinks.length;j++){
         
         updateLink(listLinks[j],0);
@@ -322,6 +283,59 @@ function findIndexSphere(nameSphere){
     return indexSphere;
 }
 //-------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------ADD LABEL-----------------------------------
+
+function addLabel(numSphere,sphere, nameLabel ){ 
+    
+    if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
+        //console.log("cc");
+        nameLabel = fruits[numSphere-1][0];
+	}else{
+		//world.remove(sphere.label[0]);
+		
+	}
+    listSpheres2[numSphere-1].label=[];
+    console.log("namelabel",nameLabel);
+    console.log("listSpheres2[numSphere-1].label",listSpheres2[numSphere-1].label);
+
+	var loader = new THREE.FontLoader();
+    let font = loader.parse(fontJSON);
+    var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    label1 = new THREE.Mesh(geometry, material);
+    label1.position.z = sphere.position.z ;
+    label1.position.y = sphere.position.y +1.5;
+    label1.position.x = sphere.position.x -1;
+    label1.name="label_"+fruits[numSphere-1][0];
+	listSpheres2[numSphere-1].label.push(label1);//add the label to each sphere is connected with 
+	world.add(label1);
+}
+//-------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------UPDATE SPHERE------------------------------------------------------
+function addNewSphere(Zaxis){
+                var cc = name_sphere.value;
+                alert(cc);
+                //alert("inside func");
+                // /!\ SI TEMPS FAIRE UN RANDOM ICI /!\
+                var locationX = 8;  // Gives the point of intersection in world coords
+                var locationZ = 7;
+                var locationY;
+                //var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
+                if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
+                  locationY=10; //default value if the value entered is not correct
+                } else {
+                  locationY = parseFloat(Zaxis/10);
+                }
+                var coords = new THREE.Vector3(locationX, locationY,locationZ);
+                world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
+                addSphere(coords.x,coords.y,coords.z);//in 3D
+                addLabel(numSphere,sphere,cc);
+                render(); 
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
 
 function isFloat(n){  //return true if n is a float. 
     return n === +n && n !== (n|0);
@@ -354,41 +368,19 @@ function doMouseDown(x,y) {
                 return false;
             }
             else  {
-                //world.remove(ground);
                 dragItem = objectHit;//object move
-                //console.log("dragItem",dragItem.type);
                 if(dragItem.type == "Mesh"){	
                     world.add(targetForDragging);//add the target to the world
                     targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
-                    /*
-                    if(dragItem.name == indexSphereDeleted){
-                        dragItem.name = indexSphereDeleted;
-                    }
-                    else if(dragItem.name > indexSphereDeleted){
-                        dragItem.name=indexSphereDeleted-1;
-                    }*/
-                    
                     SphereDraggedNum =  dragItem.name;
-                    
-                    
-                    
                     if(SphereDraggedNum[0] !="l"){showInfoSphereOnClick(SphereDraggedNum);}//"l"for label
                     render();
-                    //world.add(ground);
                     return true;
                 }
-                /*else if(dragItem.type=="Line"){//faire bouger les liens liens puis les sphères?
-                    //alert('Please drag a sphere (not a link)');
-                }
-                else{
-
-                }*/
-                //world.add(ground)
             }
             
-
+        /*
         case ADD_SPHERE:
-            //if (objectHit == ground) {
                 var locationX = item.point.x;  // Gives the point of intersection in world coords
                 var locationZ = item.point.z;
                 var locationY;
@@ -398,30 +390,20 @@ function doMouseDown(x,y) {
                 } else {
                   locationY = parseFloat(Zaxis/10);
                 }
-                //console.log(locationY)
-                
                 var coords = new THREE.Vector3(locationX, locationY,locationZ);
                 world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
                 addSphere(coords.x,coords.y,coords.z);//in 3D
                 render();
-                
-            //}
             return false;
         case ADD_LINK:
-            //world.add(ground);
-            //if (objectHit == ground) {
-                //world.remove(ground);
+
                 var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
                 var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
-                //removeLink(numSphere1,numSphere2);
                 if(numSphere1 < numSphere && numSphere2 < numSphere){//spheres existing = numbers of spheres OK
                     //working too with an add sphere = test OK
-                    
                     addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
                     treeOfLinks.push([numSphere1,numSphere2]);
                     treeOfLinks.push([numSphere2,numSphere1]);
-                    //console.log("Nombre de lien ",(treeOfLinks.length)/2);
-                    //console.log("liste des liens",treeOfLinks);
                     render();
                 }
                 else{//numbers of spheres not OK
@@ -430,50 +412,45 @@ function doMouseDown(x,y) {
                     numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
                     addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
                     render();
-            
                 }
-            //}
-            
             return false;
-        case RENAME :
-            //console.log("Rename");
-            if(objectHit.type == "Mesh"){
-                renameItem= objectHit;
-                sphereRenameName =  renameItem.name;
-                new_nameSphere = prompt("Let's change the name of the sphere !!!",fruits[sphereRenameName][0]);
-                fruits[sphereRenameName][0]=new_nameSphere;
-                showInfoSphereOnClick(sphereRenameName);
-            }
-            return false;
-
-        default: // DELETE
-            if (objectHit.type == "Mesh") {
-                //deleteSphere=1;
-                //					console.log(objectHit.name);
-                indexSphereDeleted=objectHit.name;
-                var indexSphere1 = findIndexSphere(objectHit.name);
-                removeLink(objectHit.name);
-                
-                
-                listSpheres2.splice(indexSphere1, 1);
-                console.log(listSpheres2);
-
-                world.remove(objectHit);
+            */
+            case RENAME :
+                if(objectHit.type == "Mesh"){
+                    if(objectHit.name[0] !="l"){
+                        world.remove(objectHit.label[0]);
+                        renameItem= objectHit;
+                        sphereRenameName =  renameItem.name;
+                        new_nameSphere = prompt("Let's change the name of the sphere !!!",fruits[sphereRenameName][0]);
+                        fruits[sphereRenameName][0]=new_nameSphere;
+                        showInfoSphereOnClick(sphereRenameName);
+                        //addLabel(sphereRenameName+1,objectHit,cc); 
+                        addLabel(sphereRenameName+1,objectHit,new_nameSphere); 
+                        render();
+                    }
+                }
+                return false;
+            default: // DELETE
+                if (objectHit.type == "Mesh") {
+                    var indexSphere1 = findIndexSphere(objectHit.name);
+                    removeLink(objectHit.name);
+                    listSpheres2.splice(indexSphere1, 1);
+                    console.log(listSpheres2);
+                    world.remove(objectHit);
+                    if(objectHit.name[0] !="l"){
+                        world.remove(objectHit.label[0]);
+                    }
+                }
+                else if(objectHit.type == "Line"){
+                    updateLink(objectHit.name,0);
+                }
+                else{
+                    alert("Please click on the object you want to remove from the map")
+                }
                 render();
-                
-            }
-            else if(objectHit.type == "Line"){
-                updateLink(objectHit.name,0);
-                render();
-                
-            }
-            else{
-                alert("Please click on the object you want to remove from the map")
-            }
-            
-            return false;
+                return false;
+        }
     }
-}
 
 function doMouseMove(x,y,evt,prevX,prevY) {
     
@@ -502,51 +479,21 @@ function doMouseMove(x,y,evt,prevX,prevY) {
         c = coords.z;
         
 		dragItem.position.set(a,b,c);
-		//label.position.set(a,c,b);
-		/*
-		console.log(label.position.x);
-		console.log(label.position.y);
-		console.log(label.position.z);
-		*/
 		if(SphereDraggedNum[0] !="l"){
 			for(let i=0;i<listSpheres2.length;i++){
 				if(SphereDraggedNum == listSpheres2[i].name){
 					indexSphere = i;
 				}
 			}
-			dragLink(indexSphere);
+            dragLink(indexSphere);
+            listSpheres2[indexSphere].label[0].position.z = dragItem.position.z ;
+			listSpheres2[indexSphere].label[0].position.y = dragItem.position.y +1.5;
+			listSpheres2[indexSphere].label[0].position.x = dragItem.position.x -1;
+
 		}
 
-
-        /*var item = intersects[0];
-        var objectHit = item.object;
-        dragItem = objectHit;
-        var sphere_name= dragItem.name;//number of the sphere dragged
-        showNameSphereOnClick(sphere_name);*/
-        /*
-        let n = 0;
-        let i =0;
-        var list1=[];
-        while (n< treeOfLinks.length) {       //we go through the list which contains informations on the links between each sphere
-            if(treeOfLinks[n][0]==num){		  //if the sphere that we want to drag is connected with an others spheres, it will add links 
-                list1.push(treeOfLinks[n][1]);              //list1 contain the name of all spheres conneceted with the dragItem
-            }
-            n++;
-        }
-        //console.log("num ... ",num);
-        //console.log("list1 ... ",num);
-        console.log("treeoflinks ... ",treeOfLinks);
-        while(i<list1.length){
-            //updateLink(0);
-            addLink(num,list1[i]);
-            console.log("num1 : ",list1, " num2 : ", num);
-            i++;
-        }
-        */
-        
         render();
     }
-    //mouseIsMove=0;
 }
 
 
@@ -584,12 +531,10 @@ function doChangeMouseAction() {
     else if (document.getElementById("mouseDrag").checked) {
         mouseAction = DRAG;
     }
-    else if (document.getElementById("mouseAddSphere").checked) {
-        mouseAction = ADD_SPHERE;
-    }
+    /*
     else if (document.getElementById("mouseAddLink").checked) {
         mouseAction = ADD_LINK;
-    }
+    }*/
     else if (document.getElementById("mouseRename").checked) {
         mouseAction = RENAME;
     }
@@ -615,8 +560,7 @@ function init() {
     mouseAction = DRAG;
     document.getElementById("mouseRotate").onchange = doChangeMouseAction;
     document.getElementById("mouseDrag").onchange = doChangeMouseAction;
-    document.getElementById("mouseAddSphere").onchange = doChangeMouseAction;
-    document.getElementById("mouseAddLink").onchange = doChangeMouseAction;
+    //document.getElementById("mouseAddLink").onchange = doChangeMouseAction;
     document.getElementById("mouseRename").onchange = doChangeMouseAction;
     document.getElementById("mouseDelete").onchange = doChangeMouseAction;
     createWorld();
@@ -683,7 +627,6 @@ function doMouseDown(evt) {
 
 function doMouseMove(evt) {
     if (dragging) {
-        //alert("mouse move");
         
         if (mouseDragFunc) {
             var r = element.getBoundingClientRect();
@@ -694,7 +637,6 @@ function doMouseMove(evt) {
         }
         prevX = x;
         prevY = y;
-        //mouseIsMove=0;
     }
 }
 
@@ -791,7 +733,6 @@ function doTouchEnd(evt) {
         element.removeEventListener("touchcancel", doTouchCancel);
         if (touchEndFunc) {
             touchEndFunc(evt, prevX, prevY, startX, startY);
-            //mouseIsMove=0;
         }
     }
 }
