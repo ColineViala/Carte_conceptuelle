@@ -72,19 +72,20 @@ function createWorld() {
     addSphere(8,5,5);
     addSphere(4,6,-6);
 
-    addLink(fruits[0][0],fruits[1][0]);
-    treeOfLinks.push([0,1]);
-    treeOfLinks.push([1,0]);
-    addLink(fruits[0][0],fruits[2][0]);
-    treeOfLinks.push([0,2]);
-    treeOfLinks.push([2,0]);
-    addLink(fruits[0][0],fruits[3][0]);
-    treeOfLinks.push([0,3]);
-    treeOfLinks.push([3,0]);        
+    addLink(0,1);
+    listSpheres2[0].conectedSphere.push(1);
+    listSpheres2[1].conectedSphere.push(0);
+    console.log("ere",listSpheres2[0].conectedSphere);
+    addLink(0,2);
+    listSpheres2[0].conectedSphere.push(2);
+    listSpheres2[2].conectedSphere.push(0);
+    addLink(0,3);
+    listSpheres2[0].conectedSphere.push(3);
+    listSpheres2[3].conectedSphere.push(0);   
+    //console.log(listSpheres2[0].conectedSphere);   
 }
 
 //---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
-
 function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the addSphere is called in addNewSphere for example), noLabel=false and we doesn't need to call addLabel in this function .
     sphere = new THREE.Mesh(
         new THREE.SphereGeometry(1,32,32),
@@ -215,6 +216,7 @@ function showInfoSphereOnClick(name_sphere) {
 	//console.log("listSphere2", listSpheres2[0].link);
     let counter2=0;
     let counter3=0;
+    console.log("treeOfLink of sphere 0",listSpheres2[0].conectedSphere);
     while(counter2<treeOfLinks.length){
         if(treeOfLinks[counter2][0]==name_sphere){
             if(nb_link==1){
@@ -525,9 +527,11 @@ function doMouseDown(x,y) {
                     if(objectHit.name[0] !="l"){
                         world.remove(objectHit.label[0]);
                     }
+
                 }
                 else if(objectHit.type == "Line"){
                     updateLink(objectHit.name,0);
+                    console.log("line",objectHit);
                 }
                 else{
                     alert("Please click on the object you want to remove from the map")
