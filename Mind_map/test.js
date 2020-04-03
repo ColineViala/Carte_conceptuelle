@@ -72,14 +72,14 @@ function createWorld() {
     addSphere(8,5,5);
     addSphere(4,6,-6);
 
-    addLink(0,1);
+    addLink(fruits[0][0],fruits[1][0]);
     listSpheres2[0].conectedSphere.push(1);
     listSpheres2[1].conectedSphere.push(0);
     console.log("ere",listSpheres2[0].conectedSphere);
-    addLink(0,2);
+    addLink(fruits[0][0],fruits[2][0]);
     listSpheres2[0].conectedSphere.push(2);
     listSpheres2[2].conectedSphere.push(0);
-    addLink(0,3);
+    addLink(fruits[0][0],fruits[3][0]);
     listSpheres2[0].conectedSphere.push(3);
     listSpheres2[3].conectedSphere.push(0);   
     //console.log(listSpheres2[0].conectedSphere);   
@@ -113,15 +113,10 @@ function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the ad
 //-------------------------------------------------------------------------------------------------------------------------
 
 function addLinkedSphere(sphere1,sphere2){
-    if (sphere1 !== parseInt(sphere1, 10)){
-        sphere1 = parseInt(sphere1);
-        
-    }
-    if (sphere2 !== parseInt(sphere2, 10)){
-        sphere2 = parseInt(sphere2);
-    }
-    listSpheres2[sphere1].conectedSphere.push(sphere2);
-    listSpheres2[sphere2].conectedSphere.push(sphere1);
+    var indexSphere1 = findIndexSphere(sphere1);
+    var indexSphere2 = findIndexSphere(sphere2);
+    listSpheres2[indexSphere1].conectedSphere.push(listSpheres2[indexSphere1].name);
+    listSpheres2[indexSphere2].conectedSphere.push(listSpheres2[indexSphere2].name);
     addLink(sphere1,sphere2);
 }
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
@@ -260,7 +255,7 @@ function showGridHelper() {
 //=AT ANY TIME
 function dragLink(name){
     //console.log("name",name);
-    var indexSphere2 = findIndexSphere(sphere2);
+    var indexSphere2 = findIndexSphere(name);
     var listLinks=[];
     if(listSpheres2[name].link.length>0){//that's mean there is a line or more
         
@@ -398,7 +393,7 @@ function fillDropdown(nameSphereList){
 
     //Sphere 1
     // Get dropdown element from DOM
-    var dropdown_sphere1 = document.getElementById("name_sphere1");
+    var dropdown_sphere1 = document.getElementById("sphere1");
     // Loop through the array
     dropdown_sphere1.length=0;
     for (var i = 0; i < nameSphereList.length; ++i) {
@@ -408,7 +403,7 @@ function fillDropdown(nameSphereList){
 
     //Sphere 2
     // Get dropdown element from DOM
-    var dropdown_sphere2 = document.getElementById("name_sphere2");
+    var dropdown_sphere2 = document.getElementById("sphere2");
     // Loop through the array
     
     dropdown_sphere2.length=0;
@@ -507,7 +502,7 @@ function doMouseDown(x,y) {
                     if(objectHit.name[0] !="l"){
                         renameItem= objectHit;
                         sphereRenameName =  renameItem.name;
-                        new_nameSphere = prompt("Let's change the name of the sphere !!!",fruits[sphereRenameName][0]);
+                        new_nameSphere = prompt("Let's change the name of the sphere !!!",objectHit.label[0].name);
                         fruits[sphereRenameName][0]=new_nameSphere;
                         //showInfoSphereOnClick(sphereRenameName);
                         //addLabel(sphereRenameName+1,objectHit,cc); 
