@@ -98,7 +98,7 @@
                 <label class="color-label"><input type="radio" name="action" id="mouseDelete"> Delete</label>
                 <label></label><input type="checkbox" id="myCheck" onclick="showGridHelper()"> Grid 
                 <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal1" id="mouseAddSphere">Add Sphere</a> </label>  
-                <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal2" id="mouseAddLink">Add Link</a> </label>          
+                <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal2" onclick="CreateLabelTab()" id="mouseAddLink">Add Link</a> </label>          
         </div>
         
          <!--
@@ -135,6 +135,9 @@
         </div>
         </div>  
 
+
+
+ 
         
 
 <!-- Modal -->
@@ -179,14 +182,24 @@
           <h4 class="modal-title">Which spheres do you want to link?</h4>
       </div>
       <div class="modal-body">
-        <label for="sel1">Select the first sphere:</label>
-        <input id="sphere1" type="number" value="1">
+        <label for="sel1">Choose the first sphere:</label>
+        <form id="myForm">
+            <select id="name_sphere1">
+              <option>Sphere name</option>
+            </select>
+          </form>
+        
       </br>
-        <label for="sel1">Select the second sphere:</label>
-        <input id="sphere2" type="number" value="1">
+        <label for="sel1">Choose the second sphere:</label>
+        <form id="myForm">
+            <select id="name_sphere2">
+              <option>Sphere name</option>
+            </select>
+          </form>
+        
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="addLink(sphere1.value,sphere2.value);">Add Link</button>
+          <button type="button" class="btn btn-default" onclick="addLink(name_sphere1.value,name_sphere2.value);">Add Link</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </div>
