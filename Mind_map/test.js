@@ -7,6 +7,7 @@ var indexSphereDeleted;
 var indexSphere;
 var deleteSphere=0;
 var gridHelper; 
+let angle=0;
 var sphere;  // A sphere = 3D representation of a concept
 var label;
 var link;//A line = a link (entity) between two concepts 
@@ -34,6 +35,14 @@ var targetForDragging;  // An invisible object that is used as the target for ra
 
 
 function render() { 
+    /*var x = document.getElementById("autoRotate");		
+    if(x.checked==true){
+        
+        let radius =500;
+        world.position.x = radius * Math.cos( angle );  
+        world.position.z = radius * Math.sin( angle );
+        angle += 0.01;
+    }*/
     renderer.render(scene,camera);
 }
 
@@ -48,7 +57,7 @@ function createWorld() {
     camera.add(new THREE.PointLight(0xffffff,0.7)); // point light at camera position
     scene.add(camera);
     scene.add(new THREE.DirectionalLight(0xffffff,0.5)); // light shining from above.
-
+    
     world = new THREE.Object3D();
     scene.add(world);
     var size = 40;
@@ -58,7 +67,7 @@ function createWorld() {
     scene.add(gridHelper);
     document.getElementById("myCheck").checked = false; //checkbox not checked in the beginning, the user will be able to check it if he want the show the gridHelper
     gridHelper.visible = false; //gridHelper not visible in the beginning 
-    
+    document.getElementById("label").checked = true;
 
     targetForDragging = new THREE.Mesh(
         new THREE.BoxGeometry(100,0.01,100),
@@ -73,16 +82,16 @@ function createWorld() {
     addSphere(4,6,-6);
 
     addLink(fruits[0][0],fruits[1][0]);
-    listSpheres2[0].conectedSphere.push(1);
-    listSpheres2[1].conectedSphere.push(0);
-    console.log("ere",listSpheres2[0].conectedSphere);
+    listSpheres2[0].connectedSphere.push(1);
+    listSpheres2[1].connectedSphere.push(0);
+    //console.log("ere",listSpheres2[0].connectedSphere);
     addLink(fruits[0][0],fruits[2][0]);
-    listSpheres2[0].conectedSphere.push(2);
-    listSpheres2[2].conectedSphere.push(0);
+    listSpheres2[0].connectedSphere.push(2);
+    listSpheres2[2].connectedSphere.push(0);
     addLink(fruits[0][0],fruits[3][0]);
-    listSpheres2[0].conectedSphere.push(3);
-    listSpheres2[3].conectedSphere.push(0);   
-    //console.log(listSpheres2[0].conectedSphere);   
+    listSpheres2[0].connectedSphere.push(3);
+    listSpheres2[3].connectedSphere.push(0);   
+    //console.log(listSpheres2[0].connectedSphere);   
 }
 
 //---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
@@ -100,7 +109,7 @@ function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the ad
     sphere.name = numSphere;
 	sphere.link = [];
     sphere.label = [];
-    sphere.conectedSphere =[];
+    sphere.connectedSphere =[];
     
     listSpheres2.push(sphere);//coords spheres's list
     numSphere+=1;//incr the sphere's number each time we make one
@@ -115,8 +124,8 @@ function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the ad
 function addLinkedSphere(sphere1,sphere2){
     var indexSphere1 = findIndexSphere(sphere1);
     var indexSphere2 = findIndexSphere(sphere2);
-    listSpheres2[indexSphere1].conectedSphere.push(listSpheres2[indexSphere1].name);
-    listSpheres2[indexSphere2].conectedSphere.push(listSpheres2[indexSphere2].name);
+    listSpheres2[indexSphere1].connectedSphere.push(listSpheres2[indexSphere1].name);
+    listSpheres2[indexSphere2].connectedSphere.push(listSpheres2[indexSphere2].name);
     addLink(sphere1,sphere2);
 }
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
@@ -186,59 +195,55 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
 //-------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------SHOW INFORMATIONS ABOUT THE SPHERE WHEN THE USER TOUCH IT------------------------------------------
-
-function showInfoSphereOnClick(name_sphere) {
+/*
+function showInfoSphereOnClick(sphereObject) {
     let counter1=0;
     let nb_link=0;
     var link_Name="";
     var nameLinkedSphere = "";  //string with contain the name of all the sphere connected to the selected sphere
     
-    var indexSphere1 = findIndexSphere(name_sphere);
-
-
-    nb_link=listSpheres2[indexSphere1].link.length;	
+    
+    nb_link=sphereObject.link.length;	
     while(counter1<nb_link){
         if(nb_link==1){
-            link_Name=listSpheres2[indexSphere1].link[counter1]+ ".";
-        }
-        else if(counter1<nb_link-1){
-            link_Name+= listSpheres2[indexSphere1].link[counter1]+", ";
+            link_Name=sphereObject.link[0]+ ".";
+        }else if(counter1<nb_link-2){
+            link_Name+= sphereObject.link[counter1]+", ";
+        }else if(counter1<nb_link-1){
+            link_Name+= sphereObject.link[counter1];
         }else{
-            link_Name+= "and "+ listSpheres2[indexSphere1].link[counter1]+".";
+            link_Name+= " and "+ sphereObject.link[counter1] +".";
         }
         counter1++;
-	}
-	//console.log("listSphere2", listSpheres2[0].link);
+    }
+    console.log("nb_link",nb_link);
+	console.log("link_name",link_Name);
     let counter2=0;
-    let counter3=0;
-    console.log("treeOfLink of sphere 0",listSpheres2[0].conectedSphere);
-    while(counter2<treeOfLinks.length){
-        if(treeOfLinks[counter2][0]==name_sphere){
-            if(nb_link==1){
-                nameLinkedSphere= fruits[treeOfLinks[counter2][1]][0]+ ".";
-            }
-            else if(counter3<nb_link-1){
-                nameLinkedSphere+= fruits[treeOfLinks[counter2][1]][0]+ ", ";
-            }else{
-                nameLinkedSphere+="and "+ fruits[ treeOfLinks[counter2][1]][0]+ ".";
-            }
-            counter3++;
+    //console.log("ere", sphereObject.connected);
+    while(counter2<nb_link){
+        if(nb_link==1){
+            //sphereObject.connected[0];
+            nameLinkedSphere= fruits[sphereObject.connected[0]][0]+ ".";
+        }/*else if(counter2<nb_link-1){
+            nameLinkedSphere+= fruits[sphereObject.connected[counter2]][0]+ ", ";
+        }else{
+            nameLinkedSphere+="and "+ fruits[sphereObject.connected[counter2]][0]+ ".";
         }
         counter2++;
-    }/*
-    console.log("nb_link",nb_link);
-    console.log("link-name", link_Name);
-    console.log("namelinkedsphere ", nameLinkedSphere);
-    console.log("namelinkedspherelength ", treeOfLinks[4][1]);*/
-    if (name_sphere != null) {
-        document.getElementById("name-sphere").innerHTML = "The name of the sphere is : " + fruits[name_sphere][0] + ".";
-        if(nb_link>1){document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is linked to "+ nb_link + " links which are : "+ link_Name+" Sphere '" + fruits[name_sphere][0] + "' is connected to the spheres : "+ nameLinkedSphere;}
-        else if(nb_link==1){document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is linked to "+ nb_link + " link which is : "+ link_Name+" Sphere '" + fruits[name_sphere][0] + "' is connected to the sphere "+ nameLinkedSphere;}
-        else{document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is not linked to any other sphere.";}
-        //document.getElementById("info-link").innerHTML = "The sphere is linked to the sphere '+ name_linked_sphere + ' by the link '"+ link_Name;
     }
     
-}
+    console.log("link-name", link_Name);
+    console.log("namelinkedsphere ", nameLinkedSphere);
+    console.log("namelinkedspherelength ", treeOfLinks[4][1]);
+    
+    document.getElementById("name-sphere").innerHTML = "The name of the sphere is : " + fruits[name_sphere][0] + ".";
+    if(nb_link>1){document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is linked to "+ nb_link + " links which are : "+ link_Name+" Sphere '" + fruits[name_sphere][0] + "' is connected to the spheres : "+ nameLinkedSphere;}
+    else if(nb_link==1){document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is linked to "+ nb_link + " link which is : "+ link_Name+" Sphere '" + fruits[name_sphere][0] + "' is connected to the sphere "+ nameLinkedSphere;}
+    else{document.getElementById("nb-link").innerHTML = "The sphere '" + fruits[name_sphere][0] + "' is not linked to any other sphere.";}
+    //document.getElementById("info-link").innerHTML = "The sphere is linked to the sphere '+ name_linked_sphere + ' by the link '"+ link_Name;
+    
+    
+}*/
    
 function showGridHelper() { 
     var x = document.getElementById("myCheck");		
@@ -250,6 +255,48 @@ function showGridHelper() {
     render();
   }
 //------------------------------------------------------------------------------------------------------------------------
+
+function showLabel() { 
+    var x = document.getElementById("label");		
+    if(x.checked==true){
+        //console.log(listSpheres2[0].label[0]);
+        for(let i=0;i<listSpheres2.length;i++){
+            listSpheres2[i].label[0].visible = true;
+        }
+        
+    }else{
+        //console.log(listSpheres2[1].label.visible);
+        for(let i=0;i<listSpheres2.length;i++){
+            listSpheres2[i].label[0].visible = false;
+            
+        }
+    }
+    render();
+  }
+
+//-----------------------------------------AUTO-ROTATE-------------------------------------------------------------------
+ 
+function autoRotate(){
+    var x = document.getElementById("autoRotate");		
+    if(x.checked==true){
+        rotateworld(0.007);
+    }
+}
+
+function rotateworld(SPEED) {
+    requestAnimationFrame(render);
+    world.rotation.x -= SPEED * 2;
+    world.rotation.y -= SPEED;
+    world.rotation.z -= SPEED * 3;
+    for(let i=0;i<listSpheres2.length;i++){
+        /*listSpheres2[i].label[0].position.z = listSpheres2[i].position.z ;
+        listSpheres2[i].label[0].position.y = listSpheres2[i].position.y +1.5;
+        listSpheres2[i].label[0].position.x = listSpheres2[i].position.x -1;*/
+        listSpheres2[i].label[0].lookAt( camera.position );
+    }
+    renderer.render(scene, camera);
+    setTimeout(() => {autoRotate();  }, 25); 
+}
 
 //--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
 //=AT ANY TIME
@@ -324,8 +371,8 @@ function addLabel(sphere, nameLabel ){
         var indexsphere = listSpheres2.length-1;
         
     }
-    console.log(indexsphere);
-    console.log(listSpheres2[indexsphere]);
+    //console.log(indexsphere);
+    //console.log(listSpheres2[indexsphere]);
     listSpheres2[indexsphere].label=[];
     //console.log("namelabel",nameLabel);
     //console.log("listSpheres2[numSphere-1].label",listSpheres2[numSphere-1].label);
@@ -339,11 +386,8 @@ function addLabel(sphere, nameLabel ){
     label1.position.y = sphere.position.y +1.5;
     label1.position.x = sphere.position.x -1;
     label1.name = nameLabel;
-    listSpheres2[indexsphere].label.push(label1);//add the label to each sphere is connected with 
-    
-     
-    
-    
+    listSpheres2[indexsphere].label.push(label1);//add the label to each sphere is connected with  
+    label1.lookAt( camera.position ); 
 	world.add(label1);
 }
 //-------------------------------------------------------------------------------------------------------------------------
@@ -353,8 +397,8 @@ function addNewSphere(Zaxis){
     //alert(cc);
     //alert("inside func");
     // /!\ SI TEMPS FAIRE UN RANDOM ICI /!\
-    var locationX = 8;  // Gives the point of intersection in world coords
-    var locationZ = 7;
+    var locationX = 5;  // Gives the point of intersection in world coords
+    var locationZ = 5;
     var locationY;
     //var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
     if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
@@ -367,6 +411,7 @@ function addNewSphere(Zaxis){
     addSphere(coords.x,coords.y,coords.z, false);//in 3D
     sphere = listSpheres2[listSpheres2.length-1]
     addLabel(sphere,name_sphere.value);
+    sphere.label[0].lookAt( camera.position );
     render(); 
 }
 
@@ -453,7 +498,7 @@ function doMouseDown(x,y) {
                     SphereDraggedNum =  dragItem.label[0].name;
                     //var indexSphere = findIndexSphere(num);
                     if(SphereDraggedNum[0] !="l"){
-                        //showInfoSphereOnClick(indexSphere);
+                        //showInfoSphereOnClick(dragItem);
                     }//"l"for label
                     render();
                     return true;
@@ -506,7 +551,9 @@ function doMouseDown(x,y) {
                         fruits[sphereRenameName][0]=new_nameSphere;
                         //showInfoSphereOnClick(sphereRenameName);
                         //addLabel(sphereRenameName+1,objectHit,cc); 
+                        objectHit.label[0].lookAt( camera.position );
                         addLabel(objectHit,new_nameSphere); 
+                        objectHit.label[0].lookAt( camera.position );
                         render();
                     }
                 }
@@ -543,6 +590,12 @@ function doMouseMove(x,y,evt,prevX,prevY) {
         var dy = y - prevY;
         world.rotateX( dy/200 );
         world.rotateY( dx/200 );
+        for(let i=0;i<listSpheres2.length;i++){
+            listSpheres2[i].label[0].position.z = listSpheres2[i].position.z ;
+			listSpheres2[i].label[0].position.y = listSpheres2[i].position.y +1.5;
+			listSpheres2[i].label[0].position.x = listSpheres2[i].position.x -1;
+            listSpheres2[i].label[0].lookAt( camera.position );
+        }
         render();
     }
     else {  // dragy
@@ -584,7 +637,7 @@ function doMouseMove(x,y,evt,prevX,prevY) {
             listSpheres2[indexSphere].label[0].position.z = dragItem.position.z ;
 			listSpheres2[indexSphere].label[0].position.y = dragItem.position.y +1.5;
 			listSpheres2[indexSphere].label[0].position.x = dragItem.position.x -1;
-
+            listSpheres2[indexSphere].label[0].lookAt( camera.position );
 		}
 
         render();
