@@ -96,7 +96,9 @@
                 <label class="color-label"><input type="radio" name="action" id="mouseDrag"> Drag</label>
                 <label class="color-label"><input type="radio" name="action" id="mouseRename"> Rename</label>
                 <label class="color-label"><input type="radio" name="action" id="mouseDelete"> Delete</label>
-                
+                <label class="color-label"><input type="checkbox" id="myCheck" onclick="showGridHelper()"> Grid </label>
+                <label class="color-label"><input type="checkbox" id="label" onclick="showLabel()"> Label </label>
+                <label class="color-label"><input type="checkbox" id="autoRotate" onclick="autoRotate()"> Auto-Rotate </label>
                 <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal1" id="mouseAddSphere">Add Sphere</a> </label>  
                 <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal2" onclick="CreateLabelTab()" id="mouseAddLink">Add Link</a> </label>          
         </div>
@@ -227,14 +229,6 @@
             <div  text-align="center">  
                 <!--<p id="name-sphere" class="color-label"></p>
                 <p id="nb-link" class="color-label"></p>-->
-                <h3 class="color-label"> Mind Map Tools :</h3>
-                <br/>
-                <label class="color-label"><input type="checkbox" id="myCheck" onclick="showGridHelper()"> Grid </label>
-                <br/>
-                <label class="color-label"><input type="checkbox" id="label" onclick="showLabel()"> Label </label>
-                <br/>
-                <label class="color-label"><input type="checkbox" id="autoRotate" onclick="autoRotate()"> Auto-Rotate </label>
-                
                 <!--<p id="info-link" class="color-label"></p>      -->         
             </div>
         

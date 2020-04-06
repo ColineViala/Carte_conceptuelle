@@ -19,7 +19,7 @@ var world;  // An Object3D that contains all the mesh objects in the scene.
 var treeOfLinks= [];//list which contain all information about all the link of the mind map
 var listSpheres2= [];
 var listLink = []; 
-var fruits = [ ["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere
+var fruits = [ ["Fruits", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere
 //var listLinks = [];
 var ROTATE = 1, DRAG = 2, RENAME=3, DELETE = 4;  // Possible mouse actions
 var mouseAction;  // currently selected mouse action
@@ -30,8 +30,9 @@ var targetForDragging;  // An invisible object that is used as the target for ra
 // sphere.  I tried using the ground for this purpose, but to get
 // the motion right, I needed a target that is at the same height
 // above the ground as the point where the user clicked the sphere.
-
-
+var preexistinglinks = ["red","blue","green"]; //this list conntains all the link's label preexisting when the user load the page
+//let nbCreatedLinks =0; //this  
+let numLinklabel=0;
 
 
 function render() { 
@@ -116,7 +117,7 @@ function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the ad
     var object = scene.getObjectByName( sphere.name, true );
     world.add(sphere);//add the new sphere to the world
     if(noLabel==true){ //the label of the sphere already exist
-        addLabel(sphere);
+        addSphereLabel(sphere);
     }
 }
 //-------------------------------------------------------------------------------------------------------------------------
@@ -154,8 +155,11 @@ function addLink(sphere1,sphere2){
     var line = new THREE.Line( geometry, material );//line is made from the material and the points coords
     world.add(line);//add the line to our world
     line.name = numLink;//give a name=number to the link we just have made
+    line.label=[];
+    line.middleposition= [ (listSpheres2[indexSphere1].position.x+listSpheres2[indexSphere2].position.x)/2, (listSpheres2[indexSphere1].position.y+listSpheres2[indexSphere2].position.y)/2, (listSpheres2[indexSphere1].position.z+listSpheres2[indexSphere2].position.z)/2]
     numLink+=1;//incr link's number each time we make one
     listLink.push(line);//add the links in the list after creation
+    addLinkLabel(line);
     listSpheres2[indexSphere1].link.push(line.name);//add the link number/name to each sphere is connected with 
     listSpheres2[indexSphere2].link.push(line.name);//after the sphere coordinates
     render();
@@ -174,8 +178,9 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
     listLink[numinlist].geometry.dispose();//-----------------------
     listLink[numinlist].material.dispose();//-----------------------
     world.remove( listLink[numinlist] );//remove the link by his number
+    world.remove(listLink[numinlist].label[0]);
     listLink.splice(numinlist,1);//remove the number of the link of the links list
-
+    //console.log("here",numinlist);
     for(let i=0; i<listSpheres2.length; i++){
         if(listSpheres2[i].link.length>0){
             for(let j=0; j<listSpheres2[i].link.length; j++){
@@ -355,7 +360,7 @@ function findIndexSphere(nameSphere){
 
 //--------------------------------------ADD LABEL-----------------------------------
 
-function addLabel(sphere, nameLabel ){ 
+function addSphereLabel(sphere, nameLabel ){ 
     
     if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
         //console.log("cc");
@@ -391,6 +396,39 @@ function addLabel(sphere, nameLabel ){
 	world.add(label1);
 }
 //-------------------------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------ADD LINK LABEL------------------------------------------------------------
+function addLinkLabel(link){ 
+    
+    console.log("listLink[0].name",listLink[0].name);
+    console.log("Line.name",link.name);
+    //let linkName=link.name-2;
+    /*if(listLink.length<=3 && numLinklabel<3){
+        linkName=preexistinglinks[numLinklabel];
+    }else{*/
+        for(let i=0;i<listLink.length;i++){
+            if(listLink[i].name==link.name){
+                linkName=preexistinglinks[i];
+            }
+        }
+    //}
+
+    //numLinklabel++;   
+	var loader = new THREE.FontLoader();
+    let font = loader.parse(fontJSON);
+    var geometry = new THREE.TextGeometry(linkName, {font: font, size: 0.8, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
+    var material = new THREE.MeshLambertMaterial({color: 0xD588E0});
+    linkLabel = new THREE.Mesh(geometry, material);
+    //console.log(link);
+    linkLabel.position.z = link.middleposition[2] ;
+    linkLabel.position.y = link.middleposition[1];
+    linkLabel.position.x = link.middleposition[0];
+    linkLabel.name = linkName;
+    linkLabel.lookAt( camera.position ); 
+    world.add(linkLabel);
+    link.label=[linkLabel];
+}
+//------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------UPDATE SPHERE------------------------------------------------------
 function addNewSphere(Zaxis){
     //var cc = ;
@@ -410,7 +448,7 @@ function addNewSphere(Zaxis){
     world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
     addSphere(coords.x,coords.y,coords.z, false);//in 3D
     sphere = listSpheres2[listSpheres2.length-1]
-    addLabel(sphere,name_sphere.value);
+    addSphereLabel(sphere,name_sphere.value);
     sphere.label[0].lookAt( camera.position );
     render(); 
 }
@@ -550,9 +588,9 @@ function doMouseDown(x,y) {
                         new_nameSphere = prompt("Let's change the name of the sphere !!!",objectHit.label[0].name);
                         fruits[sphereRenameName][0]=new_nameSphere;
                         //showInfoSphereOnClick(sphereRenameName);
-                        //addLabel(sphereRenameName+1,objectHit,cc); 
+                        //addSphereLabel(sphereRenameName+1,objectHit,cc); 
                         objectHit.label[0].lookAt( camera.position );
-                        addLabel(objectHit,new_nameSphere); 
+                        addSphereLabel(objectHit,new_nameSphere); 
                         objectHit.label[0].lookAt( camera.position );
                         render();
                     }
