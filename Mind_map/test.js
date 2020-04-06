@@ -30,7 +30,7 @@ var targetForDragging;  // An invisible object that is used as the target for ra
 // sphere.  I tried using the ground for this purpose, but to get
 // the motion right, I needed a target that is at the same height
 // above the ground as the point where the user clicked the sphere.
-var preexistinglinks = ["red","blue","green"]; //this list conntains all the link's label preexisting when the user load the page
+var preexistinglinks = ["red","blue","green","red","blue","green"]; //this list conntains all the link's label preexisting when the user load the page
 //let nbCreatedLinks =0; //this  
 let numLinklabel=0;
 
@@ -406,11 +406,11 @@ function addLinkLabel(link){
     /*if(listLink.length<=3 && numLinklabel<3){
         linkName=preexistinglinks[numLinklabel];
     }else{*/
-        for(let i=0;i<listLink.length;i++){
-            if(listLink[i].name==link.name){
-                linkName=preexistinglinks[i];
-            }
+    for(let i=0;i<listLink.length;i++){
+        if(listLink[i].name==link.name){
+            linkName=preexistinglinks[i];
         }
+    }
     //}
 
     //numLinklabel++;   
