@@ -48,73 +48,117 @@ function render() {
 }
 
 function createWorld() {
-    scene = new THREE.Scene();
-    renderer.setClearColor(0x333333);
-    camera = new THREE.PerspectiveCamera(27,canvas.width/canvas.height,10,100);
-    camera.position.z = 60;
-    camera.position.y = 30;
-    camera.position.x = 20;
-    camera.lookAt( new THREE.Vector3(0,0,0) );
-    camera.add(new THREE.PointLight(0xffffff,0.7)); // point light at camera position
-    scene.add(camera);
-    scene.add(new THREE.DirectionalLight(0xffffff,0.5)); // light shining from above.
-    
-    world = new THREE.Object3D();
-    scene.add(world);
-    var size = 40;
-    var divisions = 40;
-    gridHelper =new THREE.GridHelper( size, divisions,0xb66bb0,0xa6a6a6 );
-    gridHelper.position.y=0; 
-    scene.add(gridHelper);
-    document.getElementById("myCheck").checked = false; //checkbox not checked in the beginning, the user will be able to check it if he want the show the gridHelper
-    gridHelper.visible = false; //gridHelper not visible in the beginning 
-    document.getElementById("label").checked = true;
-
-    targetForDragging = new THREE.Mesh(
-        new THREE.BoxGeometry(100,0.01,100),
-        new THREE.MeshBasicMaterial()
-    );
-    targetForDragging.material.visible = false;
-    addExemple();
-    render();
-
-    
-}
-
-function addExemple(){
-    
-    addSphere(0,0,0);
-    addSphere(-7,4,5);
-    addSphere(8,5,5);
-    addSphere(4,6,-6);
-    addLink(fruits[0][0],fruits[1][0],"Red");
-    listSpheres2[0].connectedSphere.push(1);
-    listSpheres2[1].connectedSphere.push(0);
-    //console.log("ere",listSpheres2[0].connectedSphere);
-    addLink(fruits[0][0],fruits[2][0],"Blue");
-    listSpheres2[0].connectedSphere.push(2);
-    listSpheres2[2].connectedSphere.push(0);
-    addLink(fruits[0][0],fruits[3][0],"Green");
-    listSpheres2[0].connectedSphere.push(3);
-    listSpheres2[3].connectedSphere.push(0);   
-    //console.log(listSpheres2[0].connectedSphere);   
-    
-    
-}
-
-function deleteObjects(){
-    scene.remove(world);
-    /*
-    while (scene.children.length > 0) {
-        scene.remove(scene.children[0]);
-        if (scene.children[0] == THREE.Mesh || scene.children[0] == THREE.Object3D || scene.children[0] == THREE.Group) {
-            scene.children[0].dispose();
-            scene.children[0].geometry.dispose();
-            scene.children[0].material.dispose();
-        }
-    }*/
-    render();
-}
+        scene = new THREE.Scene();
+        renderer.setClearColor(0x333333);
+        camera = new THREE.PerspectiveCamera(27,canvas.width/canvas.height,10,100);
+        camera.position.z = 60;
+        camera.position.y = 30;
+        camera.position.x = 20;
+        camera.lookAt( new THREE.Vector3(0,0,0) );
+        camera.add(new THREE.PointLight(0xffffff,0.7)); // point light at camera position
+        scene.add(camera);
+        scene.add(new THREE.DirectionalLight(0xffffff,0.5)); // light shining from above.
+        
+        world = new THREE.Object3D();
+        scene.add(world);
+        var size = 40;
+        var divisions = 40;
+        gridHelper =new THREE.GridHelper( size, divisions,0xb66bb0,0xa6a6a6 );
+        gridHelper.position.y=0; 
+        scene.add(gridHelper);
+        document.getElementById("myCheck").checked = false; //checkbox not checked in the beginning, the user will be able to check it if he want the show the gridHelper
+        gridHelper.visible = false; //gridHelper not visible in the beginning 
+        document.getElementById("label").checked = true;
+     
+        targetForDragging = new THREE.Mesh(
+            new THREE.BoxGeometry(100,0.01,100),
+            new THREE.MeshBasicMaterial()
+        );
+        targetForDragging.material.visible = false;
+        addExemple("beginning");
+        render();
+     
+        
+    }
+     
+    function addExemple(arg){
+        
+        if(listSpheres2.length==0){
+            var canvasIsEmpty="true";
+        }else{ 
+            var canvasIsEmpty="false";
+        }
+        console.log(listSpheres2.length);
+        if(canvasIsEmpty=="true" | arg=="beginning"){
+            canvasIsEmpty="false";
+            
+            
+            fruits = [ ["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere
+            
+            numSphere = 0
+            numLink=100;
+            angle=0;
+            addSphere(0,0,0);
+            addSphere(-7,4,5);
+            addSphere(8,5,5);
+            addSphere(4,6,-6);
+            addLink(fruits[0][0],fruits[1][0]);
+            listSpheres2[0].connectedSphere.push(1);
+            listSpheres2[1].connectedSphere.push(0);
+            //console.log("ere",listSpheres2[0].connectedSphere);
+            addLink(fruits[0][0],fruits[2][0]);
+            listSpheres2[0].connectedSphere.push(2);
+            listSpheres2[2].connectedSphere.push(0);
+            addLink(fruits[0][0],fruits[3][0]);
+            listSpheres2[0].connectedSphere.push(3);
+            listSpheres2[3].connectedSphere.push(0);   
+            //console.log(listSpheres2[0].connectedSphere); 
+            
+        }else {
+            console.log("erreé",canvasIsEmpty);
+            if (window.confirm('Do you want to empty your mind map ?') ){
+                deleteObjects();
+                canvasIsEmpty="false";
+                fruits = [ ["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere    
+                numSphere = 0
+                numLink=100;
+                angle=0;
+                addSphere(0,0,0);
+                addSphere(-7,4,5);
+                addSphere(8,5,5);
+                addSphere(4,6,-6);
+                addLink(fruits[0][0],fruits[1][0]);
+                listSpheres2[0].connectedSphere.push(1);
+                listSpheres2[1].connectedSphere.push(0);
+                //console.log("ere",listSpheres2[0].connectedSphere);
+                addLink(fruits[0][0],fruits[2][0]);
+                listSpheres2[0].connectedSphere.push(2);
+                listSpheres2[2].connectedSphere.push(0);
+                addLink(fruits[0][0],fruits[3][0]);
+                listSpheres2[0].connectedSphere.push(3);
+                listSpheres2[3].connectedSphere.push(0);   
+            }else{
+                //we do nothing 
+            }
+        }
+    }
+     
+    function deleteObjects(){
+        for(let j=0;j<listLink.lentgh;j++){
+            updateLink(listLink[j].name,0);
+        }
+        for(let i=0;i<listSpheres2.length;i++){
+            removeLink(listSpheres2[i].label[0].name); 
+            
+            world.remove(listSpheres2[i].label[0]);
+            world.remove(listSpheres2[i]);
+            //listSpheres2.splice(listSpheres2[i].name, 1);
+            
+        }
+        listSpheres2=[];
+        listLink=[];
+        render();
+    }
 
 //---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
 function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the addSphere is called in addNewSphere for example), noLabel=false and we doesn't need to call addLabel in this function .
