@@ -30,7 +30,7 @@ var targetForDragging;  // An invisible object that is used as the target for ra
 // sphere.  I tried using the ground for this purpose, but to get
 // the motion right, I needed a target that is at the same height
 // above the ground as the point where the user clicked the sphere.
-var preexistinglinks = ["red","blue","green","red","blue","green","red","blue","green",]; //this list conntains all the link's label preexisting when the user load the page
+var preexistinglinks = ["red","blue","green"]; //this list conntains all the link's label preexisting when the user load the page
 //let nbCreatedLinks =0; //this  
 let numLinklabel=0;
 
@@ -149,6 +149,8 @@ function addLinkedSphere(sphere1,sphere2){
     listSpheres2[indexSphere1].connectedSphere.push(listSpheres2[indexSphere1].name);
     listSpheres2[indexSphere2].connectedSphere.push(listSpheres2[indexSphere2].name);
     addLink(sphere1,sphere2,name_link.value);
+    preexistinglinks.push("roller");
+    console.log("preexistinglinks",preexistinglinks);
 }
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 function addLink(sphere1,sphere2,nameLabel){
@@ -407,12 +409,8 @@ function addSphereLabel(sphere, nameLabel ){
         var indexsphere = listSpheres2.length-1;
         
     }
-    //console.log(indexsphere);
-    //console.log(listSpheres2[indexsphere]);
-    listSpheres2[indexsphere].label=[];
-    //console.log("namelabel",nameLabel);
-    //console.log("listSpheres2[numSphere-1].label",listSpheres2[numSphere-1].label);
 
+    listSpheres2[indexsphere].label=[];
 	var loader = new THREE.FontLoader();
     let font = loader.parse(fontJSON);
     var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
@@ -430,33 +428,14 @@ function addSphereLabel(sphere, nameLabel ){
 
 //----------------------------------------------ADD LINK LABEL------------------------------------------------------------
 function addLinkLabel(link, nameLabel){ 
-
+   
     if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
         nameLabel = preexistinglinks[0];
 	}
     if (typeof(link.label[0]) != "undefined"){
         world.remove(link.label[0]);
     }
-    /*else{
-        var indexsphere = listSpheres2.length-1;
-        
-    }*/
     
-   
-    //let linkName=link.name-2;
-    /*if(listLink.length<=3 && numLinklabel<3){
-        linkName=preexistinglinks[numLinklabel];
-    }else{*/
-       /* for(let i=0;i<listLink.length;i++){
-            console.log("listLink[i].name",listLink[i].name);
-            console.log("link.name",link.name);
-            if(listLink[i].name==link.name){
-                linkName=preexistinglinks[i];
-            }
-        }*/
-    //}
-    //alert("dans ton cul",linkName);
-    //numLinklabel++;
     for(let i=0; i<listLink.length; i++){
         if (listLink[i].name == link.name){
             indexLink = i;
@@ -467,15 +446,17 @@ function addLinkLabel(link, nameLabel){
     var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 0.8, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
     var material = new THREE.MeshLambertMaterial({color: 0xD588E0});
     linkLabel = new THREE.Mesh(geometry, material);
-    //console.log(link);
     linkLabel.position.z = link.middleposition[2] ;
     linkLabel.position.y = link.middleposition[1];
     linkLabel.position.x = link.middleposition[0];
     linkLabel.name = nameLabel;
     linkLabel.lookAt( camera.position ); 
-    //console.log("tchuss",linkLabel);
     world.add(linkLabel);
     listLink[indexLink].label.push(linkLabel);
+    if(listLink[indexLink].label.length>1){
+        listLink[indexLink].label.splice(0,1);
+    }
+    
     
 }
 //------------------------------------------------------------------------------------------------------------------------
@@ -662,9 +643,20 @@ function doMouseDown(x,y) {
                         objectHit.label[0].lookAt( camera.position );
                         addSphereLabel(objectHit,new_nameSphere); 
                         objectHit.label[0].lookAt( camera.position );
-                        render();
+                        
                     }
                 }
+                else if(objectHit.type == "Line"){
+                        console.log("objectHit",objectHit.label);
+                        console.log("listLink",listLink);
+                        new_nameLink = prompt("Let's change the name of the link !!!",objectHit.label[0].name);
+                        console.log("new_nameLink",new_nameLink);
+                        objectHit.label[0].lookAt( camera.position );
+                        addLinkLabel(objectHit,new_nameLink); 
+                        objectHit.label[0].lookAt( camera.position );
+                        
+                    
+                }render();
                 return false;
             default: // DELETE
                 if (objectHit.type == "Mesh") {
