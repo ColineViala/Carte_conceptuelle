@@ -30,7 +30,7 @@ var targetForDragging;  // An invisible object that is used as the target for ra
 // sphere.  I tried using the ground for this purpose, but to get
 // the motion right, I needed a target that is at the same height
 // above the ground as the point where the user clicked the sphere.
-var preexistinglinks = ["red","blue","green"]; //this list conntains all the link's label preexisting when the user load the page
+var preexistinglinks = ["red","blue","green","red","blue","green","red","blue","green",]; //this list conntains all the link's label preexisting when the user load the page
 //let nbCreatedLinks =0; //this  
 let numLinklabel=0;
 
@@ -75,24 +75,45 @@ function createWorld() {
         new THREE.MeshBasicMaterial()
     );
     targetForDragging.material.visible = false;
+    addExemple();
+    render();
 
+    
+}
+
+function addExemple(){
     
     addSphere(0,0,0);
     addSphere(-7,4,5);
     addSphere(8,5,5);
     addSphere(4,6,-6);
-
-    addLink(fruits[0][0],fruits[1][0]);
+    addLink(fruits[0][0],fruits[1][0],"Red");
     listSpheres2[0].connectedSphere.push(1);
     listSpheres2[1].connectedSphere.push(0);
     //console.log("ere",listSpheres2[0].connectedSphere);
-    addLink(fruits[0][0],fruits[2][0]);
+    addLink(fruits[0][0],fruits[2][0],"Blue");
     listSpheres2[0].connectedSphere.push(2);
     listSpheres2[2].connectedSphere.push(0);
-    addLink(fruits[0][0],fruits[3][0]);
+    addLink(fruits[0][0],fruits[3][0],"Green");
     listSpheres2[0].connectedSphere.push(3);
     listSpheres2[3].connectedSphere.push(0);   
     //console.log(listSpheres2[0].connectedSphere);   
+    
+    
+}
+
+function deleteObjects(){
+    scene.remove(world);
+    /*
+    while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+        if (scene.children[0] == THREE.Mesh || scene.children[0] == THREE.Object3D || scene.children[0] == THREE.Group) {
+            scene.children[0].dispose();
+            scene.children[0].geometry.dispose();
+            scene.children[0].material.dispose();
+        }
+    }*/
+    render();
 }
 
 //---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
@@ -127,10 +148,10 @@ function addLinkedSphere(sphere1,sphere2){
     var indexSphere2 = findIndexSphere(sphere2);
     listSpheres2[indexSphere1].connectedSphere.push(listSpheres2[indexSphere1].name);
     listSpheres2[indexSphere2].connectedSphere.push(listSpheres2[indexSphere2].name);
-    addLink(sphere1,sphere2);
+    addLink(sphere1,sphere2,name_link.value);
 }
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
-function addLink(sphere1,sphere2){
+function addLink(sphere1,sphere2,nameLabel){
     //3D creation of the link in the world
     /*
     if (sphere1 !== parseInt(sphere1, 10)){
@@ -159,7 +180,15 @@ function addLink(sphere1,sphere2){
     line.middleposition= [ (listSpheres2[indexSphere1].position.x+listSpheres2[indexSphere2].position.x)/2, (listSpheres2[indexSphere1].position.y+listSpheres2[indexSphere2].position.y)/2, (listSpheres2[indexSphere1].position.z+listSpheres2[indexSphere2].position.z)/2]
     numLink+=1;//incr link's number each time we make one
     listLink.push(line);//add the links in the list after creation
-    addLinkLabel(line);
+    
+    if(nameLabel != "undefined"){ //the label of the sphere already exist
+        addLinkLabel(line, nameLabel);
+        
+    }
+    /*
+    else{
+        addLinkLabel(line,name_link.value);
+    }*/
     listSpheres2[indexSphere1].link.push(line.name);//add the link number/name to each sphere is connected with 
     listSpheres2[indexSphere2].link.push(line.name);//after the sphere coordinates
     render();
@@ -170,11 +199,13 @@ function addLink(sphere1,sphere2){
 function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add after
     var numinlist;
     var SphereList = [];
+    var nom;
     for(let i=0;i<listLink.length;i++){//i varies in listLink array
         if(listLink[i].name == num){//if the number in the list equals the function parameter (the num of the link we want to remove)
             numinlist=i;//link number is the list = counter
         }
     }
+    nom = listLink[numinlist].label[0].name;
     listLink[numinlist].geometry.dispose();//-----------------------
     listLink[numinlist].material.dispose();//-----------------------
     world.remove( listLink[numinlist] );//remove the link by his number
@@ -194,7 +225,7 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
 
 
     if(add==1){
-        addLink(SphereList[0], SphereList[1]);
+        addLink(SphereList[0], SphereList[1], nom);
     }
 }
 //-------------------------------------------------------------------------------------------------------------------------
@@ -398,59 +429,92 @@ function addSphereLabel(sphere, nameLabel ){
 //-------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------ADD LINK LABEL------------------------------------------------------------
-function addLinkLabel(link){ 
+function addLinkLabel(link, nameLabel){ 
+
+    if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
+        nameLabel = preexistinglinks[0];
+	}
+    if (typeof(link.label[0]) != "undefined"){
+        world.remove(link.label[0]);
+    }
+    /*else{
+        var indexsphere = listSpheres2.length-1;
+        
+    }*/
     
-    console.log("listLink[0].name",listLink[0].name);
-    console.log("Line.name",link.name);
+   
     //let linkName=link.name-2;
     /*if(listLink.length<=3 && numLinklabel<3){
         linkName=preexistinglinks[numLinklabel];
     }else{*/
-        for(let i=0;i<listLink.length;i++){
+       /* for(let i=0;i<listLink.length;i++){
+            console.log("listLink[i].name",listLink[i].name);
+            console.log("link.name",link.name);
             if(listLink[i].name==link.name){
                 linkName=preexistinglinks[i];
             }
-        }
+        }*/
     //}
-
-    //numLinklabel++;   
+    //alert("dans ton cul",linkName);
+    //numLinklabel++;
+    for(let i=0; i<listLink.length; i++){
+        if (listLink[i].name == link.name){
+            indexLink = i;
+        }
+    }   
 	var loader = new THREE.FontLoader();
     let font = loader.parse(fontJSON);
-    var geometry = new THREE.TextGeometry(linkName, {font: font, size: 0.8, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
+    var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 0.8, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
     var material = new THREE.MeshLambertMaterial({color: 0xD588E0});
     linkLabel = new THREE.Mesh(geometry, material);
     //console.log(link);
     linkLabel.position.z = link.middleposition[2] ;
     linkLabel.position.y = link.middleposition[1];
     linkLabel.position.x = link.middleposition[0];
-    linkLabel.name = linkName;
+    linkLabel.name = nameLabel;
     linkLabel.lookAt( camera.position ); 
+    //console.log("tchuss",linkLabel);
     world.add(linkLabel);
-    link.label=[linkLabel];
+    listLink[indexLink].label.push(linkLabel);
+    
 }
 //------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------UPDATE SPHERE------------------------------------------------------
 function addNewSphere(Zaxis){
-    //var cc = ;
-    //alert(cc);
-    //alert("inside func");
-    // /!\ SI TEMPS FAIRE UN RANDOM ICI /!\
-    var locationX = 5;  // Gives the point of intersection in world coords
-    var locationZ = 5;
-    var locationY;
-    //var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
-    if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
-        locationY=10; //default value if the value entered is not correct
-    } else {
-        locationY = parseFloat(Zaxis/10);
+    var sphereLabel;
+    var same='false';
+    for (let i=0;i<CreateLabelTab().length;i++){
+        sphereLabel=CreateLabelTab()[i];
+        console.log(sphereLabel);
+        if(sphereLabel == name_sphere.value){
+           same=true; 
+        }
     }
-    var coords = new THREE.Vector3(locationX, locationY,locationZ);
-    world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
-    addSphere(coords.x,coords.y,coords.z, false);//in 3D
-    sphere = listSpheres2[listSpheres2.length-1]
-    addSphereLabel(sphere,name_sphere.value);
-    sphere.label[0].lookAt( camera.position );
-    render(); 
+   
+    if(Zaxis>=-100 && Zaxis<=100 && same=='false'){
+        // /!\ SI TEMPS FAIRE UN RANDOM ICI /!\
+        var locationX = getRandomNumber(-20, 20);  // Gives the point of intersection in world coords
+        var locationZ = getRandomNumber(-20, 20);
+        var locationY;
+        //var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
+        if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
+            locationY=10; //default value if the value entered is not correct
+        } else {
+            locationY = parseFloat(Zaxis/10);
+        }
+        var coords = new THREE.Vector3(locationX, locationY,locationZ);
+        world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
+        addSphere(coords.x,coords.y,coords.z, false);//in 3D
+        sphere = listSpheres2[listSpheres2.length-1]
+        addSphereLabel(sphere,name_sphere.value);
+        sphere.label[0].lookAt( camera.position );
+        
+    }
+    else{
+        alert("For a better vision of the map, the number chosen must be between -100 et 100 and choose a new name for your sphere");
+    }
+    render();
+  
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -467,6 +531,7 @@ function CreateLabelTab(){
    
     //console.log(listLabels);
     fillDropdown(listLabels);
+    return listLabels;
 }
 //-----------------------------------------------------------------
 
@@ -496,14 +561,18 @@ function fillDropdown(nameSphereList){
     }
 }
 //-----------------------------------------------------------------
-
+function getRandomNumber(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+//-----------------------------------------------------------------
 function isFloat(n){  //return true if n is a float. 
     return n === +n && n !== (n|0);
 }
-
+//-----------------------------------------------------------------
 function isInteger(n){//return true if n is an integer. 
     return n === +n && n === (n|0);
    }
+//-----------------------------------------------------------------
 
 function doMouseDown(x,y) {
     
@@ -529,12 +598,13 @@ function doMouseDown(x,y) {
             }
             else  {
                 dragItem = objectHit;//object move
-                if(dragItem.type == "Mesh"){	
+                if(dragItem.type == "Mesh" && dragItem.type!= "Line"){	
                     world.add(targetForDragging);//add the target to the world
                     targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
-                    //SphereDraggedNum =  dragItem.name;
+                    console.log("tss 1",dragItem);
+                    console.log("tss",dragItem.label[0].name);
                     SphereDraggedNum =  dragItem.label[0].name;
-                    //var indexSphere = findIndexSphere(num);
+                    
                     if(SphereDraggedNum[0] !="l"){
                         //showInfoSphereOnClick(dragItem);
                     }//"l"for label
