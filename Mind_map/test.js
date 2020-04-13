@@ -80,6 +80,19 @@ function createWorld() {
      
         
     }
+
+    function download(name, type) {
+        var obj;
+        console.log("listSpheres2",listSpheres2);
+        console.log("listLinks",listLink);
+        for(let i=0;i<listSpheres2.length;i++){
+            obj +=  JSON.stringify(listSpheres2[i].label[0].name)+ JSON.stringify(listSpheres2[i].position);
+        }
+        var a = document.getElementById("a");
+        var file = new Blob([obj], {type: type});
+        a.href = URL.createObjectURL(file);
+        a.download = name;
+      }
      
     function addExemple(arg){
         
