@@ -32,18 +32,10 @@ var targetForDragging;  // An invisible object that is used as the target for ra
 // above the ground as the point where the user clicked the sphere.
 var preexistinglinks = ["red","blue","green"]; //this list conntains all the link's label preexisting when the user load the page
 //let nbCreatedLinks =0; //this  
-let numLinklabel=0;
+//let numLinklabel=0;
 
 
 function render() { 
-    /*var x = document.getElementById("autoRotate");		
-    if(x.checked==true){
-        
-        let radius =500;
-        world.position.x = radius * Math.cos( angle );  
-        world.position.z = radius * Math.sin( angle );
-        angle += 0.01;
-    }*/
     renderer.render(scene,camera);
 }
 
@@ -80,19 +72,6 @@ function createWorld() {
      
         
     }
-
-    function download(name, type) {
-        var obj;
-        console.log("listSpheres2",listSpheres2);
-        console.log("listLinks",listLink);
-        for(let i=0;i<listSpheres2.length;i++){
-            obj +=  JSON.stringify(listSpheres2[i].label[0].name)+ JSON.stringify(listSpheres2[i].position);
-        }
-        var a = document.getElementById("a");
-        var file = new Blob([obj], {type: type});
-        a.href = URL.createObjectURL(file);
-        a.download = name;
-      }
      
     function addExemple(arg){
         
@@ -101,13 +80,10 @@ function createWorld() {
         }else{ 
             var canvasIsEmpty="false";
         }
-        console.log(listSpheres2.length);
+        //console.log(listSpheres2.length);
         if(canvasIsEmpty=="true" | arg=="beginning"){
-            canvasIsEmpty="false";
-            
-            
+            canvasIsEmpty="false";            
             fruits = [ ["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"],["Banana", "yellow"],["Apple","red"] ,["Blueberry","blue"] ,["Lime", "green"],["Raspberry","purple"], ["Orange","orange"]];  //this list is a example of name that the users can give to his sphere
-            
             numSphere = 0
             numLink=100;
             angle=0;
@@ -115,18 +91,19 @@ function createWorld() {
             addSphere(-7,4,5);
             addSphere(8,5,5);
             addSphere(4,6,-6);
-            addLink(fruits[0][0],fruits[1][0]);
+            addLink(fruits[0][0],fruits[1][0],preexistinglinks[0]);
             listSpheres2[0].connectedSphere.push(1);
             listSpheres2[1].connectedSphere.push(0);
             //console.log("ere",listSpheres2[0].connectedSphere);
-            addLink(fruits[0][0],fruits[2][0]);
+            addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]);
             listSpheres2[0].connectedSphere.push(2);
             listSpheres2[2].connectedSphere.push(0);
-            addLink(fruits[0][0],fruits[3][0]);
+            addLink(fruits[0][0],fruits[3][0],preexistinglinks[2]);
             listSpheres2[0].connectedSphere.push(3);
             listSpheres2[3].connectedSphere.push(0);   
             //console.log(listSpheres2[0].connectedSphere); 
-            
+            
+
         }else {
             console.log("erreé",canvasIsEmpty);
             if (window.confirm('Do you want to empty your mind map ?') ){
@@ -140,20 +117,22 @@ function createWorld() {
                 addSphere(-7,4,5);
                 addSphere(8,5,5);
                 addSphere(4,6,-6);
-                addLink(fruits[0][0],fruits[1][0]);
+                addLink(fruits[0][0],fruits[1][0],preexistinglinks[0]);
                 listSpheres2[0].connectedSphere.push(1);
                 listSpheres2[1].connectedSphere.push(0);
                 //console.log("ere",listSpheres2[0].connectedSphere);
-                addLink(fruits[0][0],fruits[2][0]);
+                addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]);
                 listSpheres2[0].connectedSphere.push(2);
                 listSpheres2[2].connectedSphere.push(0);
-                addLink(fruits[0][0],fruits[3][0]);
+                addLink(fruits[0][0],fruits[3][0],preexistinglinks[2]);
                 listSpheres2[0].connectedSphere.push(3);
                 listSpheres2[3].connectedSphere.push(0);   
             }else{
                 //we do nothing 
             }
         }
+    //document.getElementById("autoRotate").checked = true;
+    rotateworld();
     }
      
     function deleteObjects(){
@@ -242,7 +221,6 @@ function addLink(sphere1,sphere2,nameLabel){
     
     if(nameLabel != "undefined"){ //the label of the sphere already exist
         addLinkLabel(line, nameLabel);
-        
     }
     /*
     else{
@@ -339,59 +317,6 @@ function showInfoSphereOnClick(sphereObject) {
     
     
 }*/
-   
-function showGridHelper() { 
-    var x = document.getElementById("myCheck");		
-    if(x.checked==true){
-        gridHelper.visible = true;
-    }else{
-        gridHelper.visible = false ;
-    }
-    render();
-  }
-//------------------------------------------------------------------------------------------------------------------------
-
-function showLabel() { 
-    var x = document.getElementById("label");		
-    if(x.checked==true){
-        //console.log(listSpheres2[0].label[0]);
-        for(let i=0;i<listSpheres2.length;i++){
-            listSpheres2[i].label[0].visible = true;
-        }
-        
-    }else{
-        //console.log(listSpheres2[1].label.visible);
-        for(let i=0;i<listSpheres2.length;i++){
-            listSpheres2[i].label[0].visible = false;
-            
-        }
-    }
-    render();
-  }
-
-//-----------------------------------------AUTO-ROTATE-------------------------------------------------------------------
- 
-function autoRotate(){
-    var x = document.getElementById("autoRotate");		
-    if(x.checked==true){
-        rotateworld(0.007);
-    }
-}
-
-function rotateworld(SPEED) {
-    requestAnimationFrame(render);
-    world.rotation.x -= SPEED * 2;
-    world.rotation.y -= SPEED;
-    world.rotation.z -= SPEED * 3;
-    for(let i=0;i<listSpheres2.length;i++){
-        /*listSpheres2[i].label[0].position.z = listSpheres2[i].position.z ;
-        listSpheres2[i].label[0].position.y = listSpheres2[i].position.y +1.5;
-        listSpheres2[i].label[0].position.x = listSpheres2[i].position.x -1;*/
-        listSpheres2[i].label[0].lookAt( camera.position );
-    }
-    renderer.render(scene, camera);
-    setTimeout(() => {autoRotate();  }, 25); 
-}
 
 //--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
 //=AT ANY TIME
@@ -435,88 +360,8 @@ function removeLink(num){
 
 }
 //-------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------GET INDEX SPHERE------------------------------------
 
-function findIndexSphere(nameSphere){
-    var indexSphere;
-    for(let i=0; i<listSpheres2.length; i++){
-        if (listSpheres2[i].label[0].name == nameSphere){
-            indexSphere = i;
-        }
-    }
-    return indexSphere;
-}
-//-------------------------------------------------------------------------------------------------------------------------
 
-//--------------------------------------ADD LABEL-----------------------------------
-
-function addSphereLabel(sphere, nameLabel ){ 
-    
-    if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
-        //console.log("cc");
-        nameLabel = fruits[sphere.name][0];
-	}else{
-		//world.remove(sphere.label[0]);
-		
-    }
-    if (typeof(sphere.label[0]) != "undefined"){
-        var indexsphere = findIndexSphere(sphere.label[0].name);
-        world.remove(sphere.label[0]);
-    }else{
-        var indexsphere = listSpheres2.length-1;
-        
-    }
-
-    listSpheres2[indexsphere].label=[];
-	var loader = new THREE.FontLoader();
-    let font = loader.parse(fontJSON);
-    var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 1, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
-    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
-    label1 = new THREE.Mesh(geometry, material);
-    label1.position.z = sphere.position.z ;
-    label1.position.y = sphere.position.y +1.5;
-    label1.position.x = sphere.position.x -1;
-    label1.name = nameLabel;
-    listSpheres2[indexsphere].label.push(label1);//add the label to each sphere is connected with  
-    label1.lookAt( camera.position ); 
-	world.add(label1);
-}
-//-------------------------------------------------------------------------------------------------------------------------
-
-//----------------------------------------------ADD LINK LABEL------------------------------------------------------------
-function addLinkLabel(link, nameLabel){ 
-   
-    if (typeof nameLabel == "undefined") { //if nameLabel is not undefined, the sphere already have a label (we have to delete it)
-        nameLabel = preexistinglinks[0];
-	}
-    if (typeof(link.label[0]) != "undefined"){
-        world.remove(link.label[0]);
-    }
-    
-    for(let i=0; i<listLink.length; i++){
-        if (listLink[i].name == link.name){
-            indexLink = i;
-        }
-    }   
-	var loader = new THREE.FontLoader();
-    let font = loader.parse(fontJSON);
-    var geometry = new THREE.TextGeometry(nameLabel, {font: font, size: 0.8, height: 0.1, material: 0, bevelThickness: 1, extrudeMaterial: 1});  //TextGeometry(text, parameters)
-    var material = new THREE.MeshLambertMaterial({color: 0xD588E0});
-    linkLabel = new THREE.Mesh(geometry, material);
-    linkLabel.position.z = link.middleposition[2] ;
-    linkLabel.position.y = link.middleposition[1];
-    linkLabel.position.x = link.middleposition[0];
-    linkLabel.name = nameLabel;
-    linkLabel.lookAt( camera.position ); 
-    world.add(linkLabel);
-    listLink[indexLink].label.push(linkLabel);
-    if(listLink[indexLink].label.length>1){
-        listLink[indexLink].label.splice(0,1);
-    }
-    
-    
-}
-//------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------UPDATE SPHERE------------------------------------------------------
 function addNewSphere(Zaxis){
     var sphereLabel;
@@ -556,603 +401,3 @@ function addNewSphere(Zaxis){
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
-//-----------------------------------------------LABEL TAB-----------------------------------------------------------
-function CreateLabelTab(){
-    var listLabels=[];
-    for(let i=0;i<listSpheres2.length;i++){
-        //console.log("tupuc",listSpheres2[i].label[0].name);
-        listLabels.push(listSpheres2[i].label[0].name);
-        //console.log(listSpheres2[i].label1);
-
-        //listSpheres2.label.push(listSpheres2[i].label);//add the link number/name to each sphere is connected with 
-    }
-   
-    //console.log(listLabels);
-    fillDropdown(listLabels);
-    return listLabels;
-}
-//-----------------------------------------------------------------
-
-
-//-----------------------------------------------FILL DROPDOWN 1-----------------------------------------------------------
-function fillDropdown(nameSphereList){
-
-    //Sphere 1
-    // Get dropdown element from DOM
-    var dropdown_sphere1 = document.getElementById("sphere1");
-    // Loop through the array
-    dropdown_sphere1.length=0;
-    for (var i = 0; i < nameSphereList.length; ++i) {
-        // Append the element to the end of Array list
-        dropdown_sphere1[dropdown_sphere1.length] = new Option(nameSphereList[i], nameSphereList[i]);
-    }
-
-    //Sphere 2
-    // Get dropdown element from DOM
-    var dropdown_sphere2 = document.getElementById("sphere2");
-    // Loop through the array
-    
-    dropdown_sphere2.length=0;
-    for (var i = 0; i < nameSphereList.length; ++i) {
-        // Append the element to the end of Array list
-        dropdown_sphere2[dropdown_sphere2.length] = new Option(nameSphereList[i], nameSphereList[i]);
-    }
-}
-//-----------------------------------------------------------------
-function getRandomNumber(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-//-----------------------------------------------------------------
-function isFloat(n){  //return true if n is a float. 
-    return n === +n && n !== (n|0);
-}
-//-----------------------------------------------------------------
-function isInteger(n){//return true if n is an integer. 
-    return n === +n && n === (n|0);
-   }
-//-----------------------------------------------------------------
-
-function doMouseDown(x,y) {
-    
-    if (mouseAction == ROTATE) {
-        return true;
-    }
-    if (targetForDragging.parent == world) {
-        world.remove(targetForDragging);  // I don't want to check for hits on targetForDragging
-    }
-    var a = 2*x/canvas.width - 1;
-    var b = 1 - 2*y/canvas.height;
-    raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
-    intersects = raycaster.intersectObjects( world.children );  // no need for recusion since all objects are top-level
-    if (intersects.length == 0) {
-        return false;
-    }
-    var item = intersects[0];
-    var objectHit = item.object;
-    switch (mouseAction) {
-        case DRAG:
-            if (objectHit.type != "Mesh" && objectHit.type != "Line") {
-                return false;
-            }
-            else  {
-                dragItem = objectHit;//object move
-                if(dragItem.type == "Mesh" && dragItem.type!= "Line"){	
-                    world.add(targetForDragging);//add the target to the world
-                    targetForDragging.position.set(item.point.x,item.point.y,item.point.z);
-                    console.log("tss 1",dragItem);
-                    console.log("tss",dragItem.label[0].name);
-                    SphereDraggedNum =  dragItem.label[0].name;
-                    
-                    if(SphereDraggedNum[0] !="l"){
-                        //showInfoSphereOnClick(dragItem);
-                    }//"l"for label
-                    render();
-                    return true;
-                }
-            }
-            
-        /*
-        case ADD_SPHERE:
-                var locationX = item.point.x;  // Gives the point of intersection in world coords
-                var locationZ = item.point.z;
-                var locationY;
-                var Zaxis = prompt("Please enter a number between 100 and -100 to choose the height of the object (relative to the grid) that you are moving:",40);
-                if (Zaxis == null || Zaxis == "" || (isFloat(parseFloat(Zaxis))==false && isInteger(parseFloat(Zaxis))==false) ){
-                  locationY=10; //default value if the value entered is not correct
-                } else {
-                  locationY = parseFloat(Zaxis/10);
-                }
-                var coords = new THREE.Vector3(locationX, locationY,locationZ);
-                world.worldToLocal(coords);  // to add sphere in correct position, neew local coords for the world object
-                addSphere(coords.x,coords.y,coords.z);//in 3D
-                render();
-            return false;
-        case ADD_LINK:
-
-                var numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
-                var numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
-                if(numSphere1 < numSphere && numSphere2 < numSphere){//spheres existing = numbers of spheres OK
-                    //working too with an add sphere = test OK
-                    addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
-                    treeOfLinks.push([numSphere1,numSphere2]);
-                    treeOfLinks.push([numSphere2,numSphere1]);
-                    render();
-                }
-                else{//numbers of spheres not OK
-                    alert("/!\Careful, you tried to links inexistants spheres, please try again");
-                    numSphere1 = prompt("Please enter the number of the first sphere (number have to be < spheres number):",1);
-                    numSphere2 = prompt("Please enter the number of the second sphere (number have to be < spheres number):",2);
-                    addLink(numSphere1,numSphere2);//add the link between the two wanted spheres in 3D
-                    render();
-                }
-            return false;
-            */
-            case RENAME :
-                if(objectHit.type == "Mesh"){
-                    //console.log("kiki",listSpheres2);
-                    if(objectHit.name[0] !="l"){
-                        renameItem= objectHit;
-                        sphereRenameName =  renameItem.name;
-                        new_nameSphere = prompt("Let's change the name of the sphere !!!",objectHit.label[0].name);
-                        fruits[sphereRenameName][0]=new_nameSphere;
-                        //showInfoSphereOnClick(sphereRenameName);
-                        //addSphereLabel(sphereRenameName+1,objectHit,cc); 
-                        objectHit.label[0].lookAt( camera.position );
-                        addSphereLabel(objectHit,new_nameSphere); 
-                        objectHit.label[0].lookAt( camera.position );
-                        
-                    }
-                }
-                else if(objectHit.type == "Line"){
-                        console.log("objectHit",objectHit.label);
-                        console.log("listLink",listLink);
-                        new_nameLink = prompt("Let's change the name of the link !!!",objectHit.label[0].name);
-                        console.log("new_nameLink",new_nameLink);
-                        objectHit.label[0].lookAt( camera.position );
-                        addLinkLabel(objectHit,new_nameLink); 
-                        objectHit.label[0].lookAt( camera.position );
-                        
-                    
-                }render();
-                return false;
-            default: // DELETE
-                if (objectHit.type == "Mesh") {
-                    //console.log("objectHit.name",objectHit.name);
-                    removeLink(objectHit.label[0].name); 
-                    //console.log("tdc",listSpheres2);
-                    listSpheres2.splice(objectHit.name, 1);
-                    //console.log("listSpheres2",listSpheres2);
-                    world.remove(objectHit);
-                    if(objectHit.name[0] !="l"){
-                        world.remove(objectHit.label[0]);
-                    }
-
-                }
-                else if(objectHit.type == "Line"){
-                    updateLink(objectHit.name,0);
-                    console.log("line",objectHit);
-                }
-                else{
-                    alert("Please click on the object you want to remove from the map")
-                }
-                render();
-                return false;
-        }
-    }
-
-function doMouseMove(x,y,evt,prevX,prevY) {
-    
-    if (mouseAction == ROTATE) {
-        var dx = x - prevX;
-        var dy = y - prevY;
-        world.rotateX( dy/200 );
-        world.rotateY( dx/200 );
-        for(let i=0;i<listSpheres2.length;i++){
-            listSpheres2[i].label[0].position.z = listSpheres2[i].position.z ;
-			listSpheres2[i].label[0].position.y = listSpheres2[i].position.y +1.5;
-			listSpheres2[i].label[0].position.x = listSpheres2[i].position.x -1;
-            listSpheres2[i].label[0].lookAt( camera.position );
-        }
-        render();
-    }
-    else {  // dragy
-        var a = 2*x/canvas.width - 1;
-        var b = 1 - 2*y/canvas.height;
-        raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
-        intersects = raycaster.intersectObject( targetForDragging ); 
-        if (intersects.length == 0) {
-            return;
-        }
-        var locationX = intersects[0].point.x;
-        var locationY = intersects[0].point.y;
-        var locationZ = intersects[0].point.z;
-        var coords = new THREE.Vector3(locationX, locationY, locationZ);
-        world.worldToLocal(coords);
-        a = coords.x;  
-        b = coords.y;
-        c = coords.z;
-
-        //var indexSphere = findIndexSphere(num);
-        
-        dragItem.position.set(a,b,c);
-        //console.log("tdc",SphereDraggedNum);
-        
-		if(SphereDraggedNum[0] !="l"){
-            
-			for(let i=0;i<listSpheres2.length;i++){
-               //console.log("tchu",listSpheres2[i]);
-                 //console.log("tchupi",listSpheres2[i].label[0]);
-                if(SphereDraggedNum == listSpheres2[i].label[0].name ){
-                   
-				//if(SphereDraggedNum == listSpheres2[i].name){
-                    //console.log("tchu",listSpheres2[i].label[0].name);
-					indexSphere = i;
-				}
-            }
-            //console.log("indexSphere", indexSphere);
-            dragLink(indexSphere);
-            listSpheres2[indexSphere].label[0].position.z = dragItem.position.z ;
-			listSpheres2[indexSphere].label[0].position.y = dragItem.position.y +1.5;
-			listSpheres2[indexSphere].label[0].position.x = dragItem.position.x -1;
-            listSpheres2[indexSphere].label[0].lookAt( camera.position );
-		}
-
-        render();
-    }
-}
-
-
-/*	function doJoyStickMove(x,y,evt,prevX,prevY) {
-    if (mouseAction == ROTATE) {
-        var dx = x - prevX;
-        world.rotateY( dx/100 );
-        render();
-    }
-    else {  // drag
-        //var a = 2*x/canvas.width - 1;
-        //var b = 1 - 2*y/canvas.height;
-        //raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
-        //var intersects = raycaster.intersectObject( targetForDragging ); 
-        //if (intersects.length == 0) {
-        //	return;
-        //}
-        var locationX = intersects[0].point.x;
-        var locationZ = intersects[0].point.z;
-        var coords = new THREE.Vector3(locationX, 0, locationZ);
-        world.worldToLocal(coords);
-        a = Math.min(19,Math.max(-19,coords.x));  // clamp coords to the range -19 to 19, so object stays on ground
-        b = Math.min(19,Math.max(-19,coords.z));
-        dragItem.position.set((a+x)/2,3,(b+y)/2);
-        render();
-    }
-}
-*/
-
-
-function doChangeMouseAction() {
-    if (document.getElementById("mouseRotate").checked) {
-        mouseAction = ROTATE;
-    }
-    else if (document.getElementById("mouseDrag").checked) {
-        mouseAction = DRAG;
-    }
-    /*
-    else if (document.getElementById("mouseAddLink").checked) {
-        mouseAction = ADD_LINK;
-    }*/
-    else if (document.getElementById("mouseRename").checked) {
-        mouseAction = RENAME;
-    }
-    else {
-        mouseAction = DELETE;
-    }
-}
-
-function init() {
-    try {
-        canvas = document.getElementById("maincanvas");
-        renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true
-        });
-    }
-    catch (e) {
-        document.getElementById("canvas-holder").innerHTML="<p><b>Sorry, an error occurred:<br>" +
-            e + "</b></p>";
-        return;
-    }
-    document.getElementById("mouseDrag").checked = true;
-    mouseAction = DRAG;
-    document.getElementById("mouseRotate").onchange = doChangeMouseAction;
-    document.getElementById("mouseDrag").onchange = doChangeMouseAction;
-    //document.getElementById("mouseAddLink").onchange = doChangeMouseAction;
-    document.getElementById("mouseRename").onchange = doChangeMouseAction;
-    document.getElementById("mouseDelete").onchange = doChangeMouseAction;
-    createWorld();
-    setUpMouseHander(canvas,doMouseDown,doMouseMove);
-    setUpTouchHander(canvas,doMouseDown,doMouseMove);
-    raycaster = new THREE.Raycaster();
-    render();
-}
-
-
-
-
-
-window.requestAnimationFrame =
-window.requestAnimationFrame ||
-window.mozRequestAnimationFrame ||
-window.webkitRequestAnimationFrame ||
-window.msRequestAnimationFrame ||
-window.oRequestAnimationFrame ||
-function(callback) {
-setTimeout(function() {
-    callback(Date.now());
-}, 1000 / 60);
-};
-
-function setUpMouseHander(element, mouseDownFunc, mouseDragFunc, mouseUpFunc) {
-/*
-       element -- either the element itself or a string with the id of the element
-       mouseDownFunc(x,y,evt) -- should return a boolean to indicate whether to start a drag operation
-       mouseDragFunc(x,y,evt,prevX,prevY,startX,startY)
-       mouseUpFunc(x,y,evt,prevX,prevY,startX,startY)
-   */
-if (!element || !mouseDownFunc || !(typeof mouseDownFunc == "function")) {
-    throw "Illegal arguments in setUpMouseHander";
-}
-if (typeof element == "string") {
-    element = document.getElementById(element);
-}
-if (!element || !element.addEventListener) {
-    throw "first argument in setUpMouseHander is not a valid element";
-}
-var dragging = false;
-var startX, startY;
-var prevX, prevY;
-
-function doMouseDown(evt) {
-    if (dragging) {
-        return;
-    }
-    var r = element.getBoundingClientRect();
-    var x = evt.clientX - r.left;
-    var y = evt.clientY - r.top;
-    prevX = startX = x;
-    prevY = startY = y;
-    dragging = mouseDownFunc(x, y, evt);
-    
-    if (dragging) {
-        document.addEventListener("mousemove", doMouseMove);
-        document.addEventListener("mouseup", doMouseUp);
-        //dragLink(SphereDraggedNum);
-    }
-}
-//element.addEventListener("mousedown", doMouseDown);
-
-function doMouseMove(evt) {
-    if (dragging) {
-        
-        if (mouseDragFunc) {
-            var r = element.getBoundingClientRect();
-            var x = evt.clientX - r.left;
-            var y = evt.clientY - r.top;
-            mouseDragFunc(x, y, evt, prevX, prevY, startX, startY);
-            
-        }
-        prevX = x;
-        prevY = y;
-    }
-}
-
-function doMouseUp(evt) {
-    if (dragging) {
-        document.removeEventListener("mousemove", doMouseMove);
-        document.removeEventListener("mouseup", doMouseUp);
-        
-        //alert("mouse up");
-        if (mouseUpFunc) {
-            var r = element.getBoundingClientRect();
-            var x = evt.clientX - r.left;
-            var y = evt.clientY - r.top;
-            mouseUpFunc(x, y, evt, prevX, prevY, startX, startY);
-        }
-        dragging = false;
-    }
-}
-element.addEventListener("mousedown", doMouseDown);
-}
-
-function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, touchCancelFunc) {
-/*
-       element -- either the element itself or a string with the id of the element
-       touchStartFunc(x,y,evt) -- should return a boolean to indicate whether to start a drag operation
-       touchMoveFunc(x,y,evt,prevX,prevY,startX,startY)
-       touchEndFunc(evt,prevX,prevY,startX,startY)
-       touchCancelFunc()   // no parameters
-   */
-if (!element || !touchStartFunc || !(typeof touchStartFunc == "function")) {
-    throw "Illegal arguments in setUpTouchHander";
-}
-if (typeof element == "string") {
-    element = document.getElementById(element);
-}
-if (!element || !element.addEventListener) {
-    throw "first argument in setUpTouchHander is not a valid element";
-}
-var dragging = false;
-var startX, startY;
-var prevX, prevY;
-
-function doTouchStart(evt) {
-    if (evt.touches.length != 1) {
-        doTouchEnd(evt);
-        return;
-    }
-    evt.preventDefault();
-    if (dragging) {
-        doTouchEnd();
-    }
-    var r = element.getBoundingClientRect();
-    var x = evt.touches[0].clientX - r.left;
-    var y = evt.touches[0].clientY - r.top;
-    prevX = startX = x;
-    prevY = startY = y;
-    dragging = touchStartFunc(x, y, evt);
-    if (dragging) {
-        element.addEventListener("touchmove", doTouchMove);
-        element.addEventListener("touchend", doTouchEnd);
-        element.addEventListener("touchcancel", doTouchCancel);
-    }
-}
-
-function doTouchMove(evt) {
-    if (dragging) {
-        if (evt.touches.length != 1) {
-            doTouchEnd(evt);
-            return;
-        }
-        evt.preventDefault();
-        if (touchMoveFunc) {
-            var r = element.getBoundingClientRect();
-            var x = evt.touches[0].clientX - r.left;
-            var y = evt.touches[0].clientY - r.top;
-            touchMoveFunc(x, y, evt, prevX, prevY, startX, startY);
-        }
-        prevX = x;
-        prevY = y;
-    }
-}
-
-function doTouchCancel() {
-    if (touchCancelFunc) {
-        touchCancelFunc();
-    }
-}
-
-function doTouchEnd(evt) {
-    if (dragging) {
-        dragging = false;
-        element.removeEventListener("touchmove", doTouchMove);
-        element.removeEventListener("touchend", doTouchEnd);
-        element.removeEventListener("touchcancel", doTouchCancel);
-        if (touchEndFunc) {
-            touchEndFunc(evt, prevX, prevY, startX, startY);
-        }
-    }
-}
-element.addEventListener("touchstart", doTouchStart);
-}
-
-
-/*//joystick
-var stick = document.createElement("div");
-stick.classList.add("stick");
-var joy = document.createElement("div");
-joy.classList.add("joy");
-document.querySelector('body').appendChild(stick);
-stick.appendChild(joy);
-var stk = document.querySelector('.stick'),
-joy = document.querySelector('.joy'),
-stw = stk.offsetWidth,
-jow = joy.offsetWidth,
-begin = (stw - jow) / 2,
-mo = false, radi = stw / 2,
-ela = { hx:0, vx:0 };
-stk.style.height = stw + "px";
-joy.style.height = jow + "px";
-joy.style.left = begin + "px";
-joy.style.top = begin + "px";
-var field = document.querySelector('#grand');
-field.style.left = "1300px";
-field.style.top = "1000px";
-var x0 = 0, y0 = 0,
-pan = function(dx, dy){
-  posX = parseInt(field.style.left);
-  posY = parseInt(field.style.top);
-  if(posX < 10) posX = 10;
-  if(posX > 1500) posX = 1500;
-  if(posY < 10) posY = 10;
-  if(posY > 500) posY = 500;
-    
-  field.style.left = (posX + (dx/10)) + "px";
-  field.style.top = (posY + (dy/10)) + "px";
-}
-var elastic = function( ex , ey ){
-var stkl = stk.offsetLeft, 
-    stkt = stk.offsetTop,	
-    xl = stkl + radi,
-    xt = stkt + radi;
-x = ex - stkl - (jow/2),
-y = ey - stkt - (jow/2);
-
-var hx = ex - xl, vx = ey - xt,
-        lef = (ex > xl) ? hx : xl-ex,
-    tops = (ey > xt) ? vx : xt-ey,
-        dist = Math.hypot( lef , tops );	// hypotenuse
-
-  ela.hx = hx , ela.vx = vx;
-
-if( dist < radi && mo){
-  joy.style.left = x + "px";
-  joy.style.top = y + "px";
-} else {//return to begin
-  //mo = false, ela.hx = 0, ela.vx = 0;
-  //joy.style.left = begin + "px";
-  //joy.style.top = begin + "px";      
-}
-}	// calc and return joystick movement
-stk.addEventListener("touchmove", function(e){
-mo = true;
-elastic( e.pageX , e.pageY );
-});
-stk.addEventListener("mousedown", function(e){
-mo = true;
-e.preventDefault();
-});
-var pos3Dx = 0,
-    pos3Dy = 0;
-stk.addEventListener("mousemove", function(e){
-if (mo == true){
-elastic( e.pageX , e.pageY );
-    doJoyStickMove( e.pageX , e.pageY, null, 0, 0 )
-}
-});
-document.addEventListener("mouseup", function(){
-if (mo == true){
-mo = false, ela.hx = 0, ela.vx = 0;
-joy.style.left = begin + "px";
-joy.style.top = begin + "px";
-}
-});
-document.addEventListener("keydown", function(eventObject){
-if(eventObject.which==37 && !mo) {  //left arrow
-joy.style.left = "0px";
-pan( -50 , 0 );
-} else if(eventObject.which==39 && !mo) {  //right arrow
-joy.style.left = (stw-jow)+"px";
-pan( 50 , 0 );
-} else if(eventObject.which==38 && !mo) {  //up arrow
-joy.style.top = "0px";
-pan( 0 , -50 );
-} else if(eventObject.which==40 && !mo) {  //down arrow
-joy.style.top =  (stw-jow) + "px"; 
-pan( 0 , 50 );
-} else if(eventObject.which==27) { //esc
-} else if(eventObject.which==9) {  //tab
-}
-});
-document.addEventListener("keyup", function(eventObject){
-if(eventObject.which >= 37 && eventObject.which <= 40 ) {	// arrows
-    joy.style.left = begin + "px";
-joy.style.top = begin + "px";
-}
-});
-function moveSelectedObj() {
-if (mo == true){
-pan( ela.hx , ela.vx );
-}
-requestAnimationFrame(moveSelectedObj);
-}
-requestAnimationFrame(moveSelectedObj);
-*/
