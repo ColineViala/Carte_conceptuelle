@@ -54,17 +54,57 @@ function rotateworld() {
 }
 
 
-function download(name, type) {
-    var obj="";
-    console.log("listSpheres2",listSpheres2);
-    console.log("listLinks",listLink);
-    for(let i=0;i<listSpheres2.length;i++){
-        obj +=  JSON.stringify(listSpheres2[i].label[0].name)+ JSON.stringify(listSpheres2[i].position);
-    }
-    var a = document.getElementById("a");
-    var file = new Blob([obj], {type: type});
-    a.href = URL.createObjectURL(file);
-    a.download = name;
-  }
+//-----------------------------------------DOWNLOAD MAP .JSON-------------------------------------------------------------------
+function download_file() {
 
+    console.log("listSpheres2",listSpheres2);
+    var json_spheres_arr = {};
+    var json_links_arr = {};
+    var json_string='{ "spheres" : [';  
+    var json_str_links = '{ "connected sphere(s)" : [';
+    //console.log("crottin",json_str_links);
+
+    for(let i=0;i<listSpheres2.length;i++){
+        json_spheres_arr["sphere"] = listSpheres2[i].label[0].name;
+        json_spheres_arr["position"] = listSpheres2[i].position ;
+       
+        for(let j=0;j<listSpheres2[i].connectedSphereName.length;j++){
+            json_links_arr["sphere name"] = listSpheres2[i].connectedSphereName[j];
+            json_links_arr["link name"] = listSpheres2[i].linkName[j];
+
+            if(j<listSpheres2[i].connectedSphereName.length-1){
+                json_str_links = json_str_links + JSON.stringify(json_links_arr) +',' ;
+            }
+            else{
+                json_str_links = json_str_links + JSON.stringify(json_links_arr);
+            } 
+            
+        }
+        
+        //console.log("json_str_links",json_str_links);
+        if(i<listSpheres2.length-1){
+            json_string =  json_string + '[' + JSON.stringify(json_spheres_arr) + ','+ json_str_links  +']}],'+"\n" ;
+        }
+        else{
+            json_string =  json_string + '[' + JSON.stringify(json_spheres_arr)+ ','+ json_str_links + ']}]' ;
+        }  
+        json_str_links = '{ "connected sphere(s)" : [';
+    } 
+  
+   json_string = json_string + ']}';
+   console.log("texte json",json_string);
+    var file;
+    var properties = {type: 'json'}; // Specify the file's mime-type.
+    try {
+        // Specify the filename using the File constructor, but ...
+        file = new File([json_string], "MindMap.json", properties);
+    } catch (e) {
+        // ... fall back to the Blob constructor if that isn't supported.
+        file = new Blob([json_string], properties);
+    }
+    var url = URL.createObjectURL(file);
+    document.getElementById('link').href = url;
+  }
+//------------------------------------------------------------------------------------------------------------------------------
+  
   

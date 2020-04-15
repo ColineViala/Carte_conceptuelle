@@ -172,36 +172,43 @@ body{
 	font-size: 1em;
 	font-weight: 200;
 	color: white; /* color the text */
-	background-color: rgb(161, 34, 129); /* color of the box which contain the name the Json file*/
+	background-color: silver /* color of the box which contain the name the Json file*/
 	/*display: inline-block;*/
 }
 
 .label1{
-	background-color:#ffe1f5;
-	font-size: 1.2rem;
+	background-color:silver;
+	font-size: 1.4rem;
 	font-weight: 300;
 }
 
 .label2{
-	background-color: #ffccee;
-	font-size: 1.2rem;
+	background-color: silver;
+	font-size: 1.4rem;
 	font-weight: 300;
 }
 
 .label3{
-	background-color:#ff99cc;
-	font-size: 1.2rem;
+	background-color:silver;
+	font-size: 1.4rem;
 	font-weight: 300;
 }
 
 .label4{
-	background-color: #ff68ba;
-	font-size: 1.2rem;
+	background-color:silver;
+	font-size: 1.4rem;
 	font-weight: 300;
 }
 
 .label5{
-	background-color: #ff5bb7;
-	font-size: 1.1rem;
+	background-color:silver;
+	font-size: 1.4rem;
 	font-weight: 300;
 }
+
+.modal-body{
+	font-size: 1.8em;
+	font-weight: 200;
+	color: black; 
+}
+

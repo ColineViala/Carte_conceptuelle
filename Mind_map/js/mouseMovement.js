@@ -49,26 +49,36 @@ function doMouseDown(x,y) {
             }
             case RENAME :
                 if(objectHit.type == "Mesh"){
-                    //console.log("kiki",listSpheres2);
                     if(objectHit.name[0] !="l"){
                         renameItem= objectHit;
+                        var old_name_sphere = objectHit.label[0].name;
                         sphereRenameName =  renameItem.name;
                         new_nameSphere = prompt("Let's change the name of the sphere !!!",objectHit.label[0].name);
                         fruits[sphereRenameName][0]=new_nameSphere;
-                        //showInfoSphereOnClick(sphereRenameName);
-                        //addSphereLabel(sphereRenameName+1,objectHit,cc); 
                         objectHit.label[0].lookAt( camera.position );
+                        for(let i=0;i<listSpheres2.length;i++){
+                            var index = listSpheres2[i].connectedSphereName.indexOf(old_name_sphere);
+                            if (index !== -1) {
+                                listSpheres2[i].connectedSphereName[index] = new_nameSphere;
+                            }
+                        }
                         addSphereLabel(objectHit,new_nameSphere); 
                         objectHit.label[0].lookAt( camera.position );
                         
                     }
                 }
                 else if(objectHit.type == "Line"){
-                        //console.log("objectHit",objectHit.label);
-                        //console.log("listLink",listLink);
+                        var old_name_link = objectHit.label[0].name;
                         new_nameLink = prompt("Let's change the name of the link !!!",objectHit.label[0].name);
-                        //console.log("new_nameLink",new_nameLink);
+                        console.log("new_nameLink",new_nameLink);
                         objectHit.label[0].lookAt( camera.position );
+                        for(let i=0;i<listSpheres2.length;i++){
+                            var index = listSpheres2[i].linkName.indexOf(old_name_link);
+                            if (index !== -1) {
+                                listSpheres2[i].linkName[index] = new_nameLink;
+                            }
+                        }
+                        console.log(listSpheres2);
                         addLinkLabel(objectHit,new_nameLink); 
                         objectHit.label[0].lookAt( camera.position );
                         

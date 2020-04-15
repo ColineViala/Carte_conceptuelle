@@ -82,9 +82,11 @@
                 <label><a type="button" class="btn btn-default label4 addmargin" data-toggle="modal" data-target="#myModal1" id="mouseAddSphere">Add Sphere</a> </label>  
                 <label><a type="button" class="btn btn-default label4" data-toggle="modal" data-target="#myModal2" onclick="CreateLabelTab()" id="mouseAddLink">Add Link</a> </label>          
                <!--<button onclick="download('MindMap.json', 'json')">Create file</button></label>-->
-                <label class="fileLabel" for="jsonFileLoader"><input type="file"  class="btn btn-default label5 addmargin" id="jsonFileLoader" name="jsonFileLoader" accept=".json"></label>
+                <label><a type="button" class="btn btn-default label3 addmargin" id="link" target="_blank" download="MindMap.json" onclick="download_file();">Download my map</a></label>
+              
+                <label class="fileLabel" for="jsonFileLoader"><input type="file"  class="btn btn-default label5" id="jsonFileLoader" name="jsonFileLoader" accept=".json"></label>
                 <!--<label><a type="submit" class="btn btn-default"  onclick="jsonFileLoader();" >Load the file </a> </label>-->
-                <br/>
+                 <br/>
                 <br/>
         </div>
         
@@ -138,9 +140,9 @@
           <h4 class="modal-title">Which sphere do you want to add?</h4>
       </div>
       <div class="modal-body">
-        <div>
+        <div >
         <label for="name">Name (4 to 8 characters):</label>
-        <input type="text" id="name_sphere" name="name" required
+        <input class="input_txt" type="text" id="name_sphere" name="name" required
        minlength="4" maxlength="8" size="10">
       </div>
       <div>
@@ -160,7 +162,7 @@
 
 <!-- Modal -->
 <div id="myModal2" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
