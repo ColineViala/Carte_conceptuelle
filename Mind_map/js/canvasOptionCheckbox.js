@@ -55,7 +55,7 @@ function rotateworld() {
 
 
 function download(name, type) {
-    var obj;
+    var obj="";
     console.log("listSpheres2",listSpheres2);
     console.log("listLinks",listLink);
     for(let i=0;i<listSpheres2.length;i++){

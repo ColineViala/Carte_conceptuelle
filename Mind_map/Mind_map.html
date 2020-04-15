@@ -24,34 +24,7 @@
         <script type="text/javascript" src="./js/canvasOptionCheckbox.js" defer></script>
         <script type="text/javascript" src="./js/objectLabel.js" defer></script>
         <script type="text/javascript" src="./js/otherFunctions.js" defer></script>
-        <style>
-
-			.label {
-                text-shadow: -1px 1px 1px rgb(0,0,0);
-                margin-left: 25px;
-                font-size: 20px;
-            }
-
-            body{
-                margin:0;
-                overflow:hidden;
-                background-color: black;
-            }
-
-            #tool-bar{
-                background: url("./css/pictures/space3.png");
-                height: 6rem;
-                border-bottom-style: solid;
-                border-bottom-width: 2px;
-                border-bottom-color: silver;
-            } 
-
-            .color-label{
-                color:rgb(255, 255, 255);
-                font-weight: lighter;
-            }
-
-        </style>
+        <script type="text/javascript" src="./js/jsonLoader.js" defer></script>
     </head>
 
     <body onload="init()">
@@ -95,21 +68,24 @@
             </div>
 		</div>-->
 			
-        <div id="content" class="color-label" >
-                <h4  style="text-indent: 20px;"  > Mouse actions : </h4>  <!-- text-indent: 20px => to make a paragraph -->
-                <label class="color-label"><input type="radio" name="action" id="mouseRotate"> Rotate</label>
-                <label class="color-label"><input type="radio" name="action" id="mouseDrag"> Drag</label>
-                <label class="color-label"><input type="radio" name="action" id="mouseRename"> Rename</label>
-                <label class="color-label"><input type="radio" name="action" id="mouseDelete"> Delete</label>
-                <label class="color-label"><input type="checkbox" id="myCheck" onclick="showGridHelper()"> Grid </label>
-                <label class="color-label"><input type="checkbox" id="label" onclick="showLabel()"> Label </label>
-                <label class="color-label"><input type="checkbox" id="autoRotate" onclick="autoRotate()"> Auto-Rotate </label>
-                <label><a type="button" class="btn btn-default"  onclick="addExemple();" id="mapExample">Show an example</a> </label>          
-                <label><a type="button" class="btn btn-default"  onclick="deleteObjects();" id="emptyMap">Empty map</a> </label>
-                <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal1" id="mouseAddSphere">Add Sphere</a> </label>  
-                <label><a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal2" onclick="CreateLabelTab()" id="mouseAddLink">Add Link</a> </label>          
-                <label><a href="" id="a">click here to download your file</a>
-                <button onclick="download('MindMap.json', 'json')">Create file</button></label>
+        <div id="content"  >
+                <h4  class="color-label" style="text-indent: 20px;"  > Mouse actions : </h4>  <!-- text-indent: 20px => to make a paragraph -->
+                <label class="btn btn-default label1 addmargin"><input type="radio" name="action" id="mouseRotate"> Rotate</label>
+                <label class=" btn btn-default label1"><input type="radio" name="action" id="mouseDrag"> Drag</label>
+                <label class=" btn btn-default label1"><input type="radio" name="action" id="mouseRename"> Rename</label>
+                <label class=" btn btn-default label1"><input type="radio" name="action" id="mouseDelete"> Delete</label>
+                <label class=" btn btn-default label2 addmargin"><input type="checkbox" id="myCheck" onclick="showGridHelper()"> Grid </label>
+                <label class=" btn btn-default label2"><input type="checkbox" id="label" onclick="showLabel()"> Label </label>
+                <label class=" btn btn-default label2"><input type="checkbox" id="autoRotate" onclick="autoRotate()"> Auto-Rotate </label>
+                <label><a type="button" class="btn btn-default label3 addmargin"  onclick="addExemple();" id="mapExample">Show an example</a> </label>          
+                <label><a type="button" class="btn btn-default label3"  onclick="deleteObjects();" id="emptyMap">Empty map</a> </label>
+                <label><a type="button" class="btn btn-default label4 addmargin" data-toggle="modal" data-target="#myModal1" id="mouseAddSphere">Add Sphere</a> </label>  
+                <label><a type="button" class="btn btn-default label4" data-toggle="modal" data-target="#myModal2" onclick="CreateLabelTab()" id="mouseAddLink">Add Link</a> </label>          
+               <!--<button onclick="download('MindMap.json', 'json')">Create file</button></label>-->
+                <label class="fileLabel" for="jsonFileLoader"><input type="file"  class="btn btn-default label5 addmargin" id="jsonFileLoader" name="jsonFileLoader" accept=".json"></label>
+                <!--<label><a type="submit" class="btn btn-default"  onclick="jsonFileLoader();" >Load the file </a> </label>-->
+                <br/>
+                <br/>
         </div>
         
          <!--
@@ -219,7 +195,7 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </div>
-
+      
   </div>
   </div>  
 
@@ -233,12 +209,12 @@
         <!--
         <select id="test-dropdown" onchange="choice1(this)">
           <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option value="2">Two</option>       width=window.innerWidth
+          <option value="3">Three</option>      width=window.innerWidth height="500"
       </select>-->
             
-        <div id="canvas-holder">
-                <canvas id="maincanvas" width="1200" height="500"></canvas>
+        <div id="canvas-holder" >
+                <canvas id="maincanvas" width=0 height="0"></canvas>
             </div>
             <div  text-align="center">  
                 <!--<p id="name-sphere" class="color-label"></p>

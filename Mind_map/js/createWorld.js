@@ -153,7 +153,8 @@ function createWorld() {
     }
 
 //---------------------------------------ADD A SPHERE IN THE 3D POSITION------------------------------------------------------
-function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the addSphere is called in addNewSphere for example), noLabel=false and we doesn't need to call addLabel in this function .
+function addSphere(x,y,z,noLabel=true,name_sphere){ // if a label already exist (when the addSphere is called in addNewSphere for example), noLabel=false and we doesn't need to call addLabel in this function .
+    
     sphere = new THREE.Mesh(
         new THREE.SphereGeometry(1,32,32),
         new THREE.MeshLambertMaterial( {color: fruits[numSphere][1]} )
@@ -173,7 +174,10 @@ function addSphere(x,y,z,noLabel=true){ // if a label already exist (when the ad
     numSphere+=1;//incr the sphere's number each time we make one
     var object = scene.getObjectByName( sphere.name, true );
     world.add(sphere);//add the new sphere to the world
-    if(noLabel==true){ //the label of the sphere already exist
+    if(noLabel==false && name_sphere!="undefinied"){
+        addSphereLabel(sphere,name_sphere);
+    }
+    else if(noLabel==true){ //the label of the sphere already exist
         addSphereLabel(sphere);
     }
 }
@@ -188,6 +192,7 @@ function addLinkedSphere(sphere1,sphere2){
     preexistinglinks.push("roller");
     console.log("preexistinglinks",preexistinglinks);
 }
+
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
 function addLink(sphere1,sphere2,nameLabel){
     //3D creation of the link in the world

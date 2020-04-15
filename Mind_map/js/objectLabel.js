@@ -7,17 +7,14 @@ function addSphereLabel(sphere, nameLabel ){
         //console.log("cc");
         nameLabel = fruits[sphere.name][0];
 	}else{
-		//world.remove(sphere.label[0]);
-		
+		//world.remove(sphere.label[0]);	
     }
     if (typeof(sphere.label[0]) != "undefined"){
         var indexsphere = findIndexSphere(sphere.label[0].name);
         world.remove(sphere.label[0]);
     }else{
         var indexsphere = listSpheres2.length-1;
-        
     }
-
     listSpheres2[indexsphere].label=[];
 	var loader = new THREE.FontLoader();
     let font = loader.parse(fontJSON);
@@ -32,6 +29,7 @@ function addSphereLabel(sphere, nameLabel ){
     label1.lookAt( camera.position ); 
 	world.add(label1);
 }
+
 //-------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------ADD LINK LABEL------------------------------------------------------------

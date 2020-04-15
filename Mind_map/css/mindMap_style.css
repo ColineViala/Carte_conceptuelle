@@ -95,7 +95,11 @@ canvas {
 }
 
 label {
-	margin-left: 20px;
+	margin-left: 3px;
+}
+
+.addmargin{
+	margin-left: 15px;
 }
 
 .stick {
@@ -124,4 +128,80 @@ label {
   background: #333;
   right: 1000px;
   top: 800px;
+}
+
+
+.inputfile + .fileLabel {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + .fileLabel ,
+.inputfile + .fileLabel :hover {
+    background-color: red;
+}
+
+label{
+	font-size: 0.5em;
+	font-weight: 200;
+}
+
+body{
+	margin:0;
+	overflow:hidden;
+	background-color: black;
+}
+
+#tool-bar{
+	background: url("./css/pictures/space3.png");
+	height: 6rem;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: silver;
+} 
+
+.color-label{
+	color:rgb(255, 255, 255);
+	font-weight: lighter;
+}
+
+.inputfile {
+	font-size: 1em;
+	font-weight: 200;
+	color: white; /* color the text */
+	background-color: rgb(161, 34, 129); /* color of the box which contain the name the Json file*/
+	/*display: inline-block;*/
+}
+
+.label1{
+	background-color:#ffe1f5;
+	font-size: 1.2rem;
+	font-weight: 300;
+}
+
+.label2{
+	background-color: #ffccee;
+	font-size: 1.2rem;
+	font-weight: 300;
+}
+
+.label3{
+	background-color:#ff99cc;
+	font-size: 1.2rem;
+	font-weight: 300;
+}
+
+.label4{
+	background-color: #ff68ba;
+	font-size: 1.2rem;
+	font-weight: 300;
+}
+
+.label5{
+	background-color: #ff5bb7;
+	font-size: 1.1rem;
+	font-weight: 300;
 }

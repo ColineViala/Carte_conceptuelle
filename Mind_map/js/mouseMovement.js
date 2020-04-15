@@ -1,3 +1,13 @@
+var canvasW     = 1200;
+var canvasH     = 480;
+
+var numMovers   = 550;
+var movers      = [];
+var friction    = .96;
+var radCirc     = Math.PI * 2;
+
+var mouseX, mouseY, mouseVX, mouseVY, prevMouseX = 0, prevMouseY = 0;   
+var isMouseDown = true;
 
 function doMouseDown(x,y) {
     
@@ -180,13 +190,19 @@ function doChangeMouseAction() {
     }
 }
 
+
+
+
 function init() {
     try {
         canvas = document.getElementById("maincanvas");
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight*3.25;
         renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             antialias: true
         });
+        
     }
     catch (e) {
         document.getElementById("canvas-holder").innerHTML="<p><b>Sorry, an error occurred:<br>" +
