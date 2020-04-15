@@ -1,0 +1,40 @@
+{
+	"articles": [
+		{
+			"id": 235,
+			"author": "Tom B",
+			"title": "My title",
+			"corpus": {
+				"paragraph": {
+					"text": "This is the text of the article"
+				}
+			},
+			"commentary": [
+				{
+					"name": "Betty",
+					"text": "Great article Tom!"
+				}
+			],
+			"mark": null,
+			"validated": true
+		},
+		{
+			"id": 236,
+			"author": "Jone Doe",
+			"title": "Another article",
+			"corpus": {
+				"paragraph": {
+					"text": "Lorem ipsum  ..."
+				}
+			},
+			"commentary": [
+				{
+					"name": "Jéremy",
+					"text": "Great article."
+				}
+			],
+			"mark": 34,
+			"validated": true
+		}
+	]
+}
