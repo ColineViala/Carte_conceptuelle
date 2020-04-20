@@ -82,25 +82,27 @@ function doMouseDown(x,y) {
                         addLinkLabel(objectHit,new_nameLink); 
                         objectHit.label[0].lookAt( camera.position );
                         
-                    
-                }render();
+                    }
+                    else{
+                        alert("Please click on the object you want to remove from the map")
+                    }
+                render();
                 return false;
             default: // DELETE
                 if (objectHit.type == "Mesh") {
-                    //console.log("objectHit.name",objectHit.name);
+                    console.log(objectHit.name);
+                    nameSphereDeleted=objectHit.label[0].name;
                     removeLink(objectHit.label[0].name); 
-                    //console.log("tdc",listSpheres2);
-                    listSpheres2.splice(objectHit.name, 1);
-                    //console.log("listSpheres2",listSpheres2);
+                    var indexsphere = findIndexSphere(objectHit.label[0].name);
+                    updateConnectedSpheres( nameSphereDeleted);
+                    listSpheres2.splice(indexsphere, 1);
                     world.remove(objectHit);
                     if(objectHit.name[0] !="l"){
                         world.remove(objectHit.label[0]);
                     }
-
                 }
                 else if(objectHit.type == "Line"){
                     updateLink(objectHit.name,0);
-                    //console.log("line",objectHit);
                 }
                 else{
                     alert("Please click on the object you want to remove from the map")

@@ -2,6 +2,7 @@
 
 function findIndexSphere(nameSphere){
     var indexSphere;
+    //alert("cc");
     for(let i=0; i<listSpheres2.length; i++){
         if (listSpheres2[i].label[0].name == nameSphere){
             indexSphere = i;

@@ -81,7 +81,7 @@ function download_file() {
             
         }
         
-        //console.log("json_str_links",json_str_links);
+        console.log("json_str_links",json_str_links);
         if(i<listSpheres2.length-1){
             json_string =  json_string + '[' + JSON.stringify(json_spheres_arr) + ','+ json_str_links  +']}],'+"\n" ;
         }

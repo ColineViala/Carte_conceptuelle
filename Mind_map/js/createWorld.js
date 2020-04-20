@@ -208,7 +208,7 @@ function addLinkedSphere(sphere1,sphere2){
    
     addLink(sphere1,sphere2,name_link.value);
     preexistinglinks.push("roller");
-    console.log("preexistinglinks",preexistinglinks);
+    //console.log("preexistinglinks",preexistinglinks);
 }
 
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
@@ -256,6 +256,51 @@ function addLink(sphere1,sphere2,nameLabel){
     render();
 }
 //-------------------------------------------------------------------------------------------------------------------------
+//----------------------------UPDATE LIST CONNECTED SPHERES -----------------------------------------------------------
+
+function updateConnectedSpheres(nameSphereDeleted){
+    for (let i=0;i<listSpheres2.length;i++){
+        for(let j=0;j<listSpheres2[i].connectedSphereName.length;j++){
+            console.log("listSpheres2",listSpheres2);
+            if(listSpheres2[i].connectedSphereName[j] == nameSphereDeleted){
+                listSpheres2[i].connectedSphereName.splice(j,1);
+            }
+        }
+
+    }
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+//----------------------------UPDATE LIST CONNECTED SPHERES -----------------------------------------------------------
+/*
+function updateConnectedSpheresLinks(nameLinkDeleted){
+    for (let i=0;i<listSpheres2.length;i++){
+        for(let j=0;j<listSpheres2[i].connectedSphereName.length;j++){
+            console.log("listSpheres2",listSpheres2);
+            if(listSpheres2[i].connectedSphereName[j] == nameLinkDeleted){
+                listSpheres2[i].connectedSphereName.splice(j,1);
+            }
+        }
+
+    }
+}*/
+
+//-------------------------------------------------------------------------------------------------------------------------
+//----------------------------UPDATE LIST LINK NAME -----------------------------------------------------------
+function updateConnectedLinks(nameLinkDeleted){
+    for (let i=0;i<listSpheres2.length;i++){
+        for(let j=0;j<listSpheres2[i].linkName.length;j++){
+            console.log("nameLinkDeleted",nameLinkDeleted);
+            if(listSpheres2[i].linkName[j] == nameLinkDeleted){
+                listSpheres2[i].linkName.splice(j,1);
+            }
+        }
+
+    }
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------LINK MODIFICATION : REMOVE AND ADD A NEW ONE WHEN AND WHERE THE SPHERE MOVE------------------
 function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add after
@@ -273,27 +318,43 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
     world.remove( listLink[numinlist] );//remove the link by his number
     world.remove(listLink[numinlist].label[0]);
     listLink.splice(numinlist,1);//remove the number of the link of the links list
-    //console.log("here",numinlist);
     for(let i=0; i<listSpheres2.length; i++){
-        if(listSpheres2[i].link.length>0){
+        //if(listSpheres2[i].link.length>0){
             for(let j=0; j<listSpheres2[i].link.length; j++){
                 if (listSpheres2[i].link[j] == num){
+                    console.log("test",listSpheres2[i].link[j]);
                     SphereList.push(listSpheres2[i].label[0].name);
                     listSpheres2[i].link.splice(j,1);
-                    console.log("nom =",nom);//name link to delete 
-                    var nameDeletedSphere=listSpheres2[i].label[0].name;
+                    //console.log("nom sphere supprimée=", listSpheres2[1].label[0].name);//name sphere to delete 
+                    //var nameDeletedSphere=listSpheres2[1].label[0].name;
+                }
+            }
+            
+    }
+    
+    if(add==0){
+        updateConnectedLinks(nom);
+        for(let i=0;i<listSpheres2.length;i++){
+            
+            //for(let j=0;j<listSpheres2.length;j++){
+            if(listSpheres2[i].label[0].name == SphereList[0] ){
+                for(let j=0;j<listSpheres2[i].connectedSphereName.length;j++){
+                    if(listSpheres2[i].connectedSphereName[j] == SphereList[1]){
+                        listSpheres2[i].connectedSphereName.splice(j,1);
+
+                    }
+                }
+            }else if(listSpheres2[i].label[0].name == SphereList[1]){
+                for(let j=0;j<listSpheres2[i].connectedSphereName.length;j++){
+                    if(listSpheres2[i].connectedSphereName[j] == SphereList[0]){
+                        listSpheres2[i].connectedSphereName.splice(j,1);
+
+                    }
                 }
             }
         }
     }
-    if(add==0){
-        for(let i=0; i<listSpheres2.length; i++){
-            listSpheres2[i].connectedSphereName.splice(nameDeletedSphere,1);
-            listSpheres2[i].linkName.splice(nom,1);
-        }
-        console.log("nom link dele",nom);
-    }
-    console.log("listSpheres2=",listSpheres2);//name link to delete 
+    console.log("listSpheres2=",listSpheres2);
 
     if(add==1){
         addLink(SphereList[0], SphereList[1], nom);
@@ -379,7 +440,6 @@ function dragLink(name){
     //--------------------------------------INCR OF UPDATE LINK EACH TIME WE DRAG A SPHERE------------------------------------
 //=AT ANY TIME
 function removeLink(num){
-    //!\ pb avec num = undefined (disparait de listSpheres après suppression)
     var listLinks=[];
     
     var indexSphere = findIndexSphere(num);
@@ -406,7 +466,7 @@ function addNewSphere(Zaxis){
     var same='false';
     for (let i=0;i<CreateLabelTab().length;i++){
         sphereLabel=CreateLabelTab()[i];
-        console.log(sphereLabel);
+        //console.log(sphereLabel);
         if(sphereLabel == name_sphere.value){
            same=true; 
         }
