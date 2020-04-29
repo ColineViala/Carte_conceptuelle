@@ -91,17 +91,17 @@ function createWorld() {
             addSphere(-7,4,5);
             addSphere(8,5,5);
             addSphere(4,6,-6);
-            addLink(fruits[0][0],fruits[1][0],preexistinglinks[0]);
+            addLink(fruits[0][0],fruits[1][0],0,preexistinglinks[0]);
             listSpheres2[0].connectedSphere.push(1);
             listSpheres2[1].connectedSphere.push(0);
             listSpheres2[0].connectedSphereName.push(listSpheres2[1].label[0].name);
             listSpheres2[1].connectedSphereName.push(listSpheres2[0].label[0].name);
-            addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]);
+            addLink(fruits[0][0],fruits[2][0],0,preexistinglinks[1]);
             listSpheres2[0].connectedSphere.push(2);
             listSpheres2[2].connectedSphere.push(0);
             listSpheres2[0].connectedSphereName.push(listSpheres2[2].label[0].name);
             listSpheres2[2].connectedSphereName.push(listSpheres2[0].label[0].name);
-            addLink(fruits[0][0],fruits[3][0],preexistinglinks[2]);
+            addLink(fruits[0][0],fruits[3][0],0,preexistinglinks[2]);
             listSpheres2[0].connectedSphere.push(3);
             listSpheres2[3].connectedSphere.push(0);
             listSpheres2[0].connectedSphereName.push(listSpheres2[3].label[0].name);
@@ -121,25 +121,25 @@ function createWorld() {
                 addSphere(-7,4,5);
                 addSphere(8,5,5);
                 addSphere(4,6,-6);
-                addLink(fruits[0][0],fruits[1][0],preexistinglinks[0]);
+                addLink(fruits[0][0],fruits[1][0],0,preexistinglinks[0]);
                 listSpheres2[0].connectedSphere.push(1);
                 listSpheres2[1].connectedSphere.push(0);
                 listSpheres2[0].connectedSphereName.push(listSpheres2[1].label[0].name);
                 listSpheres2[1].connectedSphereName.push(listSpheres2[0].label[0].name);
-                addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]);
+                addLink(fruits[0][0],fruits[2][0],0,preexistinglinks[1]);
                 //console.log("ere",listSpheres2[0].connectedSphere);
-                addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]);
+                addLink(fruits[0][0],fruits[2][0],0,preexistinglinks[1]);
                 listSpheres2[0].connectedSphere.push(2);
                 listSpheres2[2].connectedSphere.push(0);
                 listSpheres2[0].connectedSphereName.push(listSpheres2[2].label[0].name);
                 listSpheres2[2].connectedSphereName.push(listSpheres2[0].label[0].name);
-                addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]);
-                addLink(fruits[0][0],fruits[3][0],preexistinglinks[2]);
+                addLink(fruits[0][0],fruits[2][0],0,preexistinglinks[1]);
+                addLink(fruits[0][0],fruits[3][0],0,preexistinglinks[2]);
                 listSpheres2[0].connectedSphere.push(3);
                 listSpheres2[3].connectedSphere.push(0);   
                 listSpheres2[0].connectedSphereName.push(listSpheres2[3].label[0].name);
                 listSpheres2[3].connectedSphereName.push(listSpheres2[0].label[0].name);
-                addLink(fruits[0][0],fruits[2][0],preexistinglinks[1]); 
+                addLink(fruits[0][0],fruits[2][0],0,preexistinglinks[1]); 
             }else{
                 //we do nothing 
             }
@@ -206,13 +206,15 @@ function addLinkedSphere(sphere1,sphere2){
     listSpheres2[indexSphere1].connectedSphereName.push(listSpheres2[indexSphere2].label[0].name);
     listSpheres2[indexSphere2].connectedSphereName.push(listSpheres2[indexSphere1].label[0].name);
    
-    addLink(sphere1,sphere2,name_link.value);
+   
+    addLink(sphere1,sphere2,0,name_link.value);
     preexistinglinks.push("roller");
+    
     //console.log("preexistinglinks",preexistinglinks);
 }
 
 //---------------------------------------LINK CREATION BETWEEN 2 SPHERES------------------------------------------------------
-function addLink(sphere1,sphere2,nameLabel){
+function addLink(sphere1,sphere2,drag,nameLabel){
     //3D creation of the link in the world
     /*
     if (sphere1 !== parseInt(sphere1, 10)){
@@ -249,10 +251,13 @@ function addLink(sphere1,sphere2,nameLabel){
     else{
         addLinkLabel(line,name_link.value);
     }*/
-    listSpheres2[indexSphere1].link.push(line.name);//add the link number/name to each sphere is connected with 
-    listSpheres2[indexSphere2].link.push(line.name);//after the sphere coordinates
-    listSpheres2[indexSphere1].linkName.push(nameLabel);
-    listSpheres2[indexSphere2].linkName.push(nameLabel);
+    
+        listSpheres2[indexSphere1].link.push(line.name);//add the link number/name to each sphere is connected with 
+        listSpheres2[indexSphere2].link.push(line.name);//after the sphere coordinates
+    if(drag == 0){
+        listSpheres2[indexSphere1].linkName.push(nameLabel);
+        listSpheres2[indexSphere2].linkName.push(nameLabel);
+    }
     render();
 }
 //-------------------------------------------------------------------------------------------------------------------------
@@ -322,11 +327,9 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
         //if(listSpheres2[i].link.length>0){
             for(let j=0; j<listSpheres2[i].link.length; j++){
                 if (listSpheres2[i].link[j] == num){
-                    console.log("test",listSpheres2[i].link[j]);
+                    //console.log("test",listSpheres2[i].link[j]);
                     SphereList.push(listSpheres2[i].label[0].name);
                     listSpheres2[i].link.splice(j,1);
-                    //console.log("nom sphere supprimée=", listSpheres2[1].label[0].name);//name sphere to delete 
-                    //var nameDeletedSphere=listSpheres2[1].label[0].name;
                 }
             }
             
@@ -357,11 +360,13 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
     console.log("listSpheres2=",listSpheres2);
 
     if(add==1){
-        addLink(SphereList[0], SphereList[1], nom);
+        //updateConnectedLinks(nom);
+        addLink(SphereList[0], SphereList[1], 1,nom);
+        /*
         var index = listSpheres2[1].linkName.indexOf(nom);
         if (index !== -1) {
             listSpheres2[1].linkName[index] = nom;
-        }
+        }*/
     }
 }
 //-------------------------------------------------------------------------------------------------------------------------

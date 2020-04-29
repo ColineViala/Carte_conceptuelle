@@ -88,7 +88,16 @@ function jsonFileToMindMap(object1, arg){
 
 function jsonCreateLinks(sphereLinks,linkNames){
     for(let i=0;i<sphereLinks.length; i++){
-        addLink(sphereLinks[i][0],sphereLinks[i][1],linkNames[i]);
+        var indexSphere1 = findIndexSphere(sphereLinks[i][0]);
+        var indexSphere2 = findIndexSphere(sphereLinks[i][1]);
+        listSpheres2[indexSphere1].connectedSphere.push(listSpheres2[indexSphere1].name);
+        listSpheres2[indexSphere2].connectedSphere.push(listSpheres2[indexSphere2].name);
+        listSpheres2[indexSphere1].connectedSphereName.push(listSpheres2[indexSphere2].label[0].name);
+        listSpheres2[indexSphere2].connectedSphereName.push(listSpheres2[indexSphere1].label[0].name);
+        addLink(sphereLinks[i][0],sphereLinks[i][1],0,linkNames[i]);
+        console.log(listSpheres2);
+        
+        
     }
 }
 

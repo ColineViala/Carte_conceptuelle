@@ -48,45 +48,62 @@ function doMouseDown(x,y) {
                 }
             }
             case RENAME :
-                if(objectHit.type == "Mesh"){
-                    if(objectHit.name[0] !="l"){
-                        renameItem= objectHit;
-                        var old_name_sphere = objectHit.label[0].name;
-                        sphereRenameName =  renameItem.name;
-                        new_nameSphere = prompt("Let's change the name of the sphere !!!",objectHit.label[0].name);
-                        fruits[sphereRenameName][0]=new_nameSphere;
-                        objectHit.label[0].lookAt( camera.position );
-                        for(let i=0;i<listSpheres2.length;i++){
-                            var index = listSpheres2[i].connectedSphereName.indexOf(old_name_sphere);
-                            if (index !== -1) {
-                                listSpheres2[i].connectedSphereName[index] = new_nameSphere;
+                    if(objectHit.type == "Mesh"){
+                        if(objectHit.name[0] !="l"){
+                            renameItem= objectHit;
+                            var old_name_sphere = objectHit.label[0].name;
+                            sphereRenameName =  renameItem.name;
+                            new_nameSphere = prompt("Let's change the name of the sphere !!!",objectHit.label[0].name);
+                            
+                            if(new_nameSphere != null&& new_nameSphere.trim() != '') { // ?
+                                console.log("new_nameSphere",new_nameSphere);
+                                addSphereLabel(objectHit,new_nameSphere); 
+                            } else {
+                                new_nameSphere=old_name_sphere;
                             }
-                        }
-                        addSphereLabel(objectHit,new_nameSphere); 
-                        objectHit.label[0].lookAt( camera.position );
-                        
-                    }
-                }
-                else if(objectHit.type == "Line"){
-                        var old_name_link = objectHit.label[0].name;
-                        new_nameLink = prompt("Let's change the name of the link !!!",objectHit.label[0].name);
-                        console.log("new_nameLink",new_nameLink);
-                        objectHit.label[0].lookAt( camera.position );
-                        for(let i=0;i<listSpheres2.length;i++){
-                            var index = listSpheres2[i].linkName.indexOf(old_name_link);
-                            if (index !== -1) {
-                                listSpheres2[i].linkName[index] = new_nameLink;
+                            fruits[sphereRenameName][0]=new_nameSphere;
+                            objectHit.label[0].lookAt( camera.position );
+                            for(let i=0;i<listSpheres2.length;i++){
+                                var index = listSpheres2[i].connectedSphereName.indexOf(old_name_sphere);
+                                if (index !== -1) {
+                                    listSpheres2[i].connectedSphereName[index] = new_nameSphere;
+                                }
                             }
-                        }
-                        console.log(listSpheres2);
-                        addLinkLabel(objectHit,new_nameLink); 
-                        objectHit.label[0].lookAt( camera.position );
+                            
                         
+                            
+                            objectHit.label[0].lookAt( camera.position );
+                            
+                        }
                     }
-                    else{
-                        alert("Please click on the object you want to remove from the map")
-                    }
-                render();
+                    else if(objectHit.type == "Line"){
+                            var old_name_link = objectHit.label[0].name;
+                            new_nameLink = prompt("Let's change the name of the link !!!",objectHit.label[0].name); 
+                            
+                            if(new_nameLink != null&& new_nameLink.trim() != '') { // ?
+                                console.log("new_nameLink",new_nameLink);
+                                addLinkLabel(objectHit,new_nameLink); 
+                            }  else {
+                                new_nameLink=old_name_link;
+                            }
+                            objectHit.label[0].lookAt( camera.position );
+                            for(let i=0;i<listSpheres2.length;i++){
+                                var index = listSpheres2[i].linkName.indexOf(old_name_link);
+                                if (index !== -1) {
+                                    listSpheres2[i].linkName[index] = new_nameLink;
+                                }
+                            }
+
+                            
+                            
+                            objectHit.label[0].lookAt( camera.position );
+                            
+                        }
+                        else{
+                            alert("Please click on the object you want to remove from the map");
+                        }
+                    render();
+                
                 return false;
             default: // DELETE
                 if (objectHit.type == "Mesh") {
@@ -190,10 +207,6 @@ function doChangeMouseAction() {
     else if (document.getElementById("mouseDrag").checked) {
         mouseAction = DRAG;
     }
-    /*
-    else if (document.getElementById("mouseAddLink").checked) {
-        mouseAction = ADD_LINK;
-    }*/
     else if (document.getElementById("mouseRename").checked) {
         mouseAction = RENAME;
     }
@@ -225,7 +238,6 @@ function init() {
     mouseAction = DRAG;
     document.getElementById("mouseRotate").onchange = doChangeMouseAction;
     document.getElementById("mouseDrag").onchange = doChangeMouseAction;
-    //document.getElementById("mouseAddLink").onchange = doChangeMouseAction;
     document.getElementById("mouseRename").onchange = doChangeMouseAction;
     document.getElementById("mouseDelete").onchange = doChangeMouseAction;
     createWorld();
