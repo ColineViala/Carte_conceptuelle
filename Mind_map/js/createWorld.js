@@ -36,11 +36,14 @@ var preexistinglinks = ["red","blue","green"]; //this list conntains all the lin
 
 
 function render() { 
+    
     renderer.render(scene,camera);
 }
 
 function createWorld() {
+        canvas = document.querySelector('#maincanvas');
         scene = new THREE.Scene();
+        renderer = new THREE.WebGLRenderer({canvas});
         renderer.setClearColor(0x333333);
         camera = new THREE.PerspectiveCamera(27,canvas.width/canvas.height,10,100);
         camera.position.z = 60;
@@ -357,16 +360,11 @@ function updateLink(num,add){//if add=1 -> add ; add=0 -> just delete not add af
             }
         }
     }
-    console.log("listSpheres2=",listSpheres2);
 
     if(add==1){
         //updateConnectedLinks(nom);
         addLink(SphereList[0], SphereList[1], 1,nom);
-        /*
-        var index = listSpheres2[1].linkName.indexOf(nom);
-        if (index !== -1) {
-            listSpheres2[1].linkName[index] = nom;
-        }*/
+    
     }
 }
 //-------------------------------------------------------------------------------------------------------------------------
@@ -426,7 +424,7 @@ function showInfoSphereOnClick(sphereObject) {
 //=AT ANY TIME
 function dragLink(name){
     //console.log("name",name);
-    var indexSphere2 = findIndexSphere(name);
+    //var indexSphere2 = findIndexSphere(name);
     var listLinks=[];
     if(listSpheres2[name].link.length>0){//that's mean there is a line or more
         

@@ -21,11 +21,19 @@ body {
 	float: left;
 	margin-right: 10px;
 	border: 1px solid black;
-	background-color: white;
+	
+	
 }
 
-canvas {
-	display: block;
+#canvas {
+	
+	width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.jumbotron{
+	background-color: #333333;
 }
 
 #tools {
