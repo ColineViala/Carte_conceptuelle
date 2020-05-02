@@ -101,3 +101,49 @@ function jsonCreateLinks(sphereLinks,linkNames){
     }
 }
 
+//-----------------------------------------DOWNLOAD MAP .JSON-------------------------------------------------------------------
+function download_file() {//fill .json file
+    //careful with json punctuation
+    var json_spheres_arr = {};//first array : spheres data
+    var json_links_arr = {};//second array : spheres connected data
+    var json_string='{ "spheres" : [';  //add a kind of title before sphere data
+    var json_str_links = '{ "connected sphere(s)" : [';//add a kind of title before connected spheres data
+    for(let i=0;i<listSpheres2.length;i++){
+        json_spheres_arr["sphere"] = listSpheres2[i].label[0].name;//first item in the list : sphere's name
+        json_spheres_arr["position"] = listSpheres2[i].position ;//second item in the list : sphere's position
+        for(let j=0;j<listSpheres2[i].connectedSphereName.length;j++){
+            json_links_arr["sphere name"] = listSpheres2[i].connectedSphereName[j];//first item in the list : connected sphere's name
+            json_links_arr["link name"] = listSpheres2[i].linkName[j];//second item in the list : link's name
+            if(j<listSpheres2[i].connectedSphereName.length-1){
+                json_str_links = json_str_links + JSON.stringify(json_links_arr) +',' ;// ',' separation if it not the last item to add
+            }
+            else{
+                json_str_links = json_str_links + JSON.stringify(json_links_arr);
+            }  
+        }
+        if(i<listSpheres2.length-1){
+            json_string =  json_string + '[' + JSON.stringify(json_spheres_arr) + ','+ json_str_links  +']}],'+"\n" ;
+        }
+        else{
+            json_string =  json_string + '[' + JSON.stringify(json_spheres_arr)+ ','+ json_str_links + ']}]' ;
+        }  
+        json_str_links = '{ "connected sphere(s)" : [';
+    } 
+  
+   json_string = json_string + ']}';
+   console.log("texte json",json_string);//chek json string is ok 
+    var file;
+    var properties = {type: 'json'}; // Specify the file's type, json here
+    try {
+        // Specify the filename using the File constructor
+        file = new File([json_string], "MindMap.json", properties);
+    } catch (e) {
+        // fall back to the Blob constructor if that isn't supported
+        file = new Blob([json_string], properties);
+    }
+    var url = URL.createObjectURL(file);//create file and download
+    document.getElementById('link').href = url;
+  }
+//------------------------------------------------------------------------------------------------------------------------------
+  
+  

@@ -1,40 +1,28 @@
-//--------------------------------------GET INDEX SPHERE------------------------------------
-
+//--------------------------------------GET INDEX SPHERE---------------------------------------------------------------
 function findIndexSphere(nameSphere){
     var indexSphere;
-    //alert("cc");
-    for(let i=0; i<listSpheres2.length; i++){
-        if (listSpheres2[i].label[0].name == nameSphere){
-            indexSphere = i;
+    for(let i=0; i<listSpheres2.length; i++){//i varies in listSpheres2
+        if (listSpheres2[i].label[0].name == nameSphere){//check sphere's name
+            indexSphere = i;//the index of the sphere is her number in listSpheres2
         }
     }
-    return indexSphere;
+    return indexSphere;//return sphere's number
 }
 //------------------------------------------------------------------------------------------------------------------------
-
-//-----------------------------------------------LABEL TAB-----------------------------------------------------------
+//-----------------------------------------------GET LABELS ARRAY----------------------------------------------------------
 function CreateLabelTab(){
-    var listLabels=[];
+    var listLabels=[];//list empty at the beginning
     for(let i=0;i<listSpheres2.length;i++){
-        //console.log("tupuc",listSpheres2[i].label[0].name);
-        listLabels.push(listSpheres2[i].label[0].name);
-        //console.log(listSpheres2[i].label1);
-
-        //listSpheres2.label.push(listSpheres2[i].label);//add the link number/name to each sphere is connected with 
-    }
-   
-    //console.log(listLabels);
-    fillDropdown(listLabels);
-    return listLabels;
+        listLabels.push(listSpheres2[i].label[0].name);//put the name of the sphere in the list (=the sphere's label)
+     }
+    fillDropdown(listLabels);//fill the dropdown menu (to choose two spheres in "Add Link" button by their name)
+    return listLabels;//return the list which contains all the spheres labels
 }
-//-----------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------FILL DROPDOWN 1-----------------------------------------------------------
 function fillDropdown(nameSphereList){
-
     //Sphere 1
-    // Get dropdown element from DOM
+    // Get dropdown element by object representing the element whose id property (id=sphere 1)
     var dropdown_sphere1 = document.getElementById("sphere1");
     // Loop through the array
     dropdown_sphere1.length=0;
@@ -42,21 +30,16 @@ function fillDropdown(nameSphereList){
         // Append the element to the end of Array list
         dropdown_sphere1[dropdown_sphere1.length] = new Option(nameSphereList[i], nameSphereList[i]);
     }
-
-    //Sphere 2
-    // Get dropdown element from DOM
+    //Sphere 2//do the same as for the sphere 1
     var dropdown_sphere2 = document.getElementById("sphere2");
-    // Loop through the array
-    
     dropdown_sphere2.length=0;
     for (var i = 0; i < nameSphereList.length; ++i) {
-        // Append the element to the end of Array list
         dropdown_sphere2[dropdown_sphere2.length] = new Option(nameSphereList[i], nameSphereList[i]);
     }
 }
 //-----------------------------------------------------------------
 function getRandomNumber(min, max) {
-    return Math.random() * (max - min) + min;
+    return Math.random() * (max - min) + min; //get a random number between a max and a min chosen by the user
   }
 //-----------------------------------------------------------------
 function isFloat(n){  //return true if n is a float. 
